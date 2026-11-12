@@ -66,6 +66,8 @@ PROVIDER_LABELS = {
     "tmdb": "TMDb",
     "igdb": "IGDB",
     "upcitemdb": "UPC Item DB",
+    "bgg": "BGG",
+    "gameupc": "GameUPC",
 }
 
 

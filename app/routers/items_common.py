@@ -443,6 +443,17 @@ async def _scan_upc(request: Request, templates, upc_code: str, media_type: str,
             {"status": status, "isbn": upc_norm, "title": existing["title"], "item_id": existing["id"]},
         )
 
+    # --- Board games ask GameUPC, not UPC Item DB (#167).
+    #
+    # Only on an explicit Board Game pick: no barcode prefix marks a board
+    # game, so detection cannot route one here from Auto. Below the
+    # barcode-only duplicate check above, so a game already on the shelf
+    # still costs no lookup. Deferred import: the board game router imports
+    # this module.
+    if media_type == "board_game":
+        from app.routers import items_board_games
+        return await items_board_games.scan_upc(request, templates, upc_norm, location_id, mode=mode)
+
     # --- One UPC Item DB lookup, above the game/film fork.
     #
     # Both branches read this same record; each used to fetch it separately,
