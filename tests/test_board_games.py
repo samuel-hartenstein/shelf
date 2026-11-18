@@ -336,3 +336,8 @@ class TestItemPage:
         assert "120 min" in page
         assert "10+" in page
         assert "boardgamegeek.com/boardgame/13" in page
+
+
+def test_bgg_box_art_passes_the_cover_allowlist():
+    """Live run, 2026-11-18: BGG and GameUPC both hand out cf.geekdo-images.com URLs."""
+    assert covers.is_allowed_cover_url("https://cf.geekdo-images.com/abc__original/img/x.jpg")
