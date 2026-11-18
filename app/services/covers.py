@@ -26,6 +26,7 @@ ALLOWED_COVER_DOMAINS = {
     "rnod.bnportugal.gov.pt",  # PORBASE cover scans for Portuguese (978-989, 978-972) ISBNs
     "neodb.social",  # NeoDB cover images for Chinese (978-7, Taiwan, Hong Kong) ISBNs
     "coverartarchive.org",  # Cover Art Archive entry point for music releases
+    "cf.geekdo-images.com",  # BoardGameGeek box art (bgg.py, GameUPC candidates)
 }
 
 # Suffix-matched domains (subdomain rotates): covers.openlibrary.org serves
