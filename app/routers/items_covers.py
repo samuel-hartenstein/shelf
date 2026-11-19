@@ -15,6 +15,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.responses import StreamingResponse
 
 from app import i18n
+from app.i18n import N_
 from app.auth import require_role
 from app.config import BOOK_MEDIA_TYPES, COVERS_DIR, HTTP_TIMEOUT
 from app.database import get_db, get_setting
@@ -100,6 +101,7 @@ _SEARCH_NOTES = {
         "Video game cover search needs a Twitch Client ID and Client Secret — "
         "add both in Settings → Integrations."
     ),
+    "bgg": N_("Board game cover search needs a BoardGameGeek token — add one in Settings → Integrations."),
 }
 
 
@@ -121,7 +123,8 @@ def _search_note(media_type: str | None, creds: dict) -> str | None:
         return None
     if all((creds.get(key) or "").strip() for key in keys):
         return None
-    return _SEARCH_NOTES.get(covers.MEDIA_TYPE_PROVIDERS.get(media_type or ""))
+    note = _SEARCH_NOTES.get(covers.MEDIA_TYPE_PROVIDERS.get(media_type or ""))
+    return i18n.gettext(note) if note else None
 
 
 def _search_status(result) -> tuple[str | None, str | None]:
@@ -159,7 +162,7 @@ async def cover_search(request: Request, item_id: int, query: str | None = None,
     templates = request.app.state.templates
     with get_db() as db:
         item = db.execute(
-            "SELECT title, authors, cover_path, media_type, publish_year, platform, isbn, cover_edition_language "
+            "SELECT title, authors, cover_path, media_type, publish_year, platform, isbn, cover_edition_language, bgg_id "
             "FROM items_live WHERE id = ?", (item_id,)
         ).fetchone()
         # Key-by-key through get_setting, never the bulk settings accessor:
@@ -221,7 +224,7 @@ async def cover_select(
     templates = request.app.state.templates
     with get_db() as db:
         item = db.execute(
-            "SELECT title, authors, cover_path, media_type, publish_year, platform, isbn, cover_edition_language "
+            "SELECT title, authors, cover_path, media_type, publish_year, platform, isbn, cover_edition_language, bgg_id "
             "FROM items_live WHERE id = ?", (item_id,)
         ).fetchone()
         # Same key-by-key build as cover_search — this failure path re-renders

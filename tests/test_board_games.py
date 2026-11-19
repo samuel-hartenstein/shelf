@@ -198,7 +198,7 @@ def board_game_stubs(monkeypatch):
         state["calls"].append(("gameupc", upc))
         return state["gameupc"]
 
-    async def _lookup_game(bgg_id, token, client):
+    async def _lookup_game(bgg_id, token, client, **kwargs):
         state["calls"].append(("bgg", bgg_id))
         meta = {**_catan_meta(), "bgg_id": bgg_id}
         return provider_result.found("bgg", meta)

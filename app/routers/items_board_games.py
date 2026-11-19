@@ -315,3 +315,80 @@ async def add_board_game(
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
             {"status": "error", "isbn": upc_raw or "", "message": str(e)})
+
+
+# Columns the refresh may fill. Only empty ones: a value on the item is
+# either BGG's own from the add, or something the user typed, and the user's
+# edit must win. The title is never touched for the same reason.
+_REFRESH_FIELDS = ("authors", "publisher", "publish_year", "description", "duration_mins",
+                   "min_players", "max_players", "min_age", "bgg_id")
+
+
+def _refresh_reply(message: str, ok: bool, item_id: int):
+    resp = HTMLResponse("")
+    resp.headers["HX-Trigger"] = items_common._toast_header(message, "success" if ok else "error")
+    if ok:
+        resp.headers["HX-Redirect"] = f"/item/{item_id}"
+    return resp
+
+
+@router.post("/board-games/{item_id}/refresh")
+async def refresh_board_game(item_id: int, _=Depends(require_role("editor"))):
+    """Fill a board game in from BGG: empty fields, category tags, a missing cover.
+
+    For a game filed before the categories existed, one typed in by hand, or
+    one filed while BGG was down. A game with no BGG id is matched by its
+    exact title, and only when exactly one BGG game carries it; anything
+    looser could pull in the wrong game's data, and Find cover remains for
+    choosing by eye.
+    """
+    with get_db() as db:
+        item = db.execute(
+            f"SELECT id, title, media_type, cover_path, {', '.join(_REFRESH_FIELDS)} "
+            "FROM items_live WHERE id = ?", (item_id,),
+        ).fetchone()
+    if not item or item["media_type"] != MEDIA_TYPE:
+        return HTMLResponse("Not found", status_code=404)
+    bgg_token, _key = _credentials()
+    if not bgg_token:
+        return _refresh_reply(i18n.gettext("Add a BoardGameGeek token in Settings first"), False, item_id)
+
+    async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
+        if item["bgg_id"]:
+            result = await bgg.lookup_game(item["bgg_id"], bgg_token, client)
+            meta = result.payload if result.found else None
+        else:
+            result = await bgg.search_games(item["title"], bgg_token, client, limit=5)
+            wanted = item["title"].strip().casefold()
+            exact = [g for g in (result.payload if result.found else [])
+                     if (g.get("title") or "").strip().casefold() == wanted]
+            meta = exact[0] if len(exact) == 1 else None
+            if result.found and meta is None:
+                return _refresh_reply(
+                    i18n.gettext("BoardGameGeek has no single game called “%(title)s” — use Find cover, or correct the title")
+                    % {"title": item["title"]}, False, item_id)
+        if meta is None:
+            return _refresh_reply(
+                i18n.gettext("Could not reach BoardGameGeek — check connectivity and try again.")
+                if result.outcome == "transport_failed"
+                else i18n.gettext("Failed to fetch game details from BoardGameGeek"), False, item_id)
+
+        new = _item_fields(meta)
+        fields = {key: new[key] for key in _REFRESH_FIELDS
+                  if new.get(key) not in (None, "") and item[key] in (None, "")}
+        with get_db() as db:
+            if fields:
+                item_write.update_item_fields(db, item_id, fields)
+            tags_svc.attach_tags(db, item_id, bgg_tags.tag_names(meta))
+
+        cover_url = meta.get("cover_url") or meta.get("thumbnail_url")
+        if not item["cover_path"] and cover_url:
+            cover_path = await covers._download_to_item(item_id, cover_url, client)
+            if cover_path:
+                with get_db() as db:
+                    db.execute(
+                        "UPDATE items SET cover_path = ?, cover_edition_isbn = NULL, "
+                        "cover_edition_language = NULL WHERE id = ?",
+                        (cover_path, item_id),
+                    )
+    return _refresh_reply(i18n.gettext("Updated from BoardGameGeek"), True, item_id)

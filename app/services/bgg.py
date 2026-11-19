@@ -49,6 +49,23 @@ _LINK_KEYS = {
 }
 
 
+#: Shelf locale -> BGG's name for the language a version is printed in.
+BGG_LANGUAGES = {"de": "German", "en": "English", "it": "Italian", "zh_Hans": "Chinese"}
+
+
+def versions_in_language(versions: list[dict], locale: str) -> list[dict]:
+    """`versions` with the ones printed in `locale`'s language first, then
+    the rest. The library-language group is newest first (the box most likely
+    on the shelf, and a classic can have fifteen German printings); the rest
+    keep BGG's order. Versions without box art are dropped: they are no use
+    to a cover picker."""
+    wanted = BGG_LANGUAGES.get(locale)
+    with_art = [v for v in versions if v.get("cover_url")]
+    first = sorted((v for v in with_art if wanted and wanted in v.get("languages", [])),
+                   key=lambda v: -(v.get("publish_year") or 0))
+    return first + [v for v in with_art if v not in first]
+
+
 def api_url() -> str:
     """The XML API2 root: `SHELF_BGG_API_URL` (test stubs only), else BGG itself."""
     return (os.environ.get("SHELF_BGG_API_URL") or BGG_API_URL_DEFAULT).rstrip("/")
@@ -132,11 +149,40 @@ def parse_thing(item: ET.Element) -> dict:
                 meta["base_game_ids"].append(int(link.get("id")))
             except (TypeError, ValueError):
                 pass
+    versions = item.find("versions")
+    meta["versions"] = [] if versions is None else [
+        parse_version(v) for v in versions.findall("item") if v.get("id")
+    ]
     # "(Uncredited)" is BGG's placeholder, not a person.
     meta["designers"] = [d for d in meta["designers"] if d != "(Uncredited)"]
     meta["authors"] = ", ".join(meta["designers"][:3]) or None
     meta["publisher"] = meta["publishers"][0] if meta["publishers"] else None
     return meta
+
+
+def parse_version(item: ET.Element) -> dict:
+    """One `<item type="boardgameversion">` (asked for with `versions=1`).
+
+    A version is one printing: its own box art, its own title in its own
+    language ("Die Siedler von Catan"), its publisher and year. Keys:
+    version_id, name (BGG's label, e.g. "German edition 2022"), title (the
+    printed name), languages, publisher, publish_year, cover_url,
+    thumbnail_url.
+    """
+    canonical = item.find("canonicalname")
+    publishers = [l.get("value") for l in item.findall("link")
+                  if l.get("type") == "boardgamepublisher" and l.get("value")]
+    return {
+        "version_id": int(item.get("id")),
+        "name": _primary_name(item),
+        "title": canonical.get("value") if canonical is not None else None,
+        "languages": [l.get("value") for l in item.findall("link")
+                      if l.get("type") == "language" and l.get("value")],
+        "publisher": publishers[0] if publishers else None,
+        "publish_year": _int_value(item, "yearpublished"),
+        "cover_url": (item.findtext("image") or "").strip() or None,
+        "thumbnail_url": (item.findtext("thumbnail") or "").strip() or None,
+    }
 
 
 def parse_things(xml_text: str) -> list[dict]:
@@ -175,9 +221,13 @@ def _classify(resp: httpx.Response) -> provider_result.ProviderResult | None:
 
 
 async def fetch_things(
-    ids: list[int], token: str | None, client: httpx.AsyncClient,
+    ids: list[int], token: str | None, client: httpx.AsyncClient, *, versions: bool = False,
 ) -> provider_result.ProviderResult:
-    """Fetch up to `MAX_THING_IDS` games in one request. Payload: list of dicts."""
+    """Fetch up to `MAX_THING_IDS` games in one request. Payload: list of dicts.
+
+    `versions=True` also lists every printing (box art per edition and
+    language); a popular game has a hundred or more, so only ask for one id.
+    """
     if not token:
         return provider_result.no_credential(PROVIDER)
     ids = [int(i) for i in ids][:MAX_THING_IDS]
@@ -186,7 +236,8 @@ async def fetch_things(
     try:
         resp = await outbound.fetch(
             client, "GET", f"{api_url()}/thing",
-            params={"id": ",".join(str(i) for i in ids), "stats": "1"},
+            params={"id": ",".join(str(i) for i in ids), "stats": "1",
+                    **({"versions": "1"} if versions else {})},
             headers=_headers(token), timeout=15,
         )
     except Exception:
@@ -206,10 +257,10 @@ async def fetch_things(
 
 
 async def lookup_game(
-    bgg_id: int, token: str | None, client: httpx.AsyncClient,
+    bgg_id: int, token: str | None, client: httpx.AsyncClient, *, versions: bool = False,
 ) -> provider_result.ProviderResult:
     """One game by BGG id. Payload: the metadata dict (not a list)."""
-    result = await fetch_things([bgg_id], token, client)
+    result = await fetch_things([bgg_id], token, client, versions=versions)
     if not result.found:
         return result
     return provider_result.found(PROVIDER, result.payload[0], status=result.status)

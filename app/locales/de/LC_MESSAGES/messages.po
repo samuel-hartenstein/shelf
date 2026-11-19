@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"PO-Revision-Date: 2026-11-19 00:28+0000\n"
+"PO-Revision-Date: 2026-11-19 14:40+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -36,7 +36,7 @@ msgid "Location"
 msgstr "Ort"
 
 #: app/browse_columns.py:66 app/browse_filters.py:269
-#: app/templates/item_detail.html:243 app/templates/item_edit.html:138
+#: app/templates/item_detail.html:250 app/templates/item_edit.html:138
 msgid "Status"
 msgstr "Status"
 
@@ -633,9 +633,26 @@ msgstr "Der Name der Reihe darf nicht leer sein"
 msgid "No title for this game"
 msgstr "Kein Titel für dieses Spiel"
 
-#: app/routers/items_board_games.py:307
+#: app/routers/items_board_games.py:307 app/routers/items_board_games.py:374
 msgid "Failed to fetch game details from BoardGameGeek"
 msgstr "Spieldaten konnten nicht von BoardGameGeek geladen werden"
+
+#: app/routers/items_board_games.py:354
+msgid "Add a BoardGameGeek token in Settings first"
+msgstr "Hinterlege zuerst in den Einstellungen ein BoardGameGeek-Token"
+
+#: app/routers/items_board_games.py:368
+#, python-format
+msgid "BoardGameGeek has no single game called “%(title)s” — use Find cover, or correct the title"
+msgstr "Bei BoardGameGeek gibt es kein eindeutiges Spiel namens „%(title)s“ – nutze „Cover suchen“ oder korrigiere den Titel"
+
+#: app/routers/items_board_games.py:372
+msgid "Could not reach BoardGameGeek — check connectivity and try again."
+msgstr "BoardGameGeek war nicht erreichbar – prüfe die Verbindung und versuch es noch einmal."
+
+#: app/routers/items_board_games.py:394
+msgid "Updated from BoardGameGeek"
+msgstr "Von BoardGameGeek aktualisiert"
 
 #: app/routers/items_catalog.py:93
 msgid "Unrecognised game platform — pick one and try again"
@@ -657,14 +674,18 @@ msgstr "Zu dieser ISBN konnten keine Daten geladen werden"
 msgid "Metadata lookup failed — check connectivity"
 msgstr "Datensuche fehlgeschlagen – prüfe die Verbindung"
 
-#: app/routers/items_covers.py:74
+#: app/routers/items_covers.py:75
 #: app/templates/fragments/book_search_results.html:35
 msgid "No ISBN"
 msgstr "Keine ISBN"
 
-#: app/routers/items_covers.py:87
+#: app/routers/items_covers.py:88
 msgid "No cover found"
 msgstr "Kein Cover gefunden"
+
+#: app/routers/items_covers.py:104
+msgid "Board game cover search needs a BoardGameGeek token — add one in Settings → Integrations."
+msgstr "Die Cover-Suche für Brettspiele braucht ein BoardGameGeek-Token – trage es unter Einstellungen → Dienste ein."
 
 #: app/routers/items_scan_modes.py:65 app/routers/items_scan_modes.py:117
 msgid "Lending is turned off on this Shelf."
@@ -1547,7 +1568,7 @@ msgstr "Im Besitz"
 #: app/templates/fragments/filter_counts_oob.html:28
 #: app/templates/fragments/item_card.html:7
 #: app/templates/fragments/item_row.html:51 app/templates/home.html:36
-#: app/templates/home.html:118 app/templates/item_detail.html:57
+#: app/templates/home.html:118 app/templates/item_detail.html:64
 msgid "Wishlist"
 msgstr "Wunschliste"
 
@@ -1715,265 +1736,269 @@ msgstr "ISBN erneut versuchen"
 msgid "Find cover"
 msgstr "Cover suchen"
 
-#: app/templates/item_detail.html:58
+#: app/templates/item_detail.html:54
+msgid "Update from BGG"
+msgstr "Von BGG aktualisieren"
+
+#: app/templates/item_detail.html:65
 #, python-format
 msgid "List price %(price)s"
 msgstr "Listenpreis %(price)s"
 
-#: app/templates/item_detail.html:58 app/templates/item_detail.html:132
+#: app/templates/item_detail.html:65 app/templates/item_detail.html:139
 #, python-format
 msgid "as of %(date)s"
 msgstr "Stand %(date)s"
 
-#: app/templates/item_detail.html:58
+#: app/templates/item_detail.html:65
 #, python-format
 msgid "was %(price)s on %(date)s"
 msgstr "am %(date)s: %(price)s"
 
-#: app/templates/item_detail.html:76
+#: app/templates/item_detail.html:83
 msgid "Type:"
 msgstr "Typ:"
 
-#: app/templates/item_detail.html:79
+#: app/templates/item_detail.html:86
 msgid "Language:"
 msgstr "Sprache:"
 
-#: app/templates/item_detail.html:82
+#: app/templates/item_detail.html:89
 msgid "Platform:"
 msgstr "Plattform:"
 
-#: app/templates/item_detail.html:85
+#: app/templates/item_detail.html:92
 msgid "Publisher:"
 msgstr "Verlag:"
 
-#: app/templates/item_detail.html:88
+#: app/templates/item_detail.html:95
 msgid "Year:"
 msgstr "Jahr:"
 
-#: app/templates/item_detail.html:91
+#: app/templates/item_detail.html:98
 msgid "Pages:"
 msgstr "Seiten:"
 
-#: app/templates/item_detail.html:94
+#: app/templates/item_detail.html:101
 msgid "ISBN:"
 msgstr "ISBN:"
 
-#: app/templates/item_detail.html:97
+#: app/templates/item_detail.html:104
 msgid "Series:"
 msgstr "Reihe:"
 
-#: app/templates/item_detail.html:104
+#: app/templates/item_detail.html:111
 #, python-format
 msgid "you own %(owned)s of 1–%(top)s"
 msgstr "du hast %(owned)s von 1–%(top)s"
 
-#: app/templates/item_detail.html:104
+#: app/templates/item_detail.html:111
 msgid "missing"
 msgstr "fehlt"
 
-#: app/templates/item_detail.html:105
+#: app/templates/item_detail.html:112
 #, python-format
 msgid "%(count)s in series (Hardcover)"
 msgstr "%(count)s in der Reihe (Hardcover)"
 
-#: app/templates/item_detail.html:110
+#: app/templates/item_detail.html:117
 msgid "Narrator:"
 msgstr "Sprecher:"
 
-#: app/templates/item_detail.html:114
+#: app/templates/item_detail.html:121
 msgid "Players:"
 msgstr "Spieler:"
 
-#: app/templates/item_detail.html:117
+#: app/templates/item_detail.html:124
 msgid "Play time:"
 msgstr "Spieldauer:"
 
-#: app/templates/item_detail.html:120
+#: app/templates/item_detail.html:127
 msgid "Age:"
 msgstr "Alter:"
 
-#: app/templates/item_detail.html:123
+#: app/templates/item_detail.html:130
 msgid "View on BoardGameGeek"
 msgstr "Auf BoardGameGeek ansehen"
 
-#: app/templates/item_detail.html:123
+#: app/templates/item_detail.html:130
 msgid "Powered by BGG"
 msgstr "Daten von BGG"
 
-#: app/templates/item_detail.html:126
+#: app/templates/item_detail.html:133
 msgid "Duration:"
 msgstr "Dauer:"
 
-#: app/templates/item_detail.html:130
+#: app/templates/item_detail.html:137
 msgid "Value:"
 msgstr "Wert:"
 
-#: app/templates/item_detail.html:130
+#: app/templates/item_detail.html:137
 msgid "(manual)"
 msgstr "(von Hand)"
 
-#: app/templates/item_detail.html:132
+#: app/templates/item_detail.html:139
 msgid "Est. Value:"
 msgstr "Geschätzter Wert:"
 
-#: app/templates/item_detail.html:138
+#: app/templates/item_detail.html:145
 msgid "Synopsis"
 msgstr "Inhalt"
 
-#: app/templates/item_detail.html:145
+#: app/templates/item_detail.html:152
 msgid "Read more"
 msgstr "Weiterlesen"
 
-#: app/templates/item_detail.html:145
+#: app/templates/item_detail.html:152
 msgid "Show less"
 msgstr "Weniger anzeigen"
 
-#: app/templates/item_detail.html:154
+#: app/templates/item_detail.html:161
 msgid "Fetch synopsis"
 msgstr "Inhaltsangabe laden"
 
-#: app/templates/item_detail.html:155
+#: app/templates/item_detail.html:162
 msgid "Searching…"
 msgstr "Suche läuft …"
 
-#: app/templates/item_detail.html:157
+#: app/templates/item_detail.html:164
 msgid "No synopsis found on Open Library or Google Books."
 msgstr "Keine Inhaltsangabe bei Open Library oder Google Books gefunden."
 
-#: app/templates/item_detail.html:167
+#: app/templates/item_detail.html:174
 msgid "Loading related media…"
 msgstr "Verknüpfte Medien werden geladen …"
 
-#: app/templates/item_detail.html:172
+#: app/templates/item_detail.html:179
 msgid "Notes:"
 msgstr "Notizen:"
 
-#: app/templates/item_detail.html:181
+#: app/templates/item_detail.html:188
 msgid "Read on Audiobookshelf"
 msgstr "In Audiobookshelf lesen"
 
-#: app/templates/item_detail.html:181
+#: app/templates/item_detail.html:188
 msgid "Listen on Audiobookshelf"
 msgstr "In Audiobookshelf anhören"
 
-#: app/templates/item_detail.html:197
+#: app/templates/item_detail.html:204
 msgid "Synced to Hardcover"
 msgstr "Mit Hardcover abgeglichen"
 
-#: app/templates/item_detail.html:197
+#: app/templates/item_detail.html:204
 msgid "Push to Hardcover"
 msgstr "An Hardcover senden"
 
-#: app/templates/item_detail.html:198
+#: app/templates/item_detail.html:205
 msgid "Syncing..."
 msgstr "Wird abgeglichen …"
 
-#: app/templates/item_detail.html:204
+#: app/templates/item_detail.html:211
 msgid "Added to your Hardcover library"
 msgstr "Zu deiner Hardcover-Bibliothek hinzugefügt"
 
-#: app/templates/item_detail.html:216
+#: app/templates/item_detail.html:223
 #, python-format
 msgid "Also in Audiobookshelf (%(type)s)"
 msgstr "Auch in Audiobookshelf (%(type)s)"
 
-#: app/templates/item_detail.html:225
+#: app/templates/item_detail.html:232
 msgid "Also available as:"
 msgstr "Auch vorhanden als:"
 
-#: app/templates/item_detail.html:251
+#: app/templates/item_detail.html:258
 msgid "Lending"
 msgstr "Verleihen"
 
-#: app/templates/item_detail.html:254
+#: app/templates/item_detail.html:261
 msgid "Lent to"
 msgstr "Verliehen an"
 
-#: app/templates/item_detail.html:255
+#: app/templates/item_detail.html:262
 #, python-format
 msgid "on %(date)s"
 msgstr "am %(date)s"
 
-#: app/templates/item_detail.html:257
+#: app/templates/item_detail.html:264
 msgid "Due:"
 msgstr "Zurück bis:"
 
-#: app/templates/item_detail.html:263
+#: app/templates/item_detail.html:270
 msgid "Check In"
 msgstr "Zurücknehmen"
 
-#: app/templates/item_detail.html:271
+#: app/templates/item_detail.html:278
 msgid "Lend this item"
 msgstr "Diesen Eintrag verleihen"
 
-#: app/templates/item_detail.html:282
+#: app/templates/item_detail.html:289
 msgid "2 weeks"
 msgstr "2 Wochen"
 
-#: app/templates/item_detail.html:283
+#: app/templates/item_detail.html:290
 msgid "1 week"
 msgstr "1 Woche"
 
-#: app/templates/item_detail.html:284
+#: app/templates/item_detail.html:291
 msgid "1 month"
 msgstr "1 Monat"
 
-#: app/templates/item_detail.html:285
+#: app/templates/item_detail.html:292
 msgid "No due date"
 msgstr "Ohne Rückgabedatum"
 
-#: app/templates/item_detail.html:287
+#: app/templates/item_detail.html:294
 msgid "Check Out"
 msgstr "Verleihen"
 
-#: app/templates/item_detail.html:290
+#: app/templates/item_detail.html:297
 msgid "Add borrowers in <a href=\"/settings\" class=\"text-shelf-accent2\">Settings</a> first."
 msgstr "Lege zuerst in den <a href=\"/settings\" class=\"text-shelf-accent2\">Einstellungen</a> Personen an."
 
-#: app/templates/item_detail.html:297
+#: app/templates/item_detail.html:304
 msgid "Checkout history"
 msgstr "Verleihverlauf"
 
-#: app/templates/item_detail.html:304
+#: app/templates/item_detail.html:311
 #, python-format
 msgid "returned %(date)s"
 msgstr "zurück am %(date)s"
 
-#: app/templates/item_detail.html:306
+#: app/templates/item_detail.html:313
 msgid "out"
 msgstr "verliehen"
 
 #: app/templates/fragments/item_copies.html:87
 #: app/templates/fragments/item_copies.html:90
 #: app/templates/fragments/item_copies.html:95
-#: app/templates/item_detail.html:320
+#: app/templates/item_detail.html:327
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: app/templates/item_detail.html:323
+#: app/templates/item_detail.html:330
 msgid "Add another like this"
 msgstr "Ähnlichen Eintrag hinzufügen"
 
-#: app/templates/item_detail.html:329
+#: app/templates/item_detail.html:336
 msgid "Delete"
 msgstr "Löschen"
 
-#: app/templates/item_detail.html:335
+#: app/templates/item_detail.html:342
 #, python-format
 msgid "Added %(date)s"
 msgstr "Hinzugefügt am %(date)s"
 
-#: app/templates/item_detail.html:335
+#: app/templates/item_detail.html:342
 #, python-format
 msgid "Updated %(date)s"
 msgstr "Geändert am %(date)s"
 
-#: app/templates/item_detail.html:335
+#: app/templates/item_detail.html:342
 #, python-format
 msgid "via %(source)s"
 msgstr "Quelle: %(source)s"
 
-#: app/templates/item_detail.html:340
+#: app/templates/item_detail.html:347
 msgid "Integration IDs"
 msgstr "IDs der Dienste"
 
