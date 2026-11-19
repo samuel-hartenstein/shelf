@@ -341,3 +341,51 @@ class TestItemPage:
 def test_bgg_box_art_passes_the_cover_allowlist():
     """Live run, 2026-11-18: BGG and GameUPC both hand out cf.geekdo-images.com URLs."""
     assert covers.is_allowed_cover_url("https://cf.geekdo-images.com/abc__original/img/x.jpg")
+
+
+class TestAutoFindsBoardGames:
+    """Auto mode asks GameUPC first once board games are set up."""
+
+    def test_auto_files_a_game_gameupc_knows(self, editor_client, db, board_game_stubs, monkeypatch):
+        from app.services import upcitemdb
+
+        async def _no_upcitemdb(*a, **k):
+            raise AssertionError("UPC Item DB must not be asked for a known game")
+        monkeypatch.setattr(upcitemdb, "lookup", _no_upcitemdb)
+        resp = _scan(editor_client, CATAN_EAN, media_type="auto")
+        assert 'data-scan-status="added"' in resp.text
+        assert [r["title"] for r in _board_games(db)] == ["CATAN"]
+        assert board_game_stubs["calls"].count(("gameupc", CATAN_EAN)) == 1  # the probe's answer is reused
+
+    def test_auto_carries_on_when_gameupc_has_no_game(self, editor_client, db, board_game_stubs, monkeypatch):
+        from app.services import upcitemdb
+        board_game_stubs["gameupc"] = provider_result.found(
+            "gameupc", {"name": "Some Film", "verified": False, "candidates": []})
+        asked = []
+
+        async def _upcitemdb(upc, client):
+            asked.append(upc)
+            return provider_result.no_match("upcitemdb")
+        monkeypatch.setattr(upcitemdb, "lookup", _upcitemdb)
+        _scan(editor_client, CATAN_EAN, media_type="auto")
+        assert asked == [CATAN_EAN]
+        assert _board_games(db) == []
+
+    def test_auto_without_board_game_setup_asks_nobody_new(self, editor_client, db, board_game_stubs, monkeypatch):
+        from app.services import upcitemdb
+        monkeypatch.setattr(items_board_games, "_credentials", lambda: (None, None))
+
+        async def _upcitemdb(upc, client):
+            return provider_result.no_match("upcitemdb")
+        monkeypatch.setattr(upcitemdb, "lookup", _upcitemdb)
+        _scan(editor_client, CATAN_EAN, media_type="auto")
+        assert not any(c[0] == "gameupc" for c in board_game_stubs["calls"])
+
+    def test_an_explicit_other_type_is_not_probed(self, editor_client, db, board_game_stubs, monkeypatch):
+        from app.services import upcitemdb
+
+        async def _upcitemdb(upc, client):
+            return provider_result.no_match("upcitemdb")
+        monkeypatch.setattr(upcitemdb, "lookup", _upcitemdb)
+        _scan(editor_client, CATAN_EAN, media_type="dvd")
+        assert not any(c[0] == "gameupc" for c in board_game_stubs["calls"])

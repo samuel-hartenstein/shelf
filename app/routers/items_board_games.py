@@ -185,14 +185,34 @@ def _choice_card(request, templates, *, upc_raw: str | None, candidates: list[di
     )
 
 
-async def scan_upc(request: Request, templates, upc_raw: str, location_id: int | None, mode: str = "add"):
+async def scan_upc_if_game(request: Request, templates, upc_raw: str, location_id: int | None, mode: str = "add"):
+    """Auto-mode probe: the board game card if GameUPC ties this barcode to a
+    BGG game, else `None` and the caller carries on with its own lookup.
+
+    Asks nothing unless board games are set up (a BGG token or a GameUPC key),
+    so a library without games pays no extra request per scan.
+    """
+    bgg_token, gameupc_key = _credentials()
+    if not (bgg_token or gameupc_key):
+        return None
+    async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
+        upc_result = await gameupc.lookup(upc_raw, client, api_key=gameupc_key)
+    if not (upc_result.found and upc_result.payload.get("candidates")):
+        return None
+    return await scan_upc(request, templates, upc_raw, location_id, mode=mode, upc_result=upc_result)
+
+
+async def scan_upc(request: Request, templates, upc_raw: str, location_id: int | None, mode: str = "add",
+                   upc_result=None):
     """A barcode scanned with the media type set to Board Game.
 
-    Called by `items_common._scan_upc` after its barcode-only duplicate check.
+    Called by `items_common._scan_upc` after its barcode-only duplicate check,
+    or by `scan_upc_if_game` with the GameUPC answer it already holds.
     """
     bgg_token, gameupc_key = _credentials()
     async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
-        upc_result = await gameupc.lookup(upc_raw, client, api_key=gameupc_key)
+        if upc_result is None:
+            upc_result = await gameupc.lookup(upc_raw, client, api_key=gameupc_key)
         if upc_result.outcome == "transport_failed":
             return items_common._upc_lookup_error(request, templates, upc_raw, MEDIA_TYPE, mode, upc_result)
         found = upc_result.payload if upc_result.found else {"name": None, "candidates": []}

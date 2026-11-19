@@ -319,9 +319,26 @@ def test_scan_camera_uses_zxing_on_ios(live_server, browser, setup_admin):
         ctx.close()
 
 
-def test_scan_camera_uses_html5_qrcode_by_default(live_server, browser, setup_admin):
-    """Default UA -> html5-qrcode engine, unchanged from before the split."""
+def test_scan_camera_uses_zxing_on_desktop(live_server, browser, setup_admin):
+    """No touch screen, fine pointer -> ZXing: html5-qrcode's default webcam
+    resolution and small qrbox miss an EAN-13 a desktop webcam shows soft."""
     ctx = browser.new_context()
+    try:
+        pg = _login_page(live_server, ctx, setup_admin)
+        _start_scan_camera(pg, live_server)
+
+        expect(pg.locator("#zxing-video-container")).to_be_visible()
+        expect(pg.locator("#camera-reader")).to_be_hidden()
+        wait_for_video_ready(pg, "#zxing-video")
+        _expect_no_camera_error(pg)
+        assert_page_clean(pg)
+    finally:
+        ctx.close()
+
+
+def test_scan_camera_uses_html5_qrcode_on_touch_devices(live_server, browser, setup_admin):
+    """A touch device that is not iOS (Android) -> html5-qrcode engine."""
+    ctx = browser.new_context(has_touch=True)
     try:
         pg = _login_page(live_server, ctx, setup_admin)
         _start_scan_camera(pg, live_server)
@@ -942,7 +959,7 @@ def test_camera_overlay_reads_the_right_fields_through_a_real_scan_with_a_notice
     internal, and not a production testing hook (out of scope for this
     task's file list).
     """
-    ctx = browser.new_context()
+    ctx = browser.new_context(has_touch=True)  # html5-qrcode's <video>, waited on below
     try:
         pg = _login_page(live_server, ctx, setup_admin)
 
@@ -2197,7 +2214,7 @@ def test_camera_scan_of_a_bare_legacy_upc_stops_the_scanner_for_the_five_digits(
     Python rather than `page.wait_for_function` (G21: that needs `eval()`,
     which this app's CSP refuses).
     """
-    ctx = browser.new_context()
+    ctx = browser.new_context(has_touch=True)  # html5-qrcode's <video>, waited on below
     try:
         pg = _login_page(live_server, ctx, setup_admin)
         _start_scan_camera(pg, live_server)

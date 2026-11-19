@@ -144,7 +144,17 @@
         };
     }
 
+    // A desktop webcam: no touch screen and a fine pointer. html5-qrcode
+    // opens it at the browser's default (often 640x480) and decodes only the
+    // small qrbox, which a fixed-focus webcam rarely resolves an EAN-13 in.
+    // ZXing asks for 1080p and decodes the whole frame with TRY_HARDER.
+    function isDesktop() {
+        var touch = 'ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0;
+        var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+        return !touch && !!fine;
+    }
+
     window.createBarcodeScanner = function (opts) {
-        return isIosDevice() ? createZxingEngine(opts) : createHtml5Engine(opts);
+        return (isIosDevice() || isDesktop()) ? createZxingEngine(opts) : createHtml5Engine(opts);
     };
 })();
