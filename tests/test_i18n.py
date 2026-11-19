@@ -27,7 +27,8 @@ def _i18n_on(monkeypatch):
     (None, "it;q=0.4,en;q=0.9", "en"),            # q-value beats position
     (None, "it;q=0", "en"),                       # q=0 means "not this one"
     (None, "it;level=1;q=0", "en"),               # q is read wherever it sits
-    (None, "de, *", "en"),
+    (None, "de, *", "de"),                        # German ships now (fork)
+    (None, "nl, *", "en"),                        # an unsupported tag plus a wildcard falls back
     ("it", "en-US,en;q=0.9", "it"),               # the user's choice beats the browser
     ("xx", "it", "it"),                           # an unknown stored value falls through
     ("zh", None, "zh_Hans"),                      # a stored bare code still resolves
@@ -206,3 +207,48 @@ def test_item_edit_and_manual_add_are_translated(admin_client, db):
         assert text in page, text
     scan = admin_client.get("/scan").text
     assert '"dvd": "Regista"' in scan  # the creator labels the manual-add form reads
+
+
+# --- German (fork) ---------------------------------------------------------
+
+
+@pytest.mark.parametrize("env, header, expected", [
+    ("de", None, "de"),               # no browser hint: the configured default
+    ("de", "", "de"),
+    ("de", "it-IT,it;q=0.9", "it"),   # a supported browser language still wins
+    ("de", "fr-FR", "de"),            # an unsupported one falls to the default
+    ("xx", None, "en"),               # an unknown default is ignored
+    ("de-DE", None, "de"),            # a regional tag is matched like a header
+])
+def test_default_language_comes_from_the_environment(monkeypatch, env, header, expected):
+    monkeypatch.setenv("SHELF_DEFAULT_LANGUAGE", env)
+    assert i18n.resolve(None, header) == expected
+
+
+def test_german_is_offered_in_the_picker():
+    assert "de" in i18n.SUPPORTED
+    assert i18n.LANGUAGE_NAMES["de"] == "Deutsch"
+
+
+def test_home_and_scan_are_translated_into_german(admin_client, db):
+    _insert_item(db, title="Catan", media_type="board_game", upc="4002051693602")
+    db.commit()
+    admin_client.post("/api/account/language", data={"language": "de"})
+
+    home = admin_client.get("/").text
+    assert '<html lang="de"' in home
+    for text in ("Sammlung ansehen", "Zuletzt hinzugefügt", "Brettspiel", "Fehlende Cover"):
+        assert text in home, text
+
+    scan = admin_client.get("/scan").text
+    for text in ("Mit Kamera scannen", "Nach Titel suchen", "Brettspiel"):
+        assert text in scan, text
+    assert '"Choose the matching game below": "W\\u00e4hle unten das passende Spiel"' in scan
+
+
+def test_scan_messages_are_translated_into_german(admin_client, db):
+    _insert_item(db, title="Buch", isbn="9780000000132")
+    db.commit()
+    admin_client.post("/api/account/language", data={"language": "de"})
+    r = admin_client.post("/api/scan", data={"isbn": "9780000000132", "mode": "lend"})
+    assert "Keine Person ausgewählt" in r.text

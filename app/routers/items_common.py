@@ -25,6 +25,7 @@ import httpx
 
 from fastapi import Request
 
+from app import i18n
 from app.config import HTTP_TIMEOUT, MEDIA_TYPES
 from app.database import get_db, get_setting
 from app.services import covers, detect, googlebooks, hardcover, national, openlibrary, provider_result
@@ -402,7 +403,7 @@ def _upc_lookup_error(request, templates, upc_norm: str, media_type: str, mode: 
     return templates.TemplateResponse(
         request, "fragments/scan_result.html",
         {"status": "error", "isbn": upc_norm, "media_type": media_type,
-         "message": "Metadata lookup failed — check connectivity", "preview_cover": None},
+         "message": i18n.gettext("Metadata lookup failed — check connectivity"), "preview_cover": None},
     )
 
 
@@ -554,7 +555,7 @@ async def _scan_upc(request: Request, templates, upc_code: str, media_type: str,
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
             {"status": "not_found", "isbn": upc_norm, "media_type": media_type,
-             "message": "Not found — add manually below", "preview_cover": None,
+             "message": i18n.gettext("Not found — add manually below"), "preview_cover": None,
              "enrich_status": scan_outcome.not_found_status(product_result),
              "locations": _manual_form_locations()},
         )
@@ -742,7 +743,7 @@ async def _scan_upc_game(request: Request, templates, upc_norm: str, product: di
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
             {"status": "not_found", "isbn": upc_norm, "media_type": "video_game",
-             "message": "Not found — add manually below", "preview_cover": None,
+             "message": i18n.gettext("Not found — add manually below"), "preview_cover": None,
              "enrich_status": scan_outcome.not_found_status(product_result),
              "locations": _manual_form_locations()},
         )

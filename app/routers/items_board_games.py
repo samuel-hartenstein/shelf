@@ -83,6 +83,7 @@ def _find_duplicate(db, upc_key: str | None, bgg_id: int | None):
 async def _file_game(
     request: Request, templates, *, meta: dict, source: str, upc_raw: str | None,
     location_id: int | None, mode: str, enrich_status: str | None = None,
+    toast: bool = False,
 ):
     """Insert one board game under the write lock and render the scan card.
 
@@ -165,7 +166,8 @@ async def _file_game(
             "enrich_status": enrich_status, "enrich_provider": "BGG",
         },
     )
-    resp.headers["HX-Trigger"] = items_common._toast_header(f"Added: {title[:50]}")
+    if toast:  # G62: a /api/scan response never sets HX-Trigger; the card is the toast's input
+        resp.headers["HX-Trigger"] = items_common._toast_header(f"Added: {title[:50]}")
     return resp
 
 
@@ -230,7 +232,7 @@ async def scan_upc(request: Request, templates, upc_raw: str, location_id: int |
     return templates.TemplateResponse(
         request, "fragments/scan_result.html",
         {"status": "not_found", "isbn": upc_raw, "media_type": MEDIA_TYPE,
-         "message": "Not found — add manually below", "preview_cover": None,
+         "message": i18n.gettext("Not found — add manually below"), "preview_cover": None,
          "enrich_status": search_status or scan_outcome.not_found_status(upc_result),
          "enrich_provider": "GameUPC",
          "locations": items_common._manual_form_locations()},
@@ -304,7 +306,8 @@ async def add_board_game(
     try:
         with tags_svc.default_tags(tags), item_write.default_reading_status(reading_status):
             return await _file_game(request, templates, meta=meta, source=source,
-                                    upc_raw=upc_raw, location_id=location_id, mode=mode)
+                                    upc_raw=upc_raw, location_id=location_id, mode=mode,
+                                    toast=not upc_raw)
     except item_write.InvalidReadingStatus as e:
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",

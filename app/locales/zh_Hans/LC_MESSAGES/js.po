@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit"
 
-#: static/js/app.js:71 static/js/app.js:114 static/js/app.js:124
+#: static/js/app.js:73 static/js/app.js:116 static/js/app.js:126
 #: static/js/browse.js:30
 msgid "Done"
 msgstr "完成"
@@ -113,11 +113,11 @@ msgstr ""
 msgid "Starting camera…"
 msgstr ""
 
-#: static/js/item_edit.js:53 static/js/item_edit.js:140
+#: static/js/item_edit.js:53 static/js/item_edit.js:140 static/js/scan.js:360
 msgid "Camera requires HTTPS. Open Shelf through an HTTPS reverse proxy, or leave SHELF_TLS on."
 msgstr ""
 
-#: static/js/item_edit.js:55 static/js/item_edit.js:142
+#: static/js/item_edit.js:55 static/js/item_edit.js:142 static/js/scan.js:362
 msgid "Camera access denied. Check browser permissions for this site."
 msgstr ""
 
@@ -131,5 +131,129 @@ msgstr ""
 
 #: static/js/item_edit.js:158
 msgid "That is not a valid UPC-A / EAN-13 retail barcode. Try again."
+msgstr ""
+
+#: static/js/scan.js:52
+msgid "Add"
+msgstr ""
+
+#: static/js/scan.js:53
+msgid "Wishlist"
+msgstr ""
+
+#: static/js/scan.js:54
+msgid "Lend"
+msgstr ""
+
+#: static/js/scan.js:55
+msgid "Return"
+msgstr ""
+
+#: static/js/scan.js:56
+msgid "Move"
+msgstr ""
+
+#: static/js/scan.js:57
+msgid "Inventory"
+msgstr ""
+
+#: static/js/scan.js:58 static/js/scan.js:70
+msgid "Lookup"
+msgstr ""
+
+#: static/js/scan.js:59 static/js/scan.js:71
+msgid "Quick Rate"
+msgstr ""
+
+#: static/js/scan.js:64
+msgid "Add Items"
+msgstr ""
+
+#: static/js/scan.js:64
+msgid "Scan barcodes to add items to your collection."
+msgstr ""
+
+#: static/js/scan.js:65
+msgid "Add to Wishlist"
+msgstr ""
+
+#: static/js/scan.js:65
+msgid "Scan to save items you want but haven't bought yet."
+msgstr ""
+
+#: static/js/scan.js:66
+msgid "Lend Items"
+msgstr ""
+
+#: static/js/scan.js:66
+msgid "Select a borrower, then scan items to check them out."
+msgstr ""
+
+#: static/js/scan.js:67
+msgid "Return Items"
+msgstr ""
+
+#: static/js/scan.js:67
+msgid "Scan items to check them back in."
+msgstr ""
+
+#: static/js/scan.js:68
+msgid "Move Items"
+msgstr ""
+
+#: static/js/scan.js:68
+msgid "Select a target location, then scan items to move them."
+msgstr ""
+
+#: static/js/scan.js:69
+msgid "Inventory Audit"
+msgstr ""
+
+#: static/js/scan.js:69
+msgid "Select a location and scan every item you find there. Start an audit to get a report."
+msgstr ""
+
+#: static/js/scan.js:70
+msgid "Scan to check if an item is in your collection. No changes are made."
+msgstr ""
+
+#: static/js/scan.js:71
+msgid "Scan to mark items as read or completed."
+msgstr ""
+
+#: static/js/scan.js:94
+msgid "Could not load recent scans"
+msgstr ""
+
+#: static/js/scan.js:243 static/js/scan.js:392
+msgid "Select a borrower first"
+msgstr ""
+
+#: static/js/scan.js:248 static/js/scan.js:396
+msgid "Select a location first"
+msgstr ""
+
+#: static/js/scan.js:464
+msgid "Choose the matching game below"
+msgstr ""
+
+#: static/js/scan.js:465
+msgid "Choose the matching book below"
+msgstr ""
+
+#: static/js/scan.js:465
+msgid "Type the five digits below"
+msgstr ""
+
+#: static/js/scan.js:473
+msgid "done"
+msgstr ""
+
+#: static/js/scan.js:484
+msgid "error"
+msgstr ""
+
+#: static/js/scan.js:484
+msgid "Scan failed"
 msgstr ""
 

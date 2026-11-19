@@ -1,0 +1,2535 @@
+# German translations for Shelf.
+# Copyright (C) 2026 Shelf contributors
+# This file is distributed under the same license as the Shelf project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"PO-Revision-Date: 2026-11-19 00:23+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: app/browse_columns.py:62 app/templates/item_edit.html:103
+msgid "Title"
+msgstr "Titel"
+
+#: app/browse_columns.py:63 app/browse_filters.py:220 app/config.py:158
+msgid "Author"
+msgstr "Autor"
+
+#: app/browse_columns.py:64 app/browse_filters.py:209
+msgid "Type"
+msgstr "Typ"
+
+#: app/browse_columns.py:65 app/browse_filters.py:211
+#: app/templates/fragments/item_copy_edit.html:37
+#: app/templates/fragments/manual_add_form.html:160
+#: app/templates/item_edit.html:81 app/templates/item_edit.html:301
+#: app/templates/item_edit.html:306 app/templates/scan.html:130
+msgid "Location"
+msgstr "Ort"
+
+#: app/browse_columns.py:66 app/browse_filters.py:213
+#: app/templates/item_detail.html:243 app/templates/item_edit.html:138
+msgid "Status"
+msgstr "Status"
+
+#: app/browse_columns.py:67
+msgid "Value"
+msgstr "Wert"
+
+#: app/browse_columns.py:68 app/nav.py:41 app/templates/browse.html:49
+#: app/templates/fragments/manual_add_form.html:155 app/templates/home.html:89
+#: app/templates/item_edit.html:79 app/templates/item_edit.html:217
+#: app/templates/item_edit.html:221
+msgid "Series"
+msgstr "Reihe"
+
+#: app/browse_columns.py:69 app/templates/fragments/manual_add_form.html:96
+#: app/templates/item_edit.html:118
+msgid "Publisher"
+msgstr "Verlag"
+
+#: app/browse_columns.py:70 app/templates/fragments/manual_add_form.html:99
+#: app/templates/item_edit.html:119
+msgid "Year"
+msgstr "Jahr"
+
+#: app/browse_columns.py:71 app/templates/item_edit.html:223
+msgid "Pages"
+msgstr "Seiten"
+
+#: app/browse_columns.py:72 app/browse_filters.py:221
+#: app/templates/browse.html:65 app/templates/fragments/account_menu.html:116
+#: app/templates/item_edit.html:123
+msgid "Language"
+msgstr "Sprache"
+
+#: app/browse_columns.py:73
+msgid "Added"
+msgstr "Hinzugefügt"
+
+#: app/browse_columns.py:74 app/templates/item_edit.html:355
+#: app/templates/scan.html:148
+msgid "Platform"
+msgstr "Plattform"
+
+#: app/browse_columns.py:75
+msgid "ISBN/UPC"
+msgstr "ISBN/EAN"
+
+#: app/browse_columns.py:76 app/templates/fragments/item_tags.html:3
+#: app/templates/item_edit.html:83 app/templates/item_edit.html:390
+msgid "Tags"
+msgstr "Schlagwörter"
+
+#: app/browse_filters.py:208
+msgid "Search"
+msgstr "Suche"
+
+#: app/browse_filters.py:210 app/templates/fragments/item_copy_edit.html:67
+msgid "Source"
+msgstr "Quelle"
+
+#: app/browse_filters.py:212
+msgid "Sort"
+msgstr "Sortierung"
+
+#: app/browse_filters.py:216 app/templates/browse.html:83
+msgid "Tag"
+msgstr "Schlagwort"
+
+#: app/config.py:15
+msgid "Book"
+msgstr "Buch"
+
+#: app/config.py:16
+msgid "Audiobook"
+msgstr "Hörbuch"
+
+#: app/config.py:17
+msgid "eBook"
+msgstr "E-Book"
+
+#: app/config.py:18
+msgid "Magazine"
+msgstr "Zeitschrift"
+
+#: app/config.py:19
+msgid "DVD / Blu-ray"
+msgstr "DVD / Blu-ray"
+
+#: app/config.py:20
+msgid "Vinyl"
+msgstr "Schallplatte"
+
+#: app/config.py:21
+msgid "Cassette"
+msgstr "Kassette"
+
+#: app/config.py:22
+msgid "CD"
+msgstr "CD"
+
+#: app/config.py:23
+msgid "Digital Music"
+msgstr "Digitale Musik"
+
+#: app/config.py:24
+msgid "Comic / Graphic Novel"
+msgstr "Comic / Graphic Novel"
+
+#: app/config.py:25
+msgid "Manga"
+msgstr "Manga"
+
+#: app/config.py:26
+msgid "Video Game"
+msgstr "Videospiel"
+
+#: app/config.py:27
+msgid "Board Game"
+msgstr "Brettspiel"
+
+#: app/config.py:55
+msgid "Want to Read"
+msgstr "Möchte ich lesen"
+
+#: app/config.py:55
+msgid "Reading"
+msgstr "Lese ich gerade"
+
+#: app/config.py:55
+msgid "Read"
+msgstr "Gelesen"
+
+#: app/config.py:56
+msgid "Want to Watch"
+msgstr "Möchte ich sehen"
+
+#: app/config.py:56
+msgid "Watching"
+msgstr "Schaue ich gerade"
+
+#: app/config.py:56
+msgid "Watched"
+msgstr "Gesehen"
+
+#: app/config.py:57
+msgid "Want to Play"
+msgstr "Möchte ich spielen"
+
+#: app/config.py:57
+msgid "Playing"
+msgstr "Spiele ich gerade"
+
+#: app/config.py:57
+msgid "Played"
+msgstr "Gespielt"
+
+#: app/config.py:59 app/templates/scan.html:212
+msgid "Want to"
+msgstr "Geplant"
+
+#: app/config.py:59 app/templates/scan.html:213
+msgid "In progress"
+msgstr "In Arbeit"
+
+#: app/config.py:59 app/templates/scan.html:214
+msgid "Finished"
+msgstr "Fertig"
+
+#: app/config.py:125
+msgid "Author(s)"
+msgstr "Autor(en)"
+
+#: app/config.py:128
+msgid "Developer"
+msgstr "Entwickler"
+
+#: app/config.py:129
+msgid "Designer"
+msgstr "Spieleautor"
+
+#: app/config.py:130
+msgid "Director"
+msgstr "Regie"
+
+#: app/config.py:133
+msgid "Artist"
+msgstr "Künstler"
+
+#: app/nav.py:34 app/templates/browse.html:2 app/templates/home.html:84
+msgid "Browse"
+msgstr "Sammlung"
+
+#: app/nav.py:35 app/templates/scan.html:2 app/templates/scan.html:107
+msgid "Scan"
+msgstr "Scannen"
+
+#: app/nav.py:36
+msgid "Intake"
+msgstr "Foto-Erfassung"
+
+#: app/nav.py:38
+msgid "Shelf Fill"
+msgstr "Regal füllen"
+
+#: app/nav.py:40
+msgid "Store"
+msgstr "Laden"
+
+#: app/nav.py:42
+msgid "Music"
+msgstr "Musik"
+
+#: app/nav.py:43
+msgid "Periodicals"
+msgstr "Zeitschriften"
+
+#: app/nav.py:44
+msgid "Discover"
+msgstr "Entdecken"
+
+#: app/nav.py:45
+msgid "Stats"
+msgstr "Statistik"
+
+#: app/nav.py:46
+msgid "Trash"
+msgstr "Papierkorb"
+
+#: app/nav.py:47 app/nav.py:49 app/nav.py:51 app/nav.py:53
+msgid "Library"
+msgstr "Bibliothek"
+
+#: app/nav.py:48
+msgid "Labels"
+msgstr "Etiketten"
+
+#: app/nav.py:50
+msgid "Audits"
+msgstr "Inventuren"
+
+#: app/nav.py:52
+msgid "Duplicates"
+msgstr "Duplikate"
+
+#: app/nav.py:54
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: app/nav.py:55 app/nav.py:57
+msgid "Administration"
+msgstr "Verwaltung"
+
+#: app/nav.py:56
+msgid "Logs"
+msgstr "Protokolle"
+
+#: app/nav.py:221
+msgid "Back to series"
+msgstr "Zurück zur Reihe"
+
+#: app/nav.py:222
+msgid "Back to stats"
+msgstr "Zurück zur Statistik"
+
+#: app/nav.py:224
+msgid "Back to collection"
+msgstr "Zurück zur Sammlung"
+
+#: app/routers/api_tokens.py:63
+msgid "Give the token a name"
+msgstr "Gib dem Token einen Namen"
+
+#: app/routers/api_tokens.py:66
+#, python-format
+msgid "Keep the name to %(max)s characters or fewer"
+msgstr "Der Name darf höchstens %(max)s Zeichen lang sein"
+
+#: app/routers/api_tokens.py:72
+#, python-format
+msgid "You already have %(max)s tokens — revoke one first"
+msgstr "Du hast schon %(max)s Tokens – widerrufe zuerst eines"
+
+#: app/routers/api_tokens.py:90
+msgid "Token not found"
+msgstr "Token nicht gefunden"
+
+#: app/routers/auth_routes.py:56 app/routers/auth_routes.py:63
+msgid "Invalid username or password"
+msgstr "Benutzername oder Passwort ist falsch"
+
+#: app/routers/auth_routes.py:121
+msgid "Password must be at least 8 characters"
+msgstr "Das Passwort muss mindestens 8 Zeichen haben"
+
+#: app/routers/auth_routes.py:123 app/templates/fragments/account_menu.html:153
+#: app/templates/setup.html:53
+msgid "Passwords do not match"
+msgstr "Die Passwörter stimmen nicht überein"
+
+#: app/routers/auth_routes.py:125
+msgid "Username must be at least 2 characters"
+msgstr "Der Benutzername muss mindestens 2 Zeichen haben"
+
+#: app/routers/auth_routes.py:127
+msgid "Choose how much of Shelf to start with"
+msgstr "Wähle, mit welchem Umfang du Shelf startest"
+
+#: app/routers/auth_routes.py:264
+msgid "New password must be at least 8 characters"
+msgstr "Das neue Passwort muss mindestens 8 Zeichen haben"
+
+#: app/routers/auth_routes.py:270 app/routers/auth_routes.py:285
+msgid "Current password is incorrect"
+msgstr "Das aktuelle Passwort ist falsch"
+
+#: app/routers/auth_routes.py:291
+msgid "Password changed"
+msgstr "Passwort geändert"
+
+#: app/routers/auth_routes.py:306
+msgid "Display name cannot be empty"
+msgstr "Der Anzeigename darf nicht leer sein"
+
+#: app/routers/auth_routes.py:317
+msgid "Display name updated"
+msgstr "Anzeigename gespeichert"
+
+#: app/routers/auth_routes.py:330
+msgid "Unknown language"
+msgstr "Unbekannte Sprache"
+
+#: app/routers/checkouts.py:127
+msgid "Due date is out of range"
+msgstr "Das Rückgabedatum liegt außerhalb des gültigen Bereichs"
+
+#: app/routers/checkouts.py:138 app/routers/item_copies.py:174
+#: app/routers/item_copies.py:231 app/routers/related_media.py:36
+#: app/routers/related_media.py:67 app/routers/related_media.py:89
+#: app/routers/related_media.py:106
+msgid "Item not found"
+msgstr "Eintrag nicht gefunden"
+
+#: app/routers/checkouts.py:144
+msgid "Already checked out"
+msgstr "Bereits verliehen"
+
+#: app/routers/checkouts.py:167
+msgid "Checkout not found"
+msgstr "Ausleihe nicht gefunden"
+
+#: app/routers/checkouts.py:171 app/routers/checkouts.py:180
+msgid "Checkout already checked in"
+msgstr "Ausleihe wurde schon zurückgegeben"
+
+#: app/routers/item_copies.py:157
+#, python-format
+msgid "Barcode already used by “%(title)s” (item %(id)s)."
+msgstr "Der Barcode gehört schon zu „%(title)s“ (Eintrag %(id)s)."
+
+#: app/routers/item_copies.py:189 app/routers/item_copies.py:292
+#: app/routers/item_copies.py:355 app/routers/item_copies.py:374
+msgid "Copy not found"
+msgstr "Exemplar nicht gefunden"
+
+#: app/routers/item_copies.py:247
+msgid "Could not add that copy."
+msgstr "Das Exemplar konnte nicht hinzugefügt werden."
+
+#: app/routers/item_copies.py:320
+msgid "Could not save that copy."
+msgstr "Das Exemplar konnte nicht gespeichert werden."
+
+#: app/routers/items.py:387 app/routers/items_scan_modes.py:218
+msgid "Not in your collection"
+msgstr "Nicht in deiner Sammlung"
+
+#: app/routers/items.py:477 app/routers/items.py:697
+#: app/routers/items_catalog.py:279
+msgid "Invalid ISBN"
+msgstr "Ungültige ISBN"
+
+#: app/routers/items.py:568
+msgid "Network error during lookup — check connectivity"
+msgstr "Netzwerkfehler bei der Suche – prüfe die Verbindung"
+
+#: app/routers/items.py:584 app/routers/items_board_games.py:235
+#: app/routers/items_common.py:558 app/routers/items_common.py:746
+msgid "Not found — add manually below"
+msgstr "Nicht gefunden – unten von Hand eintragen"
+
+#: app/routers/items.py:668 app/routers/items_catalog.py:441
+msgid "Title is required"
+msgstr "Ein Titel ist nötig"
+
+#: app/routers/items.py:708 app/routers/items_catalog.py:449
+msgid "Invalid publish year"
+msgstr "Ungültiges Erscheinungsjahr"
+
+#: app/routers/items.py:996
+msgid "No items or updates specified"
+msgstr "Keine Einträge oder Änderungen angegeben"
+
+#: app/routers/items.py:1001 app/routers/tags.py:71 app/routers/tags.py:76
+msgid "Invalid item IDs"
+msgstr "Ungültige Eintrags-IDs"
+
+#: app/routers/items.py:1006
+msgid "No valid fields to update"
+msgstr "Keine gültigen Felder zum Ändern"
+
+#: app/routers/items.py:1012
+msgid "Series name cannot be empty"
+msgstr "Der Name der Reihe darf nicht leer sein"
+
+#: app/routers/items_board_games.py:99
+msgid "No title for this game"
+msgstr "Kein Titel für dieses Spiel"
+
+#: app/routers/items_board_games.py:304
+msgid "Failed to fetch game details from BoardGameGeek"
+msgstr "Spieldaten konnten nicht von BoardGameGeek geladen werden"
+
+#: app/routers/items_catalog.py:93
+msgid "Unrecognised game platform — pick one and try again"
+msgstr "Unbekannte Plattform – wähle eine aus und versuch es noch einmal"
+
+#: app/routers/items_catalog.py:110
+msgid "Failed to fetch game details from IGDB"
+msgstr "Spieldaten konnten nicht von IGDB geladen werden"
+
+#: app/routers/items_catalog.py:271
+msgid "Unrecognised media type — pick one and try again"
+msgstr "Unbekannter Medientyp – wähle einen aus und versuch es noch einmal"
+
+#: app/routers/items_catalog.py:321
+msgid "Could not fetch metadata for this ISBN"
+msgstr "Zu dieser ISBN konnten keine Daten geladen werden"
+
+#: app/routers/items_common.py:406
+msgid "Metadata lookup failed — check connectivity"
+msgstr "Datensuche fehlgeschlagen – prüfe die Verbindung"
+
+#: app/routers/items_covers.py:74
+#: app/templates/fragments/book_search_results.html:35
+msgid "No ISBN"
+msgstr "Keine ISBN"
+
+#: app/routers/items_covers.py:87
+msgid "No cover found"
+msgstr "Kein Cover gefunden"
+
+#: app/routers/items_scan_modes.py:65 app/routers/items_scan_modes.py:117
+msgid "Lending is turned off on this Shelf."
+msgstr "Das Verleihen ist in diesem Shelf ausgeschaltet."
+
+#: app/routers/items_scan_modes.py:70
+msgid "No borrower selected"
+msgstr "Keine Person ausgewählt"
+
+#: app/routers/items_scan_modes.py:86
+#, python-format
+msgid "Already lent to %(name)s"
+msgstr "Schon an %(name)s verliehen"
+
+#: app/routers/items_scan_modes.py:93
+msgid "Borrower not found"
+msgstr "Person nicht gefunden"
+
+#: app/routers/items_scan_modes.py:107
+#, python-format
+msgid "Lent to %(name)s"
+msgstr "An %(name)s verliehen"
+
+#: app/routers/items_scan_modes.py:131
+msgid "Not currently checked out"
+msgstr "Ist gerade nicht verliehen"
+
+#: app/routers/items_scan_modes.py:144
+#, python-format
+msgid "Returned from %(name)s"
+msgstr "Von %(name)s zurück"
+
+#: app/routers/items_scan_modes.py:154
+msgid "No target location selected"
+msgstr "Kein Zielort ausgewählt"
+
+#: app/routers/items_scan_modes.py:264
+#, python-format
+msgid "Marked as %(status)s"
+msgstr "Als „%(status)s“ markiert"
+
+#: app/routers/related_media.py:85
+msgid "An item cannot be related to itself"
+msgstr "Ein Eintrag kann nicht mit sich selbst verknüpft werden"
+
+#: app/routers/related_media.py:108
+msgid "Related-media link not found"
+msgstr "Verknüpfung nicht gefunden"
+
+#: app/routers/scan_inventory.py:159
+msgid "Not in collection"
+msgstr "Nicht in der Sammlung"
+
+#: app/routers/tags.py:78
+msgid "No items selected"
+msgstr "Keine Einträge ausgewählt"
+
+#: app/routers/tags.py:82
+msgid "No tag given"
+msgstr "Kein Schlagwort angegeben"
+
+#: app/routers/tags.py:99
+#, python-format
+msgid "Added %(tags)s to %(count)s item(s)"
+msgstr "%(tags)s zu %(count)s Eintrag/Einträgen hinzugefügt"
+
+#: app/routers/tags.py:101
+#, python-format
+msgid "Removed %(tags)s from %(count)s item(s)"
+msgstr "%(tags)s von %(count)s Eintrag/Einträgen entfernt"
+
+#: app/services/browse_counts.py:16
+msgid "Manual"
+msgstr "Von Hand"
+
+#: app/services/browse_counts.py:31
+msgid "Audible import"
+msgstr "Audible-Import"
+
+#: app/services/browse_counts.py:32
+msgid "Photo Intake"
+msgstr "Foto-Erfassung"
+
+#: app/services/browse_counts.py:33
+msgid "Store Queue"
+msgstr "Laden-Warteschlange"
+
+#: app/services/browse_counts.py:34
+msgid "CSV Import"
+msgstr "CSV-Import"
+
+#: app/services/national.py:89
+msgid "English"
+msgstr "Englisch"
+
+#: app/services/national.py:90
+msgid "German"
+msgstr "Deutsch"
+
+#: app/services/national.py:91
+msgid "French"
+msgstr "Französisch"
+
+#: app/services/national.py:92
+msgid "Spanish"
+msgstr "Spanisch"
+
+#: app/services/national.py:93
+msgid "Italian"
+msgstr "Italienisch"
+
+#: app/services/national.py:94
+msgid "Dutch"
+msgstr "Niederländisch"
+
+#: app/services/national.py:95
+msgid "Portuguese"
+msgstr "Portugiesisch"
+
+#: app/services/national.py:96
+msgid "Swedish"
+msgstr "Schwedisch"
+
+#: app/services/national.py:97
+msgid "Danish"
+msgstr "Dänisch"
+
+#: app/services/national.py:98
+msgid "Norwegian"
+msgstr "Norwegisch"
+
+#: app/services/national.py:99
+msgid "Polish"
+msgstr "Polnisch"
+
+#: app/services/national.py:100
+msgid "Czech"
+msgstr "Tschechisch"
+
+#: app/services/national.py:101
+msgid "Japanese"
+msgstr "Japanisch"
+
+#: app/services/national.py:102
+msgid "Russian"
+msgstr "Russisch"
+
+#: app/services/national.py:103
+msgid "Chinese"
+msgstr "Chinesisch"
+
+#: app/services/national.py:104
+msgid "Korean"
+msgstr "Koreanisch"
+
+#: app/templates/base.html:60
+msgid "Main menu"
+msgstr "Hauptmenü"
+
+#: app/templates/base.html:109
+msgid "Keyboard shortcuts (?)"
+msgstr "Tastenkürzel (?)"
+
+#: app/templates/base.html:115
+msgid "Keyboard Shortcuts"
+msgstr "Tastenkürzel"
+
+#: app/templates/base.html:122
+msgid "Global"
+msgstr "Überall"
+
+#: app/templates/base.html:124
+msgid "Focus search"
+msgstr "Zur Suche springen"
+
+#: app/templates/base.html:125
+msgid "Go to Scan"
+msgstr "Zu Scannen"
+
+#: app/templates/base.html:126
+msgid "Go to Browse"
+msgstr "Zur Sammlung"
+
+#: app/templates/base.html:127
+msgid "Show shortcuts"
+msgstr "Tastenkürzel anzeigen"
+
+#: app/templates/base.html:131
+msgid "Browse Page"
+msgstr "Sammlungsseite"
+
+#: app/templates/base.html:133
+msgid "Toggle grid / list view"
+msgstr "Raster- / Listenansicht umschalten"
+
+#: app/templates/base.html:134
+msgid "Toggle select mode"
+msgstr "Auswahlmodus umschalten"
+
+#: app/templates/base.html:135
+msgid "Toggle filters (mobile)"
+msgstr "Filter ein-/ausblenden (Handy)"
+
+#: app/templates/base.html:136 app/templates/fragments/item_grid.html:61
+msgid "Clear all filters"
+msgstr "Alle Filter zurücksetzen"
+
+#: app/templates/base.html:137
+msgid "Exit select / blur search"
+msgstr "Auswahl beenden / Suche verlassen"
+
+#: app/templates/base.html:142
+msgid "Shortcuts are disabled when typing in inputs"
+msgstr "Beim Tippen in Eingabefeldern sind Tastenkürzel aus"
+
+#: app/templates/browse.html:13
+msgid "Move to location..."
+msgstr "An Ort verschieben …"
+
+#: app/templates/browse.html:19 app/templates/browse.html:27
+#: app/templates/browse.html:37 app/templates/browse.html:44
+#: app/templates/browse.html:59 app/templates/browse.html:74
+msgid "Apply"
+msgstr "Anwenden"
+
+#: app/templates/browse.html:21
+msgid "Change type..."
+msgstr "Typ ändern …"
+
+#: app/templates/browse.html:30
+msgid "Set status..."
+msgstr "Status setzen …"
+
+#: app/templates/browse.html:34
+msgid "Clear Status"
+msgstr "Status entfernen"
+
+#: app/templates/browse.html:39
+msgid "Wishlist..."
+msgstr "Wunschliste …"
+
+#: app/templates/browse.html:40
+msgid "Add to wishlist"
+msgstr "Auf die Wunschliste"
+
+#: app/templates/browse.html:41
+msgid "Remove from wishlist"
+msgstr "Von der Wunschliste nehmen"
+
+#: app/templates/browse.html:51
+msgid "Type or pick a series..."
+msgstr "Reihe eingeben oder auswählen …"
+
+#: app/templates/browse.html:61 app/templates/browse.html:76
+msgid "Clear"
+msgstr "Leeren"
+
+#: app/templates/browse.html:68
+msgid "Choose…"
+msgstr "Auswählen …"
+
+#: app/templates/browse.html:85
+msgid "Type or pick a tag..."
+msgstr "Schlagwort eingeben oder auswählen …"
+
+#: app/templates/browse.html:94
+msgid "Add tag"
+msgstr "Schlagwort hinzufügen"
+
+#: app/templates/browse.html:96 app/templates/fragments/item_tags.html:11
+msgid "Remove tag"
+msgstr "Schlagwort entfernen"
+
+#: app/templates/browse.html:99
+msgid "Delete Selected"
+msgstr "Auswahl löschen"
+
+#: app/templates/browse.html:111
+msgid "Collection"
+msgstr "Sammlung"
+
+#: app/templates/browse.html:115
+msgid "Grid view"
+msgstr "Rasteransicht"
+
+#: app/templates/browse.html:119
+msgid "List view"
+msgstr "Listenansicht"
+
+#: app/templates/browse.html:135
+msgid "Tap items to select them for bulk actions such as moving, type/status/series changes, tagging, or deleting."
+msgstr "Tippe Einträge an, um sie gemeinsam zu bearbeiten: verschieben, Typ, Status oder Reihe ändern, verschlagworten oder löschen."
+
+#: app/templates/browse.html:140
+msgid "Select All"
+msgstr "Alle auswählen"
+
+#: app/templates/browse.html:141
+msgid "Deselect All"
+msgstr "Auswahl aufheben"
+
+#: app/templates/browse.html:151
+msgid "Columns"
+msgstr "Spalten"
+
+#: app/templates/browse.html:170
+msgid "Reset to defaults"
+msgstr "Zurücksetzen"
+
+#: app/templates/browse.html:180
+msgid "Filters"
+msgstr "Filter"
+
+#: app/templates/browse.html:184 app/templates/browse.html:192
+msgid "Search..."
+msgstr "Suchen …"
+
+#: app/templates/browse.html:204
+#: app/templates/fragments/filter_counts_oob.html:13
+msgid "All Types"
+msgstr "Alle Typen"
+
+#: app/templates/browse.html:218
+#: app/templates/fragments/filter_counts_oob.html:37
+msgid "All Locations"
+msgstr "Alle Orte"
+
+#: app/templates/browse.html:220
+#: app/templates/fragments/filter_counts_oob.html:39
+#: app/templates/fragments/item_copies.html:90
+#: app/templates/fragments/item_copies.html:95
+#: app/templates/fragments/item_copies.html:108
+#: app/templates/fragments/item_copy_edit.html:40
+msgid "No location"
+msgstr "Ohne Ort"
+
+#: app/templates/browse.html:233
+#: app/templates/fragments/filter_counts_oob.html:26
+msgid "All"
+msgstr "Alle"
+
+#: app/templates/browse.html:234
+#: app/templates/fragments/filter_counts_oob.html:27 app/templates/home.html:32
+msgid "Owned"
+msgstr "Im Besitz"
+
+#: app/templates/browse.html:235
+#: app/templates/fragments/filter_counts_oob.html:28
+#: app/templates/fragments/item_card.html:7
+#: app/templates/fragments/item_row.html:51 app/templates/home.html:36
+#: app/templates/home.html:118 app/templates/item_detail.html:57
+msgid "Wishlist"
+msgstr "Wunschliste"
+
+#: app/templates/browse.html:236
+#: app/templates/fragments/filter_counts_oob.html:29
+msgid "Not owned or wishlisted"
+msgstr "Weder im Besitz noch auf der Wunschliste"
+
+#: app/templates/browse.html:245
+msgid "All Items"
+msgstr "Alle Einträge"
+
+#: app/templates/browse.html:246
+msgid "Lent Out"
+msgstr "Verliehen"
+
+#: app/templates/browse.html:256
+#: app/templates/fragments/filter_counts_oob.html:71
+msgid "All Statuses"
+msgstr "Alle Status"
+
+#: app/templates/browse.html:269
+msgid "All Tags"
+msgstr "Alle Schlagwörter"
+
+#: app/templates/browse.html:282
+msgid "All Languages"
+msgstr "Alle Sprachen"
+
+#: app/templates/browse.html:294
+#: app/templates/fragments/filter_counts_oob.html:53
+msgid "All Sources"
+msgstr "Alle Quellen"
+
+#: app/templates/browse.html:309
+msgid "Most Recent"
+msgstr "Neueste zuerst"
+
+#: app/templates/browse.html:310
+msgid "Oldest First"
+msgstr "Älteste zuerst"
+
+#: app/templates/browse.html:311
+msgid "Title A–Z"
+msgstr "Titel A–Z"
+
+#: app/templates/browse.html:312
+msgid "Title Z–A"
+msgstr "Titel Z–A"
+
+#: app/templates/browse.html:315
+msgid "Year (Newest)"
+msgstr "Jahr (neueste)"
+
+#: app/templates/browse.html:316
+msgid "Year (Oldest)"
+msgstr "Jahr (älteste)"
+
+#: app/templates/browse.html:329
+msgid "Clear all"
+msgstr "Alles zurücksetzen"
+
+#: app/templates/home.html:2 app/templates/home.html:7
+msgid "Home"
+msgstr "Start"
+
+#: app/templates/home.html:8
+msgid "A quick view of your collection. Use Browse when you want to search, filter or organise it."
+msgstr "Ein schneller Überblick über deine Sammlung. Zum Suchen, Filtern und Ordnen geht es zur Sammlung."
+
+#: app/templates/home.html:11
+msgid "Browse collection"
+msgstr "Sammlung ansehen"
+
+#: app/templates/home.html:13
+msgid "Scan item"
+msgstr "Eintrag scannen"
+
+#: app/templates/home.html:14 app/templates/scan.html:259
+msgid "Add by hand"
+msgstr "Von Hand hinzufügen"
+
+#: app/templates/home.html:17 app/templates/home.html:95
+msgid "Statistics"
+msgstr "Statistik"
+
+#: app/templates/home.html:28
+msgid "Catalogue"
+msgstr "Katalog"
+
+#: app/templates/home.html:41
+msgid "Lent out"
+msgstr "Verliehen"
+
+#: app/templates/home.html:46
+msgid "Missing covers"
+msgstr "Fehlende Cover"
+
+#: app/templates/home.html:50
+msgid "Media types"
+msgstr "Medientypen"
+
+#: app/templates/home.html:58
+msgid "Collection mix"
+msgstr "Zusammensetzung"
+
+#: app/templates/home.html:59
+msgid "Browse all"
+msgstr "Alle ansehen"
+
+#: app/templates/home.html:76
+msgid "Your collection is empty."
+msgstr "Deine Sammlung ist noch leer."
+
+#: app/templates/home.html:81
+msgid "Useful places"
+msgstr "Nützliche Seiten"
+
+#: app/templates/home.html:85
+msgid "Search, filter, sort and bulk-edit the full catalogue."
+msgstr "Den ganzen Katalog durchsuchen, filtern, sortieren und gemeinsam bearbeiten."
+
+#: app/templates/home.html:90
+msgid "See runs, gaps and completeness without crowding Browse."
+msgstr "Reihen, Lücken und Vollständigkeit auf einen Blick."
+
+#: app/templates/home.html:96
+msgid "Open the deeper collection dashboard and charts."
+msgstr "Ausführliche Auswertungen und Diagramme zur Sammlung."
+
+#: app/templates/home.html:106
+msgid "Recently added"
+msgstr "Zuletzt hinzugefügt"
+
+#: app/templates/home.html:107
+msgid "The latest items to enter your catalogue."
+msgstr "Die neuesten Einträge in deinem Katalog."
+
+#: app/templates/home.html:109
+msgid "See more"
+msgstr "Mehr anzeigen"
+
+#: app/templates/home.html:138
+msgid "No items yet."
+msgstr "Noch keine Einträge."
+
+#: app/templates/home.html:138
+msgid "Start scanning"
+msgstr "Jetzt scannen"
+
+#: app/templates/item_detail.html:24
+msgid "English cover from another edition"
+msgstr "Englisches Cover einer anderen Ausgabe"
+
+#: app/templates/fragments/hardcover_search_results.html:15
+#: app/templates/item_detail.html:27
+msgid "No Cover"
+msgstr "Kein Cover"
+
+#: app/templates/item_detail.html:37
+msgid "Retry ISBN"
+msgstr "ISBN erneut versuchen"
+
+#: app/templates/item_detail.html:48
+msgid "Find cover"
+msgstr "Cover suchen"
+
+#: app/templates/item_detail.html:58
+#, python-format
+msgid "List price %(price)s"
+msgstr "Listenpreis %(price)s"
+
+#: app/templates/item_detail.html:58 app/templates/item_detail.html:132
+#, python-format
+msgid "as of %(date)s"
+msgstr "Stand %(date)s"
+
+#: app/templates/item_detail.html:58
+#, python-format
+msgid "was %(price)s on %(date)s"
+msgstr "am %(date)s: %(price)s"
+
+#: app/templates/item_detail.html:76
+msgid "Type:"
+msgstr "Typ:"
+
+#: app/templates/item_detail.html:79
+msgid "Language:"
+msgstr "Sprache:"
+
+#: app/templates/item_detail.html:82
+msgid "Platform:"
+msgstr "Plattform:"
+
+#: app/templates/item_detail.html:85
+msgid "Publisher:"
+msgstr "Verlag:"
+
+#: app/templates/item_detail.html:88
+msgid "Year:"
+msgstr "Jahr:"
+
+#: app/templates/item_detail.html:91
+msgid "Pages:"
+msgstr "Seiten:"
+
+#: app/templates/item_detail.html:94
+msgid "ISBN:"
+msgstr "ISBN:"
+
+#: app/templates/item_detail.html:97
+msgid "Series:"
+msgstr "Reihe:"
+
+#: app/templates/item_detail.html:104
+#, python-format
+msgid "you own %(owned)s of 1–%(top)s"
+msgstr "du hast %(owned)s von 1–%(top)s"
+
+#: app/templates/item_detail.html:104
+msgid "missing"
+msgstr "fehlt"
+
+#: app/templates/item_detail.html:105
+#, python-format
+msgid "%(count)s in series (Hardcover)"
+msgstr "%(count)s in der Reihe (Hardcover)"
+
+#: app/templates/item_detail.html:110
+msgid "Narrator:"
+msgstr "Sprecher:"
+
+#: app/templates/item_detail.html:114
+msgid "Players:"
+msgstr "Spieler:"
+
+#: app/templates/item_detail.html:117
+msgid "Play time:"
+msgstr "Spieldauer:"
+
+#: app/templates/item_detail.html:120
+msgid "Age:"
+msgstr "Alter:"
+
+#: app/templates/item_detail.html:123
+msgid "View on BoardGameGeek"
+msgstr "Auf BoardGameGeek ansehen"
+
+#: app/templates/item_detail.html:123
+msgid "Powered by BGG"
+msgstr "Daten von BGG"
+
+#: app/templates/item_detail.html:126
+msgid "Duration:"
+msgstr "Dauer:"
+
+#: app/templates/item_detail.html:130
+msgid "Value:"
+msgstr "Wert:"
+
+#: app/templates/item_detail.html:130
+msgid "(manual)"
+msgstr "(von Hand)"
+
+#: app/templates/item_detail.html:132
+msgid "Est. Value:"
+msgstr "Geschätzter Wert:"
+
+#: app/templates/item_detail.html:138
+msgid "Synopsis"
+msgstr "Inhalt"
+
+#: app/templates/item_detail.html:145
+msgid "Read more"
+msgstr "Weiterlesen"
+
+#: app/templates/item_detail.html:145
+msgid "Show less"
+msgstr "Weniger anzeigen"
+
+#: app/templates/item_detail.html:154
+msgid "Fetch synopsis"
+msgstr "Inhaltsangabe laden"
+
+#: app/templates/item_detail.html:155
+msgid "Searching…"
+msgstr "Suche läuft …"
+
+#: app/templates/item_detail.html:157
+msgid "No synopsis found on Open Library or Google Books."
+msgstr "Keine Inhaltsangabe bei Open Library oder Google Books gefunden."
+
+#: app/templates/item_detail.html:167
+msgid "Loading related media…"
+msgstr "Verknüpfte Medien werden geladen …"
+
+#: app/templates/item_detail.html:172
+msgid "Notes:"
+msgstr "Notizen:"
+
+#: app/templates/item_detail.html:181
+msgid "Read on Audiobookshelf"
+msgstr "In Audiobookshelf lesen"
+
+#: app/templates/item_detail.html:181
+msgid "Listen on Audiobookshelf"
+msgstr "In Audiobookshelf anhören"
+
+#: app/templates/item_detail.html:197
+msgid "Synced to Hardcover"
+msgstr "Mit Hardcover abgeglichen"
+
+#: app/templates/item_detail.html:197
+msgid "Push to Hardcover"
+msgstr "An Hardcover senden"
+
+#: app/templates/item_detail.html:198
+msgid "Syncing..."
+msgstr "Wird abgeglichen …"
+
+#: app/templates/item_detail.html:204
+msgid "Added to your Hardcover library"
+msgstr "Zu deiner Hardcover-Bibliothek hinzugefügt"
+
+#: app/templates/item_detail.html:216
+#, python-format
+msgid "Also in Audiobookshelf (%(type)s)"
+msgstr "Auch in Audiobookshelf (%(type)s)"
+
+#: app/templates/item_detail.html:225
+msgid "Also available as:"
+msgstr "Auch vorhanden als:"
+
+#: app/templates/item_detail.html:251
+msgid "Lending"
+msgstr "Verleihen"
+
+#: app/templates/item_detail.html:254
+msgid "Lent to"
+msgstr "Verliehen an"
+
+#: app/templates/item_detail.html:255
+#, python-format
+msgid "on %(date)s"
+msgstr "am %(date)s"
+
+#: app/templates/item_detail.html:257
+msgid "Due:"
+msgstr "Zurück bis:"
+
+#: app/templates/item_detail.html:263
+msgid "Check In"
+msgstr "Zurücknehmen"
+
+#: app/templates/item_detail.html:271
+msgid "Lend this item"
+msgstr "Diesen Eintrag verleihen"
+
+#: app/templates/item_detail.html:282
+msgid "2 weeks"
+msgstr "2 Wochen"
+
+#: app/templates/item_detail.html:283
+msgid "1 week"
+msgstr "1 Woche"
+
+#: app/templates/item_detail.html:284
+msgid "1 month"
+msgstr "1 Monat"
+
+#: app/templates/item_detail.html:285
+msgid "No due date"
+msgstr "Ohne Rückgabedatum"
+
+#: app/templates/item_detail.html:287
+msgid "Check Out"
+msgstr "Verleihen"
+
+#: app/templates/item_detail.html:290
+msgid "Add borrowers in <a href=\"/settings\" class=\"text-shelf-accent2\">Settings</a> first."
+msgstr "Lege zuerst in den <a href=\"/settings\" class=\"text-shelf-accent2\">Einstellungen</a> Personen an."
+
+#: app/templates/item_detail.html:297
+msgid "Checkout history"
+msgstr "Verleihverlauf"
+
+#: app/templates/item_detail.html:304
+#, python-format
+msgid "returned %(date)s"
+msgstr "zurück am %(date)s"
+
+#: app/templates/item_detail.html:306
+msgid "out"
+msgstr "verliehen"
+
+#: app/templates/fragments/item_copies.html:87
+#: app/templates/fragments/item_copies.html:90
+#: app/templates/fragments/item_copies.html:95
+#: app/templates/item_detail.html:320
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: app/templates/item_detail.html:323
+msgid "Add another like this"
+msgstr "Ähnlichen Eintrag hinzufügen"
+
+#: app/templates/item_detail.html:329
+msgid "Delete"
+msgstr "Löschen"
+
+#: app/templates/item_detail.html:335
+#, python-format
+msgid "Added %(date)s"
+msgstr "Hinzugefügt am %(date)s"
+
+#: app/templates/item_detail.html:335
+#, python-format
+msgid "Updated %(date)s"
+msgstr "Geändert am %(date)s"
+
+#: app/templates/item_detail.html:335
+#, python-format
+msgid "via %(source)s"
+msgstr "Quelle: %(source)s"
+
+#: app/templates/item_detail.html:340
+msgid "Integration IDs"
+msgstr "IDs der Dienste"
+
+#: app/templates/item_edit.html:2
+#, python-format
+msgid "Edit %(title)s"
+msgstr "%(title)s bearbeiten"
+
+#: app/templates/item_edit.html:9
+msgid "Back to item"
+msgstr "Zurück zum Eintrag"
+
+#: app/templates/item_edit.html:13
+msgid "Edit item"
+msgstr "Eintrag bearbeiten"
+
+#: app/templates/item_edit.html:24
+msgid "That ISBN's check digit doesn't add up — correct it or clear the field. Nothing else you typed was saved."
+msgstr "Die Prüfziffer dieser ISBN stimmt nicht – korrigiere sie oder leere das Feld. Deine anderen Eingaben wurden auch nicht gespeichert."
+
+#: app/templates/item_edit.html:28
+msgid "That UPC / EAN isn't a valid retail barcode — correct it or clear the field. Nothing was saved."
+msgstr "Diese UPC / EAN ist kein gültiger Handels-Barcode – korrigiere sie oder leere das Feld. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:32
+msgid "An ASIN is ten letters or digits, like B0D1234567."
+msgstr "Eine ASIN besteht aus zehn Buchstaben oder Ziffern, z. B. B0D1234567."
+
+#: app/templates/item_edit.html:37
+#, python-format
+msgid "“%(title)s” is in Trash and already uses that identifier. Restore it from Trash, or delete it permanently, before using it here. Nothing was saved."
+msgstr "„%(title)s“ liegt im Papierkorb und nutzt diese Kennung schon. Stelle den Eintrag wieder her oder lösche ihn endgültig, bevor du sie hier verwendest. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:39
+msgid "That identifier belongs to an item in Trash. Restore that item, or delete it permanently, before using it here. Nothing was saved."
+msgstr "Diese Kennung gehört zu einem Eintrag im Papierkorb. Stelle ihn wieder her oder lösche ihn endgültig, bevor du sie hier verwendest. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:44
+msgid "That UPC / EAN is already assigned to another item of this media type. Nothing was saved."
+msgstr "Diese UPC / EAN gehört schon zu einem anderen Eintrag dieses Medientyps. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:48
+msgid "That media type isn't one Shelf knows — pick one from the list. Nothing was saved."
+msgstr "Diesen Medientyp kennt Shelf nicht – wähle einen aus der Liste. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:52
+msgid "That location no longer exists — pick another, or none. Nothing was saved."
+msgstr "Diesen Ort gibt es nicht mehr – wähle einen anderen oder keinen. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:56
+msgid "That game platform isn't in your platform list — pick one, or add it under Settings first. Nothing was saved."
+msgstr "Diese Plattform steht nicht in deiner Liste – wähle eine aus oder lege sie zuerst in den Einstellungen an. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:60
+msgid "That status isn't one Shelf recognises. Nothing was saved."
+msgstr "Diesen Status kennt Shelf nicht. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:64
+msgid "Owned must be on or off. Nothing was saved."
+msgstr "„Im Besitz“ muss an oder aus sein. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:68
+msgid "An item you own can't also be on your wishlist. Nothing was saved."
+msgstr "Ein Eintrag im Besitz kann nicht gleichzeitig auf der Wunschliste stehen. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:72
+msgid "A number field (year, pages, minutes, series #, value) had something that isn't a number. Nothing was saved."
+msgstr "In einem Zahlenfeld (Jahr, Seiten, Minuten, Reihen-Nr., Wert) steht etwas, das keine Zahl ist. Es wurde nichts gespeichert."
+
+#: app/templates/item_edit.html:76
+msgid "Edit sections"
+msgstr "Bereiche"
+
+#: app/templates/item_edit.html:77 app/templates/item_edit.html:99
+msgid "General"
+msgstr "Allgemein"
+
+#: app/templates/item_edit.html:78 app/templates/item_edit.html:168
+msgid "Artwork"
+msgstr "Cover"
+
+#: app/templates/item_edit.html:80 app/templates/item_edit.html:229
+msgid "Identifiers"
+msgstr "Kennungen"
+
+#: app/templates/item_edit.html:82 app/templates/item_edit.html:350
+msgid "Media Details"
+msgstr "Mediendetails"
+
+#: app/templates/item_edit.html:100
+msgid "Core catalogue metadata and reading details."
+msgstr "Grunddaten des Eintrags und Lesestatus."
+
+#: app/templates/item_edit.html:104
+msgid "Subtitle"
+msgstr "Untertitel"
+
+#: app/templates/fragments/manual_add_form.html:40
+#: app/templates/item_edit.html:108 app/templates/scan.html:113
+msgid "Media Type"
+msgstr "Medientyp"
+
+#: app/templates/item_edit.html:126
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: app/templates/item_edit.html:142 app/templates/item_edit.html:178
+#: app/templates/item_edit.html:309 app/templates/item_edit.html:358
+#: app/templates/scan.html:134 app/templates/scan.html:211
+msgid "None"
+msgstr "Keine"
+
+#: app/templates/item_edit.html:149
+msgid "Date Started"
+msgstr "Begonnen am"
+
+#: app/templates/item_edit.html:150
+msgid "Date Finished"
+msgstr "Beendet am"
+
+#: app/templates/item_edit.html:155
+msgid "Description"
+msgstr "Beschreibung"
+
+#: app/templates/item_edit.html:161
+msgid "Notes"
+msgstr "Notizen"
+
+#: app/templates/item_edit.html:169
+msgid "Preview the current cover, upload a replacement, or use a public image URL."
+msgstr "Aktuelles Cover ansehen, ein neues hochladen oder eine öffentliche Bild-URL verwenden."
+
+#: app/templates/fragments/cover_search.html:40
+#: app/templates/item_edit.html:175
+msgid "Current cover"
+msgstr "Aktuelles Cover"
+
+#: app/templates/item_edit.html:177
+msgid "Cover preview"
+msgstr "Cover-Vorschau"
+
+#: app/templates/item_edit.html:188
+msgid "Drop an image here or click to browse"
+msgstr "Bild hierher ziehen oder zum Auswählen klicken"
+
+#: app/templates/item_edit.html:190
+msgid "The replacement is applied when you save the item."
+msgstr "Das neue Cover wird beim Speichern übernommen."
+
+#: app/templates/item_edit.html:196
+msgid "Cover image URL"
+msgstr "Bild-URL des Covers"
+
+#: app/templates/item_edit.html:208
+msgid "Use URL"
+msgstr "URL übernehmen"
+
+#: app/templates/item_edit.html:211
+msgid "Public HTTPS image links only. Use URL applies the cover immediately; your other edits are still saved with Save Changes."
+msgstr "Nur öffentliche HTTPS-Bildlinks. „URL übernehmen“ setzt das Cover sofort; deine anderen Änderungen werden weiterhin erst beim Speichern übernommen."
+
+#: app/templates/item_edit.html:218
+msgid "Series membership, position and page count."
+msgstr "Reihe, Position und Seitenzahl."
+
+#: app/templates/item_edit.html:222
+msgid "Series #"
+msgstr "Reihen-Nr."
+
+#: app/templates/item_edit.html:230
+msgid "Identifiers printed on this edition."
+msgstr "Kennungen, die auf dieser Ausgabe stehen."
+
+#: app/templates/item_edit.html:233
+msgid "ISBN"
+msgstr "ISBN"
+
+#: app/templates/item_edit.html:237
+msgid "The stored ISBN fails its check digit. It is kept as-is unless you change it here — correcting or clearing it is checked as usual."
+msgstr "Die gespeicherte ISBN hat eine falsche Prüfziffer. Sie bleibt so, bis du sie hier änderst – Korrekturen werden wie üblich geprüft."
+
+#: app/templates/item_edit.html:242 app/templates/item_edit.html:249
+msgid "Scan ISBN"
+msgstr "ISBN scannen"
+
+#: app/templates/item_edit.html:250 app/templates/item_edit.html:283
+msgid "Close scanner"
+msgstr "Scanner schließen"
+
+#: app/templates/item_edit.html:266
+msgid "UPC / EAN"
+msgstr "UPC / EAN"
+
+#: app/templates/item_edit.html:266
+msgid "UPC-A or EAN-13"
+msgstr "UPC-A oder EAN-13"
+
+#: app/templates/item_edit.html:270
+msgid "The stored UPC / EAN fails its check digit. It is kept as-is unless you change it here — correcting or clearing it is checked as usual."
+msgstr "Die gespeicherte UPC / EAN hat eine falsche Prüfziffer. Sie bleibt so, bis du sie hier änderst – Korrekturen werden wie üblich geprüft."
+
+#: app/templates/item_edit.html:275 app/templates/item_edit.html:282
+msgid "Scan UPC / EAN"
+msgstr "UPC / EAN scannen"
+
+#: app/templates/item_edit.html:302
+msgid "Ownership, physical location and collection value."
+msgstr "Besitz, Standort und Wert."
+
+#: app/templates/item_edit.html:323
+msgid "I own this item"
+msgstr "Ich besitze diesen Eintrag"
+
+#: app/templates/item_edit.html:334
+msgid "On my wishlist"
+msgstr "Auf meiner Wunschliste"
+
+#: app/templates/item_edit.html:336
+msgid "Uncheck both for a book you read but don't own — reading history stays."
+msgstr "Beides abwählen für ein Buch, das du gelesen hast, aber nicht besitzt – der Leseverlauf bleibt erhalten."
+
+#: app/templates/item_edit.html:341
+#, python-format
+msgid "Value (%(symbol)s)"
+msgstr "Wert (%(symbol)s)"
+
+#: app/templates/item_edit.html:344
+msgid "Overrides the ISBNdb estimate everywhere it's shown"
+msgstr "Ersetzt überall die Schätzung von ISBNdb"
+
+#: app/templates/item_edit.html:344
+#, python-format
+msgid "ISBNdb estimate: %(value)s"
+msgstr "Schätzung von ISBNdb: %(value)s"
+
+#: app/templates/item_edit.html:351
+msgid "Fields specific to the selected media type."
+msgstr "Felder für den gewählten Medientyp."
+
+#: app/templates/item_edit.html:366
+msgid "Narrator"
+msgstr "Sprecher"
+
+#: app/templates/item_edit.html:367
+msgid "Duration (min)"
+msgstr "Dauer (Min.)"
+
+#: app/templates/fragments/account_menu.html:132
+#: app/templates/fragments/item_copy_edit.html:99
+#: app/templates/item_edit.html:374
+msgid "Save"
+msgstr "Speichern"
+
+#: app/templates/fragments/item_copy_edit.html:103
+#: app/templates/item_edit.html:377
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: app/templates/item_edit.html:391
+msgid "Tags save as you add or remove them."
+msgstr "Schlagwörter werden sofort gespeichert."
+
+#: app/templates/login.html:6 app/templates/login.html:37
+msgid "Sign In"
+msgstr "Anmelden"
+
+#: app/templates/login.html:13
+msgid "Sign in to your library"
+msgstr "Bei deiner Bibliothek anmelden"
+
+#: app/templates/fragments/account_menu.html:100 app/templates/login.html:24
+#: app/templates/setup.html:27
+msgid "Username"
+msgstr "Benutzername"
+
+#: app/templates/fragments/account_menu.html:91 app/templates/login.html:30
+#: app/templates/setup.html:40
+msgid "Password"
+msgstr "Passwort"
+
+#: app/templates/scan.html:40
+msgid "Stop Camera"
+msgstr "Kamera stoppen"
+
+#: app/templates/scan.html:40
+msgid "Scan with Camera"
+msgstr "Mit Kamera scannen"
+
+#: app/templates/scan.html:67
+msgid "Looking up barcode..."
+msgstr "Barcode wird gesucht …"
+
+#: app/templates/scan.html:85
+msgid "Scan Next"
+msgstr "Nächsten scannen"
+
+#: app/templates/scan.html:89
+msgid "Point your camera at a barcode"
+msgstr "Halte die Kamera auf einen Barcode"
+
+#: app/templates/scan.html:120
+msgid "Auto &mdash; detect from the barcode"
+msgstr "Automatisch (per Barcode)"
+
+#: app/templates/scan.html:130
+msgid "Target Location"
+msgstr "Zielort"
+
+#: app/templates/scan.html:130
+msgid "Auditing Location"
+msgstr "Ort der Inventur"
+
+#: app/templates/scan.html:152
+msgid "Any / Unknown"
+msgstr "Beliebig / unbekannt"
+
+#: app/templates/scan.html:161
+msgid "Borrower"
+msgstr "Ausleihende Person"
+
+#: app/templates/scan.html:164
+msgid "Select borrower..."
+msgstr "Person auswählen …"
+
+#: app/templates/scan.html:170
+msgid "No borrowers yet. Add them in <a href=\"/settings\" class=\"text-shelf-accent2 underline\">Settings</a>."
+msgstr "Noch keine Personen. Lege sie in den <a href=\"/settings\" class=\"text-shelf-accent2 underline\">Einstellungen</a> an."
+
+#: app/templates/scan.html:177
+msgid "Barcode"
+msgstr "Barcode"
+
+#: app/templates/scan.html:177
+msgid "ISBN / UPC"
+msgstr "ISBN / EAN"
+
+#: app/templates/scan.html:179
+msgid "Scan barcode..."
+msgstr "Barcode scannen …"
+
+#: app/templates/scan.html:179
+msgid "Scan any barcode..."
+msgstr "Barcode scannen …"
+
+#: app/templates/scan.html:179
+msgid "Scan UPC barcode..."
+msgstr "EAN-Barcode scannen …"
+
+#: app/templates/scan.html:179
+msgid "Scan or type ISBN..."
+msgstr "ISBN scannen oder eintippen …"
+
+#: app/templates/scan.html:190
+msgid "Default tags"
+msgstr "Standard-Schlagwörter"
+
+#: app/templates/scan.html:194
+msgid "e.g. Cookbook; Signed"
+msgstr "z. B. Kochbuch; Signiert"
+
+#: app/templates/scan.html:197
+msgid "Added to every new item. Separate several with <code>;</code>."
+msgstr "Wird jedem neuen Eintrag hinzugefügt. Mehrere mit <code>;</code> trennen."
+
+#: app/templates/scan.html:206
+msgid "Default status"
+msgstr "Standard-Status"
+
+#: app/templates/scan.html:216
+msgid "Set on every new item. No dates are recorded."
+msgstr "Wird bei jedem neuen Eintrag gesetzt, ohne Datum."
+
+#: app/templates/scan.html:220
+msgid "Select a borrower before scanning."
+msgstr "Wähle vor dem Scannen eine Person aus."
+
+#: app/templates/scan.html:221
+msgid "Select a target location before scanning."
+msgstr "Wähle vor dem Scannen einen Zielort aus."
+
+#: app/templates/scan.html:222
+msgid "Select the location you are auditing before scanning."
+msgstr "Wähle vor dem Scannen den Ort der Inventur aus."
+
+#: app/templates/scan.html:229
+msgid "Search by Title"
+msgstr "Nach Titel suchen"
+
+#: app/templates/scan.html:230
+msgid "For cartridges or games without a barcode — search IGDB by name and platform."
+msgstr "Für Module oder Spiele ohne Barcode – suche bei IGDB nach Name und Plattform."
+
+#: app/templates/scan.html:231
+msgid "Search TMDb for movies by title."
+msgstr "Filme bei TMDb nach Titel suchen."
+
+#: app/templates/scan.html:232
+msgid "Search BoardGameGeek for board games by title."
+msgstr "Brettspiele bei BoardGameGeek nach Titel suchen."
+
+#: app/templates/scan.html:235
+msgid "Search Open Library for books by title, author, or keyword."
+msgstr "Bücher bei Open Library nach Titel, Autor oder Stichwort suchen."
+
+#: app/templates/scan.html:236
+msgid "Title search has no barcode to detect from, so it searches books. Pick a media type above to search TMDb or IGDB instead."
+msgstr "Ohne Barcode lässt sich der Typ nicht erkennen, daher werden Bücher gesucht. Wähle oben einen Medientyp, um stattdessen andere Quellen zu durchsuchen."
+
+#: app/templates/scan.html:239
+msgid "Title or author..."
+msgstr "Titel oder Autor …"
+
+#: app/templates/scan.html:239
+msgid "Game title..."
+msgstr "Spieltitel …"
+
+#: app/templates/scan.html:239
+msgid "Movie title..."
+msgstr "Filmtitel …"
+
+#: app/templates/scan.html:239
+msgid "Book title or author..."
+msgstr "Buchtitel oder Autor …"
+
+#: app/templates/scan.html:259
+msgid "Hide manual entry"
+msgstr "Eingabe von Hand ausblenden"
+
+#: app/templates/scan.html:266
+msgid "Add by Hand"
+msgstr "Von Hand hinzufügen"
+
+#: app/templates/scan.html:267
+msgid "No lookup involved — a title is all you need. Everything else is optional and editable afterwards."
+msgstr "Ohne Suche – ein Titel reicht. Alles andere ist freiwillig und lässt sich später ändern."
+
+#: app/templates/scan.html:283
+msgid "Recently Added"
+msgstr "Zuletzt hinzugefügt"
+
+#: app/templates/scan.html:284
+msgid "Added to Wishlist"
+msgstr "Auf die Wunschliste gesetzt"
+
+#: app/templates/scan.html:285
+msgid "Checked Out"
+msgstr "Verliehen"
+
+#: app/templates/scan.html:286
+msgid "Returned"
+msgstr "Zurückgegeben"
+
+#: app/templates/scan.html:287
+msgid "Moved"
+msgstr "Verschoben"
+
+#: app/templates/scan.html:288
+msgid "Scanned Items"
+msgstr "Gescannte Einträge"
+
+#: app/templates/scan.html:289
+msgid "Lookup Results"
+msgstr "Suchergebnisse"
+
+#: app/templates/scan.html:290
+msgid "Marked as finished"
+msgstr "Als fertig markiert"
+
+#: app/templates/scan.html:290
+msgid "Results"
+msgstr "Ergebnisse"
+
+#: app/templates/setup.html:6
+msgid "Welcome"
+msgstr "Willkommen"
+
+#: app/templates/setup.html:15
+msgid "Welcome to Shelf"
+msgstr "Willkommen bei Shelf"
+
+#: app/templates/setup.html:16
+msgid "Create your admin account to get started."
+msgstr "Lege zuerst dein Admin-Konto an."
+
+#: app/templates/fragments/account_menu.html:105 app/templates/setup.html:33
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#: app/templates/setup.html:33
+msgid "(optional)"
+msgstr "(freiwillig)"
+
+#: app/templates/setup.html:35
+msgid "How your name appears in the app"
+msgstr "So erscheint dein Name in der App"
+
+#: app/templates/fragments/account_menu.html:146 app/templates/setup.html:44
+msgid "Must be at least 8 characters"
+msgstr "Mindestens 8 Zeichen"
+
+#: app/templates/setup.html:48
+msgid "Confirm Password"
+msgstr "Passwort bestätigen"
+
+#: app/templates/setup.html:60
+msgid "How much of Shelf do you want to start with?"
+msgstr "Mit welchem Umfang möchtest du Shelf starten?"
+
+#: app/templates/setup.html:70
+#, python-format
+msgid "Adds: %(features)s"
+msgstr "Dazu: %(features)s"
+
+#: app/templates/setup.html:75
+msgid "You can change this any time in Settings → Features."
+msgstr "Das kannst du jederzeit unter Einstellungen → Funktionen ändern."
+
+#: app/templates/setup.html:81
+msgid "Create Account"
+msgstr "Konto anlegen"
+
+#: app/templates/setup.html:85
+msgid "This will be the admin account with full access to your library."
+msgstr "Das wird das Admin-Konto mit vollem Zugriff auf deine Bibliothek."
+
+#: app/templates/fragments/account_menu.html:3
+msgid "Account menu"
+msgstr "Kontomenü"
+
+#: app/templates/fragments/account_menu.html:27
+#: app/templates/fragments/account_menu.html:79
+msgid "Account"
+msgstr "Konto"
+
+#: app/templates/fragments/account_menu.html:28
+msgid "Profile and password"
+msgstr "Profil und Passwort"
+
+#: app/templates/fragments/account_menu.html:65
+msgid "Sign out"
+msgstr "Abmelden"
+
+#: app/templates/fragments/account_menu.html:80
+msgid "Manage your profile and sign-in details"
+msgstr "Profil und Anmeldedaten verwalten"
+
+#: app/templates/fragments/account_menu.html:82
+msgid "Close account dialog"
+msgstr "Kontodialog schließen"
+
+#: app/templates/fragments/account_menu.html:89
+msgid "Profile"
+msgstr "Profil"
+
+#: app/templates/fragments/account_menu.html:94
+msgid "API tokens"
+msgstr "API-Tokens"
+
+#: app/templates/fragments/account_menu.html:110
+msgid "Role"
+msgstr "Rolle"
+
+#: app/templates/fragments/account_menu.html:120
+msgid "Automatic (browser language)"
+msgstr "Automatisch (Browsersprache)"
+
+#: app/templates/fragments/account_menu.html:138
+msgid "Current Password"
+msgstr "Aktuelles Passwort"
+
+#: app/templates/fragments/account_menu.html:143
+msgid "New Password"
+msgstr "Neues Passwort"
+
+#: app/templates/fragments/account_menu.html:149
+msgid "Confirm New Password"
+msgstr "Neues Passwort bestätigen"
+
+#: app/templates/fragments/account_menu.html:160
+msgid "Change Password"
+msgstr "Passwort ändern"
+
+#: app/templates/fragments/account_menu.html:166
+msgid "Read-only tokens for dashboards and scripts. A token reads <code>/api/v1</code> only, and never more than a viewer can see."
+msgstr "Nur-Lese-Tokens für Dashboards und Skripte. Ein Token liest nur <code>/api/v1</code> und nie mehr, als ein Betrachter sehen darf."
+
+#: app/templates/fragments/account_menu.html:168
+msgid "Token name, e.g. homepage"
+msgstr "Name des Tokens, z. B. homepage"
+
+#: app/templates/fragments/account_menu.html:172
+msgid "Create"
+msgstr "Anlegen"
+
+#: app/templates/fragments/account_menu.html:180
+msgid "This is the only time the token is shown."
+msgstr "Das Token wird nur dieses eine Mal angezeigt."
+
+#: app/templates/fragments/account_menu.html:186
+msgid "Copy"
+msgstr "Kopieren"
+
+#: app/templates/fragments/account_menu.html:190
+msgid "No tokens yet."
+msgstr "Noch keine Tokens."
+
+#: app/templates/fragments/account_menu.html:198
+msgid "created"
+msgstr "angelegt"
+
+#: app/templates/fragments/account_menu.html:199
+msgid "last used"
+msgstr "zuletzt benutzt"
+
+#: app/templates/fragments/account_menu.html:204
+msgid "Revoke"
+msgstr "Widerrufen"
+
+#: app/templates/fragments/board_game_search_results.html:12
+msgid "Choose the matching game below"
+msgstr "Wähle unten das passende Spiel"
+
+#: app/templates/fragments/board_game_search_results.html:13
+#, python-format
+msgid "Which game is barcode %(upc)s?"
+msgstr "Welches Spiel hat den Barcode %(upc)s?"
+
+#: app/templates/fragments/board_game_search_results.html:27
+msgid "players"
+msgstr "Spieler"
+
+#: app/templates/fragments/board_game_search_results.html:29
+msgid "Expansion"
+msgstr "Erweiterung"
+
+#: app/templates/fragments/board_game_search_results.html:48
+#: app/templates/fragments/book_search_results.html:31
+#: app/templates/fragments/dvd_search_results.html:29
+#: app/templates/fragments/game_search_results.html:31
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: app/templates/fragments/board_game_search_results.html:53
+msgid "Powered by"
+msgstr "Daten von"
+
+#: app/templates/fragments/board_game_search_results.html:58
+msgid "No board games found. Try a different title."
+msgstr "Keine Brettspiele gefunden. Versuch einen anderen Titel."
+
+#: app/templates/fragments/board_game_search_results.html:63
+#: app/templates/fragments/book_search_results.html:48
+#: app/templates/fragments/dvd_search_results.html:43
+#: app/templates/fragments/game_search_results.html:45
+#: app/templates/fragments/scan_result.html:105
+#: app/templates/fragments/scan_result.html:251
+msgid "Add it by hand"
+msgstr "Von Hand hinzufügen"
+
+#: app/templates/fragments/book_search_results.html:43
+#, python-format
+msgid "No books found for \"%(query)s\". Try a different search."
+msgstr "Keine Bücher für „%(query)s“ gefunden. Versuch eine andere Suche."
+
+#: app/templates/fragments/cover_review_item.html:18
+msgid "That's the end of this pass"
+msgstr "Dieser Durchgang ist fertig"
+
+#: app/templates/fragments/cover_review_item.html:20
+#, python-format
+msgid "%(num)s item you skipped is still waiting for a cover."
+msgid_plural "%(num)s items you skipped are still waiting for a cover."
+msgstr[0] "%(num)s Eintrag, den du übersprungen hast, wartet noch auf ein Cover."
+msgstr[1] "%(num)s Einträge, die du übersprungen hast, warten noch auf ein Cover."
+
+#: app/templates/fragments/cover_review_item.html:27
+msgid "Start another pass"
+msgstr "Neuen Durchgang starten"
+
+#: app/templates/fragments/cover_review_item.html:31
+#: app/templates/fragments/cover_review_item.html:44
+msgid "Back to Settings"
+msgstr "Zurück zu den Einstellungen"
+
+#: app/templates/fragments/cover_review_item.html:38
+msgid "No covers need attention"
+msgstr "Alle Cover sind in Ordnung"
+
+#: app/templates/fragments/cover_review_item.html:40
+msgid "Every item either has a cover or has been marked as not available."
+msgstr "Jeder Eintrag hat ein Cover oder ist als „nicht verfügbar“ markiert."
+
+#: app/templates/fragments/cover_review_item.html:60
+#, python-format
+msgid "%(pos)s of %(total)s"
+msgstr "%(pos)s von %(total)s"
+
+#: app/templates/fragments/cover_review_item.html:68
+msgid "No cover"
+msgstr "Kein Cover"
+
+#: app/templates/fragments/cover_review_item.html:100
+#: app/templates/fragments/manual_add_form.html:188
+msgid "Skip"
+msgstr "Überspringen"
+
+#: app/templates/fragments/cover_review_item.html:107
+msgid "Not available"
+msgstr "Nicht verfügbar"
+
+#: app/templates/fragments/cover_search.html:15
+msgid "Search covers…"
+msgstr "Cover suchen …"
+
+#: app/templates/fragments/cover_search.html:29
+msgid "Select a cover:"
+msgstr "Cover auswählen:"
+
+#: app/templates/fragments/cover_search.html:42
+msgid "Current: English cover from another edition"
+msgstr "Aktuell: englisches Cover einer anderen Ausgabe"
+
+#: app/templates/fragments/cover_search.html:42
+msgid "Current"
+msgstr "Aktuell"
+
+#: app/templates/fragments/cover_search.html:50
+msgid "Cover candidate"
+msgstr "Cover-Vorschlag"
+
+#: app/templates/fragments/cover_search.html:53
+msgid "Failed"
+msgstr "Fehlgeschlagen"
+
+#: app/templates/fragments/cover_search.html:76
+msgid "No covers found for this title."
+msgstr "Keine Cover zu diesem Titel gefunden."
+
+#: app/templates/fragments/cover_search.html:83
+msgid "Use image from URL"
+msgstr "Bild von URL verwenden"
+
+#: app/templates/fragments/cover_search.html:93
+msgid "Use image"
+msgstr "Bild verwenden"
+
+#: app/templates/fragments/cover_search.html:96
+msgid "Public HTTPS image links only. Shelf saves its own local copy."
+msgstr "Nur öffentliche HTTPS-Bildlinks. Shelf speichert eine eigene Kopie."
+
+#: app/templates/fragments/cover_search.html:101
+msgid "Upload from this device"
+msgstr "Von diesem Gerät hochladen"
+
+#: app/templates/fragments/cover_search.html:121
+msgid "Upload"
+msgstr "Hochladen"
+
+#: app/templates/fragments/cover_search.html:129
+msgid "Remove cover"
+msgstr "Cover entfernen"
+
+#: app/templates/fragments/dvd_search_results.html:38
+#, python-format
+msgid "No movies found for \"%(query)s\". Try a different search."
+msgstr "Keine Filme für „%(query)s“ gefunden. Versuch eine andere Suche."
+
+#: app/templates/fragments/game_search_results.html:40
+msgid "No games found. Try a different title or remove the platform filter."
+msgstr "Keine Spiele gefunden. Versuch einen anderen Titel oder entferne den Plattformfilter."
+
+#: app/templates/fragments/hardcover_search_results.html:3
+#, python-format
+msgid "No results for \"%(query)s\""
+msgstr "Keine Ergebnisse für „%(query)s“"
+
+#: app/templates/fragments/hardcover_search_results.html:42
+msgid "Add to Wishlist"
+msgstr "Auf die Wunschliste"
+
+#: app/templates/fragments/hardcover_search_results.html:43
+msgid "Adding..."
+msgstr "Wird hinzugefügt …"
+
+#: app/templates/fragments/hardcover_search_results.html:45
+#: app/templates/fragments/hardcover_search_results.html:50
+msgid "In your library"
+msgstr "In deiner Bibliothek"
+
+#: app/templates/fragments/hardcover_search_results.html:52
+msgid "Not in your library"
+msgstr "Nicht in deiner Bibliothek"
+
+#: app/templates/fragments/item_card.html:12
+#: app/templates/fragments/item_row.html:57
+#: app/templates/fragments/item_row.html:74
+#, python-format
+msgid "Loaned to %(name)s"
+msgstr "Verliehen an %(name)s"
+
+#: app/templates/fragments/item_card.html:13
+#: app/templates/fragments/item_row.html:58
+msgid "Overdue"
+msgstr "Überfällig"
+
+#: app/templates/fragments/item_card.html:13
+#: app/templates/fragments/item_row.html:58
+msgid "Loaned"
+msgstr "Verliehen"
+
+#: app/templates/fragments/item_card.html:13
+#: app/templates/fragments/item_row.html:58
+#, python-format
+msgid "To: %(name)s"
+msgstr "An: %(name)s"
+
+#: app/templates/fragments/item_card.html:22
+#: app/templates/fragments/item_copy_edit.html:52
+#: app/templates/fragments/item_row.html:62
+msgid "New"
+msgstr "Neu"
+
+#: app/templates/fragments/item_card.html:53
+msgid "Open in RomM"
+msgstr "In RomM öffnen"
+
+#: app/templates/fragments/item_copies.html:74
+#, python-format
+msgid "missing since %(date)s"
+msgstr "fehlt seit %(date)s"
+
+#: app/templates/fragments/item_copies.html:74
+msgid "Found"
+msgstr "Gefunden"
+
+#: app/templates/fragments/item_copies.html:84
+#: app/templates/fragments/item_copies.html:87
+msgid "Location:"
+msgstr "Ort:"
+
+#: app/templates/fragments/item_copies.html:87
+#: app/templates/fragments/item_copies.html:95
+#, python-format
+msgid "position %(n)s"
+msgstr "Position %(n)s"
+
+#: app/templates/fragments/item_copies.html:92
+msgid "Copies"
+msgstr "Exemplare"
+
+#: app/templates/fragments/item_copies.html:100
+msgid "Print labels for this item"
+msgstr "Etiketten für diesen Eintrag drucken"
+
+#: app/templates/fragments/item_copies.html:106
+msgid "Location for the new copy"
+msgstr "Ort für das neue Exemplar"
+
+#: app/templates/fragments/item_copies.html:114
+msgid "+ Add copy"
+msgstr "+ Exemplar hinzufügen"
+
+#: app/templates/fragments/item_copy_edit.html:31
+#, python-format
+msgid "Copy #%(n)s"
+msgstr "Exemplar Nr. %(n)s"
+
+#: app/templates/fragments/item_copy_edit.html:31
+msgid "primary"
+msgstr "Haupt-Exemplar"
+
+#: app/templates/fragments/item_copy_edit.html:47
+msgid "Condition"
+msgstr "Zustand"
+
+#: app/templates/fragments/item_copy_edit.html:53
+msgid "Fine"
+msgstr "Sehr gut"
+
+#: app/templates/fragments/item_copy_edit.html:54
+msgid "Good"
+msgstr "Gut"
+
+#: app/templates/fragments/item_copy_edit.html:55
+msgid "Fair"
+msgstr "Ordentlich"
+
+#: app/templates/fragments/item_copy_edit.html:56
+msgid "Poor"
+msgstr "Schlecht"
+
+#: app/templates/fragments/item_copy_edit.html:57
+msgid "Ex-library"
+msgstr "Aus Bibliotheksbestand"
+
+#: app/templates/fragments/item_copy_edit.html:61
+msgid "Acquired"
+msgstr "Erworben"
+
+#: app/templates/fragments/item_copy_edit.html:73
+#, python-format
+msgid "Price (%(symbol)s)"
+msgstr "Preis (%(symbol)s)"
+
+#: app/templates/fragments/item_copy_edit.html:79
+msgid "Copy barcode"
+msgstr "Exemplar-Barcode"
+
+#: app/templates/fragments/item_copy_edit.html:87
+msgid "Assign code"
+msgstr "Code vergeben"
+
+#: app/templates/fragments/item_copy_edit.html:89
+msgid "Scanned by Shelf Fill and every Scan mode to act on this exact copy."
+msgstr "Wird von „Regal füllen“ und allen Scan-Modi gelesen, um genau dieses Exemplar zu treffen."
+
+#: app/templates/fragments/item_copy_edit.html:92
+msgid "Provenance"
+msgstr "Herkunft"
+
+#: app/templates/fragments/item_copy_edit.html:108
+msgid "Remove copy"
+msgstr "Exemplar entfernen"
+
+#: app/templates/fragments/item_grid.html:59
+msgid "No items match your filters"
+msgstr "Keine Einträge passen zu deinen Filtern"
+
+#: app/templates/fragments/item_grid.html:63
+msgid "No items found"
+msgstr "Keine Einträge gefunden"
+
+#: app/templates/fragments/item_grid.html:64
+msgid "Start scanning books"
+msgstr "Bücher scannen"
+
+#: app/templates/fragments/item_tags.html:19
+msgid "+ tag"
+msgstr "+ Schlagwort"
+
+#: app/templates/fragments/manual_add_form.html:51
+msgid "ISBN or barcode (optional)"
+msgstr "ISBN oder Barcode (freiwillig)"
+
+#: app/templates/fragments/manual_add_form.html:58
+msgid "Add this item manually:"
+msgstr "Diesen Eintrag von Hand anlegen:"
+
+#: app/templates/fragments/manual_add_form.html:65
+msgid "Copy from an existing item (optional)"
+msgstr "Von vorhandenem Eintrag übernehmen (freiwillig)"
+
+#: app/templates/fragments/manual_add_form.html:78
+msgid "Copied fields from"
+msgstr "Felder übernommen von"
+
+#: app/templates/fragments/manual_add_form.html:78
+msgid "— edit anything below before adding."
+msgstr "– unten kannst du vor dem Hinzufügen alles ändern."
+
+#: app/templates/fragments/manual_add_form.html:84
+msgid "Title *"
+msgstr "Titel *"
+
+#: app/templates/fragments/manual_add_form.html:117
+msgid "Platform (optional)"
+msgstr "Plattform (freiwillig)"
+
+#: app/templates/fragments/manual_add_form.html:147
+msgid "Other"
+msgstr "Sonstiges"
+
+#: app/templates/fragments/manual_add_form.html:168
+msgid "Language (unknown)"
+msgstr "Sprache (unbekannt)"
+
+#: app/templates/fragments/manual_add_form.html:175
+msgid "Cover image (optional)"
+msgstr "Cover-Bild (freiwillig)"
+
+#: app/templates/fragments/manual_add_form.html:181
+msgid "Add to Collection"
+msgstr "Zur Sammlung hinzufügen"
+
+#: app/templates/fragments/reading_status.html:22
+msgid "Clear status"
+msgstr "Status entfernen"
+
+#: app/templates/fragments/reading_status.html:29
+#, python-format
+msgid "Started: %(date)s"
+msgstr "Begonnen: %(date)s"
+
+#: app/templates/fragments/reading_status.html:31
+#, python-format
+msgid "Finished: %(date)s"
+msgstr "Beendet: %(date)s"
+
+#: app/templates/fragments/reading_status.html:36
+#, python-format
+msgid "%(status)s %(count)s times"
+msgstr "%(count)s-mal %(status)s"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "added"
+msgstr "hinzugefügt"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:305
+msgid "wishlisted"
+msgstr "auf Wunschliste"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "duplicate"
+msgstr "doppelt"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "promoted"
+msgstr "jetzt im Besitz"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:304
+msgid "restored"
+msgstr "wiederhergestellt"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "checked_out"
+msgstr "verliehen"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:308
+msgid "returned"
+msgstr "zurückgegeben"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:309
+msgid "moved"
+msgstr "verschoben"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:310
+msgid "confirmed"
+msgstr "bestätigt"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:311
+msgid "relocated"
+msgstr "umgezogen"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:313
+msgid "found"
+msgstr "gefunden"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:312
+msgid "elsewhere"
+msgstr "woanders"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "marked_read"
+msgstr "als fertig markiert"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "not_found"
+msgstr "nicht gefunden"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "not_owned"
+msgstr "nicht im Besitz"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "already_checked_out"
+msgstr "schon verliehen"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "not_checked_out"
+msgstr "nicht verliehen"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "in_trash"
+msgstr "im Papierkorb"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "error"
+msgstr "Fehler"
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "periodical_confirm"
+msgstr "Heft bestätigen"
+
+#: app/templates/fragments/recent_scans.html:32
+msgid "No recent activity for this mode."
+msgstr "In diesem Modus wurde noch nichts gescannt."
+
+#: app/templates/fragments/related_media_panel.html:4
+msgid "Related media"
+msgstr "Verknüpfte Medien"
+
+#: app/templates/fragments/related_media_panel.html:5
+msgid "Shelf links an audiobook or ebook to its print copy when the title and first author match. Connect related works, adaptations or other formats here."
+msgstr "Shelf verknüpft Hörbuch oder E-Book mit der gedruckten Ausgabe, wenn Titel und erster Autor übereinstimmen. Hier kannst du verwandte Werke, Verfilmungen oder andere Formate verknüpfen."
+
+#: app/templates/fragments/related_media_panel.html:18
+msgid "via related group"
+msgstr "über verknüpfte Gruppe"
+
+#: app/templates/fragments/related_media_panel.html:25
+msgid "Unlink"
+msgstr "Verknüpfung lösen"
+
+#: app/templates/fragments/related_media_panel.html:31
+msgid "No related media linked yet."
+msgstr "Noch keine verknüpften Medien."
+
+#: app/templates/fragments/related_media_panel.html:36
+msgid "Link another catalogue item"
+msgstr "Anderen Eintrag verknüpfen"
+
+#: app/templates/fragments/related_media_panel.html:38
+msgid "Search title, creator or series…"
+msgstr "Titel, Urheber oder Reihe suchen …"
+
+#: app/templates/fragments/related_media_search.html:2
+#, python-format
+msgid "No unlinked catalogue items matched “%(query)s”."
+msgstr "Keine passenden unverknüpften Einträge für „%(query)s“."
+
+#: app/templates/fragments/related_media_search.html:15
+msgid "Format"
+msgstr "Format"
+
+#: app/templates/fragments/related_media_search.html:16
+msgid "Related"
+msgstr "Verwandt"
+
+#: app/templates/fragments/related_media_search.html:17
+msgid "Adaptation"
+msgstr "Verfilmung / Adaption"
+
+#: app/templates/fragments/related_media_search.html:19
+msgid "Link"
+msgstr "Verknüpfen"
+
+#: app/templates/fragments/scan_result.html:122
+msgid "(cover found on Amazon)"
+msgstr "(Cover bei Amazon gefunden)"
+
+#: app/templates/fragments/scan_result.html:146
+#, python-format
+msgid "%(provider)s rejected the configured key &mdash; this may not be a genuine miss. Check it in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations, or add it below."
+msgstr "%(provider)s hat den hinterlegten Schlüssel abgelehnt &mdash; der Eintrag fehlt vielleicht gar nicht. Prüfe ihn unter <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Einstellungen</a> &rarr; Dienste oder trage den Eintrag unten ein."
+
+#: app/templates/fragments/scan_result.html:148
+msgid "A metadata source is rate-limiting us right now &mdash; this may not be a genuine miss. Try again later, or add it below."
+msgstr "Eine Datenquelle bremst gerade die Anfragen &mdash; der Eintrag fehlt vielleicht gar nicht. Versuch es später noch einmal oder trage ihn unten ein."
+
+#: app/templates/fragments/scan_result.html:152
+#: app/templates/fragments/scan_result.html:314
+msgid "not found"
+msgstr "nicht gefunden"
+
+#: app/templates/fragments/scan_result.html:191
+msgid "Restored from Trash"
+msgstr "Aus dem Papierkorb wiederhergestellt"
+
+#: app/templates/fragments/scan_result.html:198
+msgid "Open Trash"
+msgstr "Papierkorb öffnen"
+
+#: app/templates/fragments/scan_result.html:200
+#, python-format
+msgid "In Trash since %(date)s &mdash; restore it to lend, move or rate it"
+msgstr "Seit %(date)s im Papierkorb &mdash; zum Verleihen, Verschieben oder Bewerten erst wiederherstellen"
+
+#: app/templates/fragments/scan_result.html:211
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: app/templates/fragments/scan_result.html:215
+#, python-format
+msgid "%(type)s via %(source)s"
+msgstr "%(type)s über %(source)s"
+
+#: app/templates/fragments/scan_result.html:217
+#, python-format
+msgid "Added to wishlist &middot; %(type)s via %(source)s"
+msgstr "Auf die Wunschliste gesetzt &middot; %(type)s über %(source)s"
+
+#: app/templates/fragments/scan_result.html:219
+msgid "Now owned &mdash; was on your wishlist"
+msgstr "Jetzt im Besitz &mdash; stand auf deiner Wunschliste"
+
+#: app/templates/fragments/scan_result.html:221
+msgid "Already in collection"
+msgstr "Schon in der Sammlung"
+
+#: app/templates/fragments/scan_result.html:274
+#, python-format
+msgid "Added with title only. Add an %(provider)s API key in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations for descriptions and cover art."
+msgstr "Nur mit Titel hinzugefügt. Hinterlege den API-Schlüssel für %(provider)s unter <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Einstellungen</a> &rarr; Dienste, um Beschreibungen und Cover zu bekommen."
+
+#: app/templates/fragments/scan_result.html:274
+#, python-format
+msgid "Added with title only. Add a %(provider)s API key in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations for descriptions and cover art."
+msgstr "Nur mit Titel hinzugefügt. Hinterlege den API-Schlüssel für %(provider)s unter <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Einstellungen</a> &rarr; Dienste, um Beschreibungen und Cover zu bekommen."
+
+#: app/templates/fragments/scan_result.html:276
+#, python-format
+msgid "Added with title only &mdash; %(provider)s rejected the configured key."
+msgstr "Nur mit Titel hinzugefügt &mdash; %(provider)s hat den hinterlegten Schlüssel abgelehnt."
+
+#: app/templates/fragments/scan_result.html:278
+msgid "Added with title only &mdash; a metadata provider is rate-limiting us right now. Re-scan later to fill it in."
+msgstr "Nur mit Titel hinzugefügt &mdash; eine Datenquelle bremst gerade die Anfragen. Scanne später noch einmal, um den Rest zu ergänzen."
+
+#: app/templates/fragments/scan_result.html:280
+#, python-format
+msgid "Added with title only &mdash; could not reach %(provider)s. Check connectivity and re-scan later to fill it in."
+msgstr "Nur mit Titel hinzugefügt &mdash; %(provider)s war nicht erreichbar. Prüfe die Verbindung und scanne später noch einmal."
+
+#: app/templates/fragments/scan_result.html:282
+msgid "Added with title only &mdash; Shelf has no metadata source for this format yet."
+msgstr "Nur mit Titel hinzugefügt &mdash; für dieses Format hat Shelf noch keine Datenquelle."
+
+#: app/templates/fragments/scan_result.html:284
+#, python-format
+msgid "Added with title only &mdash; no %(provider)s match for this barcode."
+msgstr "Nur mit Titel hinzugefügt &mdash; %(provider)s kennt diesen Barcode nicht."
+
+#: app/templates/fragments/scan_result.html:306
+msgid "owned"
+msgstr "im Besitz"
+
+#: app/templates/fragments/scan_result.html:307
+msgid "lent"
+msgstr "verliehen"
+
+#: app/templates/fragments/scan_result.html:316
+msgid "already lent"
+msgstr "schon verliehen"
+
+#: app/templates/fragments/scan_result.html:317
+msgid "not lent"
+msgstr "nicht verliehen"
+
+#: app/templates/fragments/scan_result.html:318
+msgid "in Trash"
+msgstr "im Papierkorb"
+
+#: app/templates/fragments/search_status_notice.html:18
+#, python-format
+msgid "%(provider)s rejected the configured key &mdash; this may not be a genuine miss. Check it in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations."
+msgstr "%(provider)s hat den hinterlegten Schlüssel abgelehnt &mdash; der Eintrag fehlt vielleicht gar nicht. Prüfe ihn unter <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Einstellungen</a> &rarr; Dienste."
+
+#: app/templates/fragments/search_status_notice.html:20
+#, python-format
+msgid "%(provider)s is rate-limiting us right now &mdash; this may not be a genuine miss. Try again later."
+msgstr "%(provider)s bremst gerade die Anfragen &mdash; der Eintrag fehlt vielleicht gar nicht. Versuch es später noch einmal."
+
+#: app/templates/fragments/search_status_notice.html:22
+msgid "LibraryThing unavailable. Try again later."
+msgstr "LibraryThing ist nicht erreichbar. Versuch es später noch einmal."
+
+#: app/templates/fragments/search_status_notice.html:22
+#, python-format
+msgid "Could not reach %(provider)s &mdash; check connectivity and try again."
+msgstr "%(provider)s war nicht erreichbar &mdash; prüfe die Verbindung und versuch es noch einmal."
+

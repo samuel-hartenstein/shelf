@@ -26,6 +26,7 @@ A confirm or relocate that names one copy (a label, or the item's only copy)
 clears that copy's missing mark, audit or not: it is in the user's hand.
 """
 
+from app import i18n
 from app.database import get_db
 from app.routers import items_common
 from app.routers.items_scan_modes import _format_copy_places
@@ -155,7 +156,7 @@ def _scan_mode_inventory(
         items_common._log_scan(raw, "", "not_owned", None, "inventory")
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
-            {"status": "not_owned", "isbn": raw, "message": "Not in collection"},
+            {"status": "not_owned", "isbn": raw, "message": i18n.gettext("Not in collection")},
         )
 
     # G18 — the decision, the write and the audit entry share one connection

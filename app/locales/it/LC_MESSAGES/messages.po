@@ -28,7 +28,7 @@ msgstr "Tipo"
 #: app/templates/fragments/item_copy_edit.html:37
 #: app/templates/fragments/manual_add_form.html:160
 #: app/templates/item_edit.html:81 app/templates/item_edit.html:301
-#: app/templates/item_edit.html:306
+#: app/templates/item_edit.html:306 app/templates/scan.html:130
 msgid "Location"
 msgstr "Posizione"
 
@@ -42,7 +42,7 @@ msgid "Value"
 msgstr "Valore"
 
 #: app/browse_columns.py:68 app/nav.py:41 app/templates/browse.html:49
-#: app/templates/fragments/manual_add_form.html:155
+#: app/templates/fragments/manual_add_form.html:155 app/templates/home.html:89
 #: app/templates/item_edit.html:79 app/templates/item_edit.html:217
 #: app/templates/item_edit.html:221
 msgid "Series"
@@ -73,6 +73,7 @@ msgid "Added"
 msgstr "Aggiunto il"
 
 #: app/browse_columns.py:74 app/templates/item_edit.html:355
+#: app/templates/scan.html:148
 msgid "Platform"
 msgstr "Piattaforma"
 
@@ -189,15 +190,15 @@ msgstr "In gioco"
 msgid "Played"
 msgstr "Giocato"
 
-#: app/config.py:59
+#: app/config.py:59 app/templates/scan.html:212
 msgid "Want to"
 msgstr "Da iniziare"
 
-#: app/config.py:59
+#: app/config.py:59 app/templates/scan.html:213
 msgid "In progress"
 msgstr "In corso"
 
-#: app/config.py:59
+#: app/config.py:59 app/templates/scan.html:214
 msgid "Finished"
 msgstr "Finito"
 
@@ -221,11 +222,11 @@ msgstr "Regista"
 msgid "Artist"
 msgstr "Artista"
 
-#: app/nav.py:34 app/templates/browse.html:2
+#: app/nav.py:34 app/templates/browse.html:2 app/templates/home.html:84
 msgid "Browse"
 msgstr "Sfoglia"
 
-#: app/nav.py:35
+#: app/nav.py:35 app/templates/scan.html:2 app/templates/scan.html:107
 msgid "Scan"
 msgstr "Scansiona"
 
@@ -405,6 +406,32 @@ msgstr "Impossibile aggiungere la copia."
 msgid "Could not save that copy."
 msgstr "Impossibile salvare la copia."
 
+#: app/routers/items.py:387 app/routers/items_scan_modes.py:218
+msgid "Not in your collection"
+msgstr ""
+
+#: app/routers/items.py:477 app/routers/items.py:697
+#: app/routers/items_catalog.py:279
+msgid "Invalid ISBN"
+msgstr "ISBN non valido"
+
+#: app/routers/items.py:568
+msgid "Network error during lookup — check connectivity"
+msgstr ""
+
+#: app/routers/items.py:584 app/routers/items_board_games.py:235
+#: app/routers/items_common.py:558 app/routers/items_common.py:746
+msgid "Not found — add manually below"
+msgstr ""
+
+#: app/routers/items.py:668 app/routers/items_catalog.py:441
+msgid "Title is required"
+msgstr "Il titolo è obbligatorio"
+
+#: app/routers/items.py:708 app/routers/items_catalog.py:449
+msgid "Invalid publish year"
+msgstr "Anno di pubblicazione non valido"
+
 #: app/routers/items.py:996
 msgid "No items or updates specified"
 msgstr "Nessun elemento o modifica specificati"
@@ -421,11 +448,11 @@ msgstr "Nessun campo valido da aggiornare"
 msgid "Series name cannot be empty"
 msgstr "Il nome della serie non può essere vuoto"
 
-#: app/routers/items_board_games.py:98
+#: app/routers/items_board_games.py:99
 msgid "No title for this game"
 msgstr ""
 
-#: app/routers/items_board_games.py:302
+#: app/routers/items_board_games.py:304
 msgid "Failed to fetch game details from BoardGameGeek"
 msgstr ""
 
@@ -441,21 +468,13 @@ msgstr "Impossibile recuperare i dettagli del gioco da IGDB"
 msgid "Unrecognised media type — pick one and try again"
 msgstr "Tipo di media non riconosciuto: scegline uno e riprova"
 
-#: app/routers/items_catalog.py:279
-msgid "Invalid ISBN"
-msgstr "ISBN non valido"
-
 #: app/routers/items_catalog.py:321
 msgid "Could not fetch metadata for this ISBN"
 msgstr "Impossibile recuperare i dati per questo ISBN"
 
-#: app/routers/items_catalog.py:441
-msgid "Title is required"
-msgstr "Il titolo è obbligatorio"
-
-#: app/routers/items_catalog.py:449
-msgid "Invalid publish year"
-msgstr "Anno di pubblicazione non valido"
+#: app/routers/items_common.py:406
+msgid "Metadata lookup failed — check connectivity"
+msgstr ""
 
 #: app/routers/items_covers.py:74
 #: app/templates/fragments/book_search_results.html:35
@@ -466,6 +485,46 @@ msgstr "Nessun ISBN"
 msgid "No cover found"
 msgstr "Nessuna copertina trovata"
 
+#: app/routers/items_scan_modes.py:65 app/routers/items_scan_modes.py:117
+msgid "Lending is turned off on this Shelf."
+msgstr ""
+
+#: app/routers/items_scan_modes.py:70
+msgid "No borrower selected"
+msgstr ""
+
+#: app/routers/items_scan_modes.py:86
+#, python-format
+msgid "Already lent to %(name)s"
+msgstr ""
+
+#: app/routers/items_scan_modes.py:93
+msgid "Borrower not found"
+msgstr ""
+
+#: app/routers/items_scan_modes.py:107
+#, python-format
+msgid "Lent to %(name)s"
+msgstr ""
+
+#: app/routers/items_scan_modes.py:131
+msgid "Not currently checked out"
+msgstr ""
+
+#: app/routers/items_scan_modes.py:144
+#, python-format
+msgid "Returned from %(name)s"
+msgstr ""
+
+#: app/routers/items_scan_modes.py:154
+msgid "No target location selected"
+msgstr ""
+
+#: app/routers/items_scan_modes.py:264
+#, python-format
+msgid "Marked as %(status)s"
+msgstr ""
+
 #: app/routers/related_media.py:85
 msgid "An item cannot be related to itself"
 msgstr "Un elemento non può essere collegato a se stesso"
@@ -473,6 +532,10 @@ msgstr "Un elemento non può essere collegato a se stesso"
 #: app/routers/related_media.py:108
 msgid "Related-media link not found"
 msgstr "Collegamento non trovato"
+
+#: app/routers/scan_inventory.py:159
+msgid "Not in collection"
+msgstr ""
 
 #: app/routers/tags.py:78
 msgid "No items selected"
@@ -763,14 +826,15 @@ msgid "All"
 msgstr "Tutti"
 
 #: app/templates/browse.html:234
-#: app/templates/fragments/filter_counts_oob.html:27
+#: app/templates/fragments/filter_counts_oob.html:27 app/templates/home.html:32
 msgid "Owned"
 msgstr "Posseduti"
 
 #: app/templates/browse.html:235
 #: app/templates/fragments/filter_counts_oob.html:28
 #: app/templates/fragments/item_card.html:7
-#: app/templates/fragments/item_row.html:51 app/templates/item_detail.html:57
+#: app/templates/fragments/item_row.html:51 app/templates/home.html:36
+#: app/templates/home.html:118 app/templates/item_detail.html:57
 msgid "Wishlist"
 msgstr "Lista desideri"
 
@@ -832,6 +896,94 @@ msgstr "Anno (dal meno recente)"
 #: app/templates/browse.html:329
 msgid "Clear all"
 msgstr "Azzera tutto"
+
+#: app/templates/home.html:2 app/templates/home.html:7
+msgid "Home"
+msgstr ""
+
+#: app/templates/home.html:8
+msgid "A quick view of your collection. Use Browse when you want to search, filter or organise it."
+msgstr ""
+
+#: app/templates/home.html:11
+msgid "Browse collection"
+msgstr ""
+
+#: app/templates/home.html:13
+msgid "Scan item"
+msgstr ""
+
+#: app/templates/home.html:14 app/templates/scan.html:259
+msgid "Add by hand"
+msgstr ""
+
+#: app/templates/home.html:17 app/templates/home.html:95
+msgid "Statistics"
+msgstr ""
+
+#: app/templates/home.html:28
+msgid "Catalogue"
+msgstr ""
+
+#: app/templates/home.html:41
+msgid "Lent out"
+msgstr ""
+
+#: app/templates/home.html:46
+msgid "Missing covers"
+msgstr ""
+
+#: app/templates/home.html:50
+msgid "Media types"
+msgstr ""
+
+#: app/templates/home.html:58
+msgid "Collection mix"
+msgstr ""
+
+#: app/templates/home.html:59
+msgid "Browse all"
+msgstr ""
+
+#: app/templates/home.html:76
+msgid "Your collection is empty."
+msgstr ""
+
+#: app/templates/home.html:81
+msgid "Useful places"
+msgstr ""
+
+#: app/templates/home.html:85
+msgid "Search, filter, sort and bulk-edit the full catalogue."
+msgstr ""
+
+#: app/templates/home.html:90
+msgid "See runs, gaps and completeness without crowding Browse."
+msgstr ""
+
+#: app/templates/home.html:96
+msgid "Open the deeper collection dashboard and charts."
+msgstr ""
+
+#: app/templates/home.html:106
+msgid "Recently added"
+msgstr ""
+
+#: app/templates/home.html:107
+msgid "The latest items to enter your catalogue."
+msgstr ""
+
+#: app/templates/home.html:109
+msgid "See more"
+msgstr ""
+
+#: app/templates/home.html:138
+msgid "No items yet."
+msgstr ""
+
+#: app/templates/home.html:138
+msgid "Start scanning"
+msgstr ""
 
 #: app/templates/item_detail.html:24
 msgid "English cover from another edition"
@@ -1207,7 +1359,7 @@ msgid "Subtitle"
 msgstr "Sottotitolo"
 
 #: app/templates/fragments/manual_add_form.html:40
-#: app/templates/item_edit.html:108
+#: app/templates/item_edit.html:108 app/templates/scan.html:113
 msgid "Media Type"
 msgstr "Tipo di media"
 
@@ -1217,6 +1369,7 @@ msgstr "Sconosciuto"
 
 #: app/templates/item_edit.html:142 app/templates/item_edit.html:178
 #: app/templates/item_edit.html:309 app/templates/item_edit.html:358
+#: app/templates/scan.html:134 app/templates/scan.html:211
 msgid "None"
 msgstr "Nessuno"
 
@@ -1388,6 +1541,198 @@ msgstr "Nome utente"
 msgid "Password"
 msgstr "Password"
 
+#: app/templates/scan.html:40
+msgid "Stop Camera"
+msgstr ""
+
+#: app/templates/scan.html:40
+msgid "Scan with Camera"
+msgstr ""
+
+#: app/templates/scan.html:67
+msgid "Looking up barcode..."
+msgstr ""
+
+#: app/templates/scan.html:85
+msgid "Scan Next"
+msgstr ""
+
+#: app/templates/scan.html:89
+msgid "Point your camera at a barcode"
+msgstr ""
+
+#: app/templates/scan.html:120
+msgid "Auto &mdash; detect from the barcode"
+msgstr ""
+
+#: app/templates/scan.html:130
+msgid "Target Location"
+msgstr ""
+
+#: app/templates/scan.html:130
+msgid "Auditing Location"
+msgstr ""
+
+#: app/templates/scan.html:152
+msgid "Any / Unknown"
+msgstr ""
+
+#: app/templates/scan.html:161
+msgid "Borrower"
+msgstr ""
+
+#: app/templates/scan.html:164
+msgid "Select borrower..."
+msgstr ""
+
+#: app/templates/scan.html:170
+msgid "No borrowers yet. Add them in <a href=\"/settings\" class=\"text-shelf-accent2 underline\">Settings</a>."
+msgstr ""
+
+#: app/templates/scan.html:177
+msgid "Barcode"
+msgstr ""
+
+#: app/templates/scan.html:177
+msgid "ISBN / UPC"
+msgstr ""
+
+#: app/templates/scan.html:179
+msgid "Scan barcode..."
+msgstr ""
+
+#: app/templates/scan.html:179
+msgid "Scan any barcode..."
+msgstr ""
+
+#: app/templates/scan.html:179
+msgid "Scan UPC barcode..."
+msgstr ""
+
+#: app/templates/scan.html:179
+msgid "Scan or type ISBN..."
+msgstr ""
+
+#: app/templates/scan.html:190
+msgid "Default tags"
+msgstr ""
+
+#: app/templates/scan.html:194
+msgid "e.g. Cookbook; Signed"
+msgstr ""
+
+#: app/templates/scan.html:197
+msgid "Added to every new item. Separate several with <code>;</code>."
+msgstr ""
+
+#: app/templates/scan.html:206
+msgid "Default status"
+msgstr ""
+
+#: app/templates/scan.html:216
+msgid "Set on every new item. No dates are recorded."
+msgstr ""
+
+#: app/templates/scan.html:220
+msgid "Select a borrower before scanning."
+msgstr ""
+
+#: app/templates/scan.html:221
+msgid "Select a target location before scanning."
+msgstr ""
+
+#: app/templates/scan.html:222
+msgid "Select the location you are auditing before scanning."
+msgstr ""
+
+#: app/templates/scan.html:229
+msgid "Search by Title"
+msgstr ""
+
+#: app/templates/scan.html:230
+msgid "For cartridges or games without a barcode — search IGDB by name and platform."
+msgstr ""
+
+#: app/templates/scan.html:231
+msgid "Search TMDb for movies by title."
+msgstr ""
+
+#: app/templates/scan.html:232
+msgid "Search BoardGameGeek for board games by title."
+msgstr ""
+
+#: app/templates/scan.html:235
+msgid "Search Open Library for books by title, author, or keyword."
+msgstr ""
+
+#: app/templates/scan.html:236
+msgid "Title search has no barcode to detect from, so it searches books. Pick a media type above to search TMDb or IGDB instead."
+msgstr ""
+
+#: app/templates/scan.html:239
+msgid "Title or author..."
+msgstr ""
+
+#: app/templates/scan.html:239
+msgid "Game title..."
+msgstr ""
+
+#: app/templates/scan.html:239
+msgid "Movie title..."
+msgstr ""
+
+#: app/templates/scan.html:239
+msgid "Book title or author..."
+msgstr ""
+
+#: app/templates/scan.html:259
+msgid "Hide manual entry"
+msgstr ""
+
+#: app/templates/scan.html:266
+msgid "Add by Hand"
+msgstr ""
+
+#: app/templates/scan.html:267
+msgid "No lookup involved — a title is all you need. Everything else is optional and editable afterwards."
+msgstr ""
+
+#: app/templates/scan.html:283
+msgid "Recently Added"
+msgstr ""
+
+#: app/templates/scan.html:284
+msgid "Added to Wishlist"
+msgstr ""
+
+#: app/templates/scan.html:285
+msgid "Checked Out"
+msgstr ""
+
+#: app/templates/scan.html:286
+msgid "Returned"
+msgstr ""
+
+#: app/templates/scan.html:287
+msgid "Moved"
+msgstr ""
+
+#: app/templates/scan.html:288
+msgid "Scanned Items"
+msgstr ""
+
+#: app/templates/scan.html:289
+msgid "Lookup Results"
+msgstr ""
+
+#: app/templates/scan.html:290
+msgid "Marked as finished"
+msgstr ""
+
+#: app/templates/scan.html:290
+msgid "Results"
+msgstr ""
+
 #: app/templates/setup.html:6
 msgid "Welcome"
 msgstr "Configurazione iniziale"
@@ -1534,38 +1879,44 @@ msgstr "ultimo uso"
 msgid "Revoke"
 msgstr "Revoca"
 
-#: app/templates/fragments/board_game_search_results.html:9
+#: app/templates/fragments/board_game_search_results.html:12
+msgid "Choose the matching game below"
+msgstr ""
+
+#: app/templates/fragments/board_game_search_results.html:13
 #, python-format
 msgid "Which game is barcode %(upc)s?"
 msgstr ""
 
-#: app/templates/fragments/board_game_search_results.html:23
+#: app/templates/fragments/board_game_search_results.html:27
 msgid "players"
 msgstr ""
 
-#: app/templates/fragments/board_game_search_results.html:25
+#: app/templates/fragments/board_game_search_results.html:29
 msgid "Expansion"
 msgstr ""
 
-#: app/templates/fragments/board_game_search_results.html:44
+#: app/templates/fragments/board_game_search_results.html:48
 #: app/templates/fragments/book_search_results.html:31
 #: app/templates/fragments/dvd_search_results.html:29
 #: app/templates/fragments/game_search_results.html:31
 msgid "Add"
 msgstr "Aggiungi"
 
-#: app/templates/fragments/board_game_search_results.html:49
+#: app/templates/fragments/board_game_search_results.html:53
 msgid "Powered by"
 msgstr ""
 
-#: app/templates/fragments/board_game_search_results.html:54
+#: app/templates/fragments/board_game_search_results.html:58
 msgid "No board games found. Try a different title."
 msgstr ""
 
-#: app/templates/fragments/board_game_search_results.html:59
+#: app/templates/fragments/board_game_search_results.html:63
 #: app/templates/fragments/book_search_results.html:48
 #: app/templates/fragments/dvd_search_results.html:43
 #: app/templates/fragments/game_search_results.html:45
+#: app/templates/fragments/scan_result.html:105
+#: app/templates/fragments/scan_result.html:251
 msgid "Add it by hand"
 msgstr "Aggiungilo a mano"
 
@@ -1913,6 +2264,98 @@ msgstr "Finito: %(date)s"
 msgid "%(status)s %(count)s times"
 msgstr "%(status)s %(count)s volte"
 
+#: app/templates/fragments/recent_scans.html:2
+msgid "added"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:305
+msgid "wishlisted"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "duplicate"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "promoted"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:304
+msgid "restored"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "checked_out"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:308
+msgid "returned"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:309
+msgid "moved"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:310
+msgid "confirmed"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:311
+msgid "relocated"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:313
+msgid "found"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:312
+msgid "elsewhere"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "marked_read"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "not_found"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "not_owned"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "already_checked_out"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "not_checked_out"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "in_trash"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "error"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:2
+msgid "periodical_confirm"
+msgstr ""
+
+#: app/templates/fragments/recent_scans.html:32
+msgid "No recent activity for this mode."
+msgstr ""
+
 #: app/templates/fragments/related_media_panel.html:4
 msgid "Related media"
 msgstr "Media collegati"
@@ -1961,6 +2404,112 @@ msgstr "Adattamento"
 #: app/templates/fragments/related_media_search.html:19
 msgid "Link"
 msgstr "Collega"
+
+#: app/templates/fragments/scan_result.html:122
+msgid "(cover found on Amazon)"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:146
+#, python-format
+msgid "%(provider)s rejected the configured key &mdash; this may not be a genuine miss. Check it in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations, or add it below."
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:148
+msgid "A metadata source is rate-limiting us right now &mdash; this may not be a genuine miss. Try again later, or add it below."
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:152
+#: app/templates/fragments/scan_result.html:314
+msgid "not found"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:191
+msgid "Restored from Trash"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:198
+msgid "Open Trash"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:200
+#, python-format
+msgid "In Trash since %(date)s &mdash; restore it to lend, move or rate it"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:211
+msgid "Restore"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:215
+#, python-format
+msgid "%(type)s via %(source)s"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:217
+#, python-format
+msgid "Added to wishlist &middot; %(type)s via %(source)s"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:219
+msgid "Now owned &mdash; was on your wishlist"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:221
+msgid "Already in collection"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:274
+#, python-format
+msgid "Added with title only. Add an %(provider)s API key in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations for descriptions and cover art."
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:274
+#, python-format
+msgid "Added with title only. Add a %(provider)s API key in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations for descriptions and cover art."
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:276
+#, python-format
+msgid "Added with title only &mdash; %(provider)s rejected the configured key."
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:278
+msgid "Added with title only &mdash; a metadata provider is rate-limiting us right now. Re-scan later to fill it in."
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:280
+#, python-format
+msgid "Added with title only &mdash; could not reach %(provider)s. Check connectivity and re-scan later to fill it in."
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:282
+msgid "Added with title only &mdash; Shelf has no metadata source for this format yet."
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:284
+#, python-format
+msgid "Added with title only &mdash; no %(provider)s match for this barcode."
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:306
+msgid "owned"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:307
+msgid "lent"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:316
+msgid "already lent"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:317
+msgid "not lent"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:318
+msgid "in Trash"
+msgstr ""
 
 #: app/templates/fragments/search_status_notice.html:18
 #, python-format

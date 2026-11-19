@@ -11,6 +11,7 @@ guard's own advice is "split by feature area, as items_covers/csv/catalog
 were"; this is that split.
 """
 
+from app import i18n
 from app import features
 from app.config import status_labels
 from app.database import get_db
@@ -61,12 +62,12 @@ def _scan_mode_lend(request, templates, item: dict, borrower_id: int | None, raw
     if not features.feature_enabled("lending"):
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
-            {"status": "error", "isbn": raw, "message": "Lending is turned off on this Shelf."},
+            {"status": "error", "isbn": raw, "message": i18n.gettext("Lending is turned off on this Shelf.")},
         )
     if not borrower_id:
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
-            {"status": "error", "isbn": raw, "message": "No borrower selected"},
+            {"status": "error", "isbn": raw, "message": i18n.gettext("No borrower selected")},
         )
 
     with get_db() as db:
@@ -82,14 +83,14 @@ def _scan_mode_lend(request, templates, item: dict, borrower_id: int | None, raw
                 {"status": "already_checked_out", "isbn": raw, "title": item["title"],
                  "item_id": item["id"], "cover_path": item.get("cover_path"),
                  "media_type": item.get("media_type"),
-                 "message": f"Already lent to {active['name']}"},
+                 "message": i18n.gettext("Already lent to %(name)s") % {"name": active['name']}},
             )
 
         borrower = db.execute("SELECT name FROM borrowers WHERE id = ?", (borrower_id,)).fetchone()
         if not borrower:
             return templates.TemplateResponse(
                 request, "fragments/scan_result.html",
-                {"status": "error", "isbn": raw, "message": "Borrower not found"},
+                {"status": "error", "isbn": raw, "message": i18n.gettext("Borrower not found")},
             )
 
         db.execute(
@@ -103,7 +104,7 @@ def _scan_mode_lend(request, templates, item: dict, borrower_id: int | None, raw
         {"status": "checked_out", "isbn": raw, "title": item["title"],
          "item_id": item["id"], "cover_path": item.get("cover_path"),
          "media_type": item.get("media_type"),
-         "authors": item.get("authors"), "message": f"Lent to {borrower['name']}"},
+         "authors": item.get("authors"), "message": i18n.gettext("Lent to %(name)s") % {"name": borrower['name']}},
     )
     return resp
 
@@ -113,7 +114,7 @@ def _scan_mode_return(request, templates, item: dict, raw: str):
     if not features.feature_enabled("lending"):
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
-            {"status": "error", "isbn": raw, "message": "Lending is turned off on this Shelf."},
+            {"status": "error", "isbn": raw, "message": i18n.gettext("Lending is turned off on this Shelf.")},
         )
     with get_db() as db:
         active = db.execute(
@@ -127,7 +128,7 @@ def _scan_mode_return(request, templates, item: dict, raw: str):
                 {"status": "not_checked_out", "isbn": raw, "title": item["title"],
                  "item_id": item["id"], "cover_path": item.get("cover_path"),
                  "media_type": item.get("media_type"),
-                 "message": "Not currently checked out"},
+                 "message": i18n.gettext("Not currently checked out")},
             )
 
         db.execute(
@@ -140,7 +141,7 @@ def _scan_mode_return(request, templates, item: dict, raw: str):
         {"status": "returned", "isbn": raw, "title": item["title"],
          "item_id": item["id"], "cover_path": item.get("cover_path"),
          "media_type": item.get("media_type"),
-         "authors": item.get("authors"), "message": f"Returned from {active['name']}"},
+         "authors": item.get("authors"), "message": i18n.gettext("Returned from %(name)s") % {"name": active['name']}},
     )
     return resp
 
@@ -150,7 +151,7 @@ def _scan_mode_move(request, templates, item: dict, location_id: int | None, raw
     if not location_id or location_id <= 0:
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
-            {"status": "error", "isbn": raw, "message": "No target location selected"},
+            {"status": "error", "isbn": raw, "message": i18n.gettext("No target location selected")},
         )
 
     copy_id = item.get("copy_id")
@@ -214,7 +215,7 @@ def _scan_mode_lookup(request, templates, item: dict | None, raw: str):
         items_common._log_scan(raw, "", "not_owned", None, "lookup")
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
-            {"status": "not_owned", "isbn": raw, "message": "Not in your collection"},
+            {"status": "not_owned", "isbn": raw, "message": i18n.gettext("Not in your collection")},
         )
 
     # Lookup is the fourth reader (#116). It is display only, so unlike Scan
@@ -260,7 +261,7 @@ def _scan_mode_quick_rate(request, templates, item: dict, raw: str):
         {"status": "marked_read", "isbn": raw, "title": item["title"],
          "item_id": item["id"], "cover_path": item.get("cover_path"),
          "media_type": item.get("media_type"),
-         "authors": item.get("authors"), "message": f"Marked as {labels.done_lower}"},
+         "authors": item.get("authors"), "message": i18n.gettext("Marked as %(status)s") % {"status": i18n.gettext(labels.done).lower()}},
     )
     return resp
 

@@ -4,8 +4,12 @@
    still stores them; a title-search result syncs location, tags and status
    from the Scan page like the other search fragments. #}
 {% if results %}
-<div class="space-y-2" data-board-game-results>
+<div class="space-y-2{{ ' scan-result' if from_scan }}" data-board-game-results
+     {% if from_scan %}data-scan-status="board_game_choice"{% endif %}>
     {% if from_scan %}
+    {# G62: the typed-scan toast reads only declared attributes. Nothing is
+       filed yet, so the toast says what to do instead of "Done". #}
+    <span class="sr-only" data-scan-error>{{ _('Choose the matching game below') }}</span>
     <p class="text-sm text-shelf-muted">{{ _('Which game is barcode %(upc)s?', upc=upc) }}</p>
     {% endif %}
     {% for game in results %}

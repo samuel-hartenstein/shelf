@@ -1,0 +1,262 @@
+# German translations for Shelf.
+# Copyright (C) 2026 Shelf contributors
+# This file is distributed under the same license as the Shelf project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-11-19 00:14+0000\n"
+"PO-Revision-Date: 2026-11-19 00:07+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: static/js/app.js:73 static/js/app.js:116 static/js/app.js:126
+#: static/js/browse.js:30
+msgid "Done"
+msgstr "Erledigt"
+
+#: static/js/browse.js:29
+#, python-brace-format
+msgid "{count} selected"
+msgstr "{count} ausgewählt"
+
+#: static/js/browse.js:30
+msgid "Select"
+msgstr "Auswählen"
+
+#: static/js/browse.js:84
+msgid "Press ? for keyboard shortcuts"
+msgstr "? drücken für Tastenkürzel"
+
+#: static/js/browse.js:482
+#, python-brace-format
+msgid "Updated {count} items"
+msgstr "{count} Einträge geändert"
+
+#: static/js/browse.js:486 static/js/browse.js:489
+msgid "Update failed"
+msgstr "Ändern fehlgeschlagen"
+
+#: static/js/browse.js:523 static/js/browse.js:526
+msgid "Tag update failed"
+msgstr "Schlagwort konnte nicht geändert werden"
+
+#: static/js/browse.js:531
+#, python-brace-format
+msgid "Move {count} items to Trash?"
+msgstr "{count} Einträge in den Papierkorb legen?"
+
+#: static/js/browse.js:535
+#, python-brace-format
+msgid "Moved {count} items to Trash"
+msgstr "{count} Einträge in den Papierkorb gelegt"
+
+#: static/js/components-item.js:419
+msgid "Synced to Hardcover"
+msgstr "Mit Hardcover abgeglichen"
+
+#: static/js/components-item.js:420
+msgid "Connection failed"
+msgstr "Verbindung fehlgeschlagen"
+
+#: static/js/components-item.js:443
+msgid "Restored from Trash"
+msgstr "Aus dem Papierkorb wiederhergestellt"
+
+#: static/js/components-item.js:443
+msgid "Added to wishlist"
+msgstr "Auf die Wunschliste gesetzt"
+
+#: static/js/components-item.js:444
+msgid "Failed"
+msgstr "Fehlgeschlagen"
+
+#: static/js/components-item.js:537 static/js/intake.js:400
+msgid "Author(s)"
+msgstr "Autor(en)"
+
+#: static/js/components-item.js:578 static/js/components-item.js:582
+msgid "Could not copy from that item."
+msgstr "Von diesem Eintrag konnte nichts übernommen werden."
+
+#: static/js/components-settings.js:767
+msgid "Never"
+msgstr "Nie"
+
+#: static/js/components-settings.js:779
+msgid "Copied"
+msgstr "Kopiert"
+
+#: static/js/components-settings.js:779
+msgid "Copy"
+msgstr "Kopieren"
+
+#: static/js/components-settings.js:807
+#, python-brace-format
+msgid "Revoke token {name}?"
+msgstr "Token {name} widerrufen?"
+
+#: static/js/components.js:82
+msgid "Could not change the language"
+msgstr "Die Sprache konnte nicht geändert werden"
+
+#: static/js/item_edit.js:28 static/js/item_edit.js:46
+msgid "Point the camera at a 978 or 979 ISBN barcode."
+msgstr "Halte die Kamera auf einen ISBN-Barcode, der mit 978 oder 979 beginnt."
+
+#: static/js/item_edit.js:34 static/js/item_edit.js:121
+msgid "Starting camera…"
+msgstr "Kamera startet …"
+
+#: static/js/item_edit.js:53 static/js/item_edit.js:140 static/js/scan.js:360
+msgid "Camera requires HTTPS. Open Shelf through an HTTPS reverse proxy, or leave SHELF_TLS on."
+msgstr "Die Kamera braucht HTTPS. Öffne Shelf über einen HTTPS-Reverse-Proxy oder lass SHELF_TLS an."
+
+#: static/js/item_edit.js:55 static/js/item_edit.js:142 static/js/scan.js:362
+msgid "Camera access denied. Check browser permissions for this site."
+msgstr "Kein Zugriff auf die Kamera. Prüfe die Browser-Berechtigungen für diese Seite."
+
+#: static/js/item_edit.js:71
+msgid "That barcode is not a 978/979 ISBN. Try again."
+msgstr "Dieser Barcode ist keine ISBN mit 978/979. Versuch es noch einmal."
+
+#: static/js/item_edit.js:115 static/js/item_edit.js:133
+msgid "Point the camera at a UPC-A or EAN-13 retail barcode."
+msgstr "Halte die Kamera auf einen EAN-13- oder UPC-A-Barcode."
+
+#: static/js/item_edit.js:158
+msgid "That is not a valid UPC-A / EAN-13 retail barcode. Try again."
+msgstr "Das ist kein gültiger EAN-13- / UPC-A-Barcode. Versuch es noch einmal."
+
+#: static/js/scan.js:52
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: static/js/scan.js:53
+msgid "Wishlist"
+msgstr "Wunschliste"
+
+#: static/js/scan.js:54
+msgid "Lend"
+msgstr "Verleihen"
+
+#: static/js/scan.js:55
+msgid "Return"
+msgstr "Zurücknehmen"
+
+#: static/js/scan.js:56
+msgid "Move"
+msgstr "Verschieben"
+
+#: static/js/scan.js:57
+msgid "Inventory"
+msgstr "Inventur"
+
+#: static/js/scan.js:58 static/js/scan.js:70
+msgid "Lookup"
+msgstr "Nachschauen"
+
+#: static/js/scan.js:59 static/js/scan.js:71
+msgid "Quick Rate"
+msgstr "Schnell bewerten"
+
+#: static/js/scan.js:64
+msgid "Add Items"
+msgstr "Einträge hinzufügen"
+
+#: static/js/scan.js:64
+msgid "Scan barcodes to add items to your collection."
+msgstr "Scanne Barcodes, um Einträge zur Sammlung hinzuzufügen."
+
+#: static/js/scan.js:65
+msgid "Add to Wishlist"
+msgstr "Auf die Wunschliste"
+
+#: static/js/scan.js:65
+msgid "Scan to save items you want but haven't bought yet."
+msgstr "Scanne, was du dir wünschst, aber noch nicht gekauft hast."
+
+#: static/js/scan.js:66
+msgid "Lend Items"
+msgstr "Einträge verleihen"
+
+#: static/js/scan.js:66
+msgid "Select a borrower, then scan items to check them out."
+msgstr "Wähle eine Person aus und scanne dann, was du verleihst."
+
+#: static/js/scan.js:67
+msgid "Return Items"
+msgstr "Einträge zurücknehmen"
+
+#: static/js/scan.js:67
+msgid "Scan items to check them back in."
+msgstr "Scanne, was zurückgegeben wurde."
+
+#: static/js/scan.js:68
+msgid "Move Items"
+msgstr "Einträge verschieben"
+
+#: static/js/scan.js:68
+msgid "Select a target location, then scan items to move them."
+msgstr "Wähle einen Zielort aus und scanne dann, was dorthin kommt."
+
+#: static/js/scan.js:69
+msgid "Inventory Audit"
+msgstr "Inventur"
+
+#: static/js/scan.js:69
+msgid "Select a location and scan every item you find there. Start an audit to get a report."
+msgstr "Wähle einen Ort und scanne alles, was dort steht. Starte eine Inventur, um einen Bericht zu bekommen."
+
+#: static/js/scan.js:70
+msgid "Scan to check if an item is in your collection. No changes are made."
+msgstr "Scanne, um nachzusehen, ob etwas schon in der Sammlung ist. Es wird nichts geändert."
+
+#: static/js/scan.js:71
+msgid "Scan to mark items as read or completed."
+msgstr "Scanne, um Einträge als gelesen oder gespielt zu markieren."
+
+#: static/js/scan.js:94
+msgid "Could not load recent scans"
+msgstr "Die letzten Scans konnten nicht geladen werden"
+
+#: static/js/scan.js:243 static/js/scan.js:392
+msgid "Select a borrower first"
+msgstr "Wähle zuerst eine Person aus"
+
+#: static/js/scan.js:248 static/js/scan.js:396
+msgid "Select a location first"
+msgstr "Wähle zuerst einen Ort aus"
+
+#: static/js/scan.js:464
+msgid "Choose the matching game below"
+msgstr "Wähle unten das passende Spiel"
+
+#: static/js/scan.js:465
+msgid "Choose the matching book below"
+msgstr "Wähle unten das passende Buch"
+
+#: static/js/scan.js:465
+msgid "Type the five digits below"
+msgstr "Gib unten die fünf Ziffern ein"
+
+#: static/js/scan.js:473
+msgid "done"
+msgstr "erledigt"
+
+#: static/js/scan.js:484
+msgid "error"
+msgstr "Fehler"
+
+#: static/js/scan.js:484
+msgid "Scan failed"
+msgstr "Scannen fehlgeschlagen"
+
