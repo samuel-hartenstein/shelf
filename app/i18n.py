@@ -112,6 +112,13 @@ def _catalog(domain: str, lang: str) -> _gettext.NullTranslations:
     return _gettext.translation(domain, LOCALE_DIR, [lang], fallback=True)
 
 
+def library_locale() -> str:
+    """The library's language: `SHELF_DEFAULT_LANGUAGE` while the translated
+    UI is on, else English. Stored data every user shares (tag names, a
+    game's printed title) is filed in it, whoever did the scan."""
+    return default_locale() if enabled() else DEFAULT
+
+
 def library_pgettext(context: str, message: str) -> str:
     """Translate into the library's language rather than the viewer's.
 
