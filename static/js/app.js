@@ -216,35 +216,36 @@ document.addEventListener('keydown', function(e) {
 
     var tag = document.activeElement.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    // Leave Ctrl/Cmd/Alt combos to the browser (Ctrl+S, Ctrl+B, Ctrl+/ ...).
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (e.key === '/' ) { e.preventDefault(); var q = document.querySelector('[name="q"]'); if (q) q.focus(); }
     else if (e.key === 's') { window.location.href = '/scan'; }
     else if (e.key === 'b') { window.location.href = '/browse'; }
     else if (e.key === '?') { document.getElementById('shortcut-modal').classList.toggle('hidden'); }
 });
 
-// The visible shortcut-help controls used inline onclick handlers. Shelf's
-// script-src 'self' CSP refuses those handlers, so the button and both close
-// surfaces looked clickable but did nothing. Bind the same behaviour from this
-// external script instead. Remove the inert inline attributes before a user can
-// click them so browsers do not report a CSP violation for the dead handler.
+// The shortcut-help controls are bound here by id. Shelf's script-src 'self'
+// CSP refuses inline onclick handlers, so they cannot live in the template. The
+// trigger's title is translated, so it is not a stable selector. Each surface
+// binds independently: a missing element must not skip the other bindings.
 (function() {
     var modal = document.getElementById('shortcut-modal');
-    var trigger = document.querySelector('[title="Keyboard shortcuts (?)"]');
-    if (!modal || !trigger) return;
+    var trigger = document.getElementById('shortcut-help-trigger');
+    var close = document.getElementById('shortcut-modal-close');
 
-    trigger.removeAttribute('onclick');
-    trigger.addEventListener('click', function() {
-        modal.classList.toggle('hidden');
-    });
+    if (modal && trigger) {
+        trigger.addEventListener('click', function() {
+            modal.classList.toggle('hidden');
+        });
+    }
 
-    modal.removeAttribute('onclick');
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) modal.classList.add('hidden');
-    });
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) modal.classList.add('hidden');
+        });
+    }
 
-    var close = modal.querySelector('button[onclick]');
-    if (close) {
-        close.removeAttribute('onclick');
+    if (modal && close) {
         close.addEventListener('click', function() {
             modal.classList.add('hidden');
         });
@@ -309,7 +310,7 @@ document.body.addEventListener('htmx:afterRequest', function (evt) {
     if (!action) return;
     var ok = evt.detail.successful;
     if (action === 'clear-scan-input') {
-        var input = el.querySelector('#isbn-input');
+        var input = el.querySelector('input[name="isbn"]');
         if (input) { input.value = ''; input.focus(); }
         // This handler is the SOLE owner of the typed-scan toast: /api/scan
         // sets no HX-Trigger on any branch, so nothing else toasts here.

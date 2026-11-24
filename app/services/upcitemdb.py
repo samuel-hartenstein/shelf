@@ -15,10 +15,13 @@ Retail titles are not search queries. Four live lookups produced:
 Stripping the bracketed tag is not enough — the last row keeps nine appended
 retail category keywords that no bracket-or-suffix rule removes. So `clean_title`
 strips, and `search_queries` is willing to *shorten*: a ladder of progressively
-shorter leading fragments, tried in order until a provider answers. Both the
-film path (TMDb) and the game path (IGDB) climb this same ladder.
+shorter leading fragments, tried in order until a provider answers. The film
+path (TMDb) climbs that ladder. The game path (IGDB) does not: it sends
+`game_queries`, at most two queries built from the title's first field, with no
+shortening rungs.
 
-`clean_title` and `search_queries` are pure — no I/O, so they test offline.
+`clean_title`, `search_queries`, `strip_game_words`, `game_title_fields` and
+`game_queries` are pure — no I/O, so they test offline.
 """
 
 import logging
@@ -136,14 +139,70 @@ def search_queries(raw: str) -> list[str]:
     return ladder
 
 
+# A retail game title carries its fields separated by two-plus spaces or " | ":
+# "Call of Duty: Black Ops III  Activision  PlayStation 4  047875874589".
+_FIELD_BREAK = re.compile(r"\s{2,}|\s\|\s")
+
+# Console names, anywhere in a title. Ported verbatim from the probe's PLAT.
+_GAME_PLATFORM_WORDS = re.compile(
+    r"(?<!\w)(?:nintendo\s*(?:switch|wii u|wii|3ds|ds)?|playstation\s*\d?|ps\s?[1-5]"
+    r"|xbox\s*(?:360|one|series [xs])?|wii u|wii|3ds|switch|pc)(?!\w)",
+    re.IGNORECASE,
+)
+# "Game only" tags, a trailing "for" (left by "Revita for Playstation 4"), and
+# bare barcodes of eight or more digits.
+_GAME_WORDS = re.compile(r"(?i)\b(video )?game( only)?\b|\bfor\b\s*$|\b\d{8,}\b")
+
+
+def strip_game_words(text: str) -> str:
+    """Remove platform names, "game only" tags, a trailing "for" and long digit runs.
+
+    Takes no brand. Whitespace is collapsed and edge punctuation trimmed.
+    """
+    text = _GAME_PLATFORM_WORDS.sub(" ", text or "")
+    text = _GAME_WORDS.sub(" ", text)
+    return re.sub(r"\s+", " ", text).strip(_EDGE_PUNCT)
+
+
+def game_title_fields(raw: str, brand: str | None) -> tuple[str, str]:
+    """Split a retail game title into `(f1, stripped)`.
+
+    `f1` is the first field (split before `clean_title` collapses the
+    whitespace that marks the fields), cleaned. `stripped` is `f1` without a
+    leading `brand` (only when `f1` is longer than the brand by more than two
+    characters) and without `strip_game_words` noise. Empty, whitespace-only
+    and format-only input gives `("", "")`.
+    """
+    f1 = clean_title(_FIELD_BREAK.split((raw or "").strip())[0])
+    if not f1:
+        return "", ""
+    text = f1
+    brand = (brand or "").strip()
+    if brand and text.lower().startswith(brand.lower()) and len(text) > len(brand) + 2:
+        text = text[len(brand):]
+    return f1, strip_game_words(text)
+
+
+def game_queries(raw: str, brand: str | None) -> list[str]:
+    """The IGDB queries for a retail game title: `[f1, stripped]`.
+
+    Deduplicated in order, empties dropped, so at most two. There are no
+    shortening rungs. When the list is not empty, `[0] == f1` — `stripped`
+    derives from `f1` — and `_scan_upc_game` in `items_common.py` files
+    `queries[0]` when IGDB has no match.
+    """
+    f1, stripped = game_title_fields(raw, brand)
+    return list(dict.fromkeys(q for q in (f1, stripped) if q))
+
+
 async def lookup(upc: str, client: httpx.AsyncClient) -> provider_result.ProviderResult:
     """Look up a barcode, returning a `ProviderResult` (`provider="upcitemdb"`).
 
     `found`'s payload is `{"title", "category", "brand", "images"}` — the
     whole useful part of the response, not just the title.
 
-    `no_match` for every failure that means "no such record": a non-200, a
-    malformed body, an empty `items` list. That is the contract the bare catch
+    `no_match` for every failure that means "no such record": a non-200 that is
+    not a 5xx, a malformed body, an empty `items` list. That is the contract the bare catch
     existed for — an unresolvable UPC must reach the scan page's "not found"
     manual-add form rather than an error.
 
@@ -151,6 +210,8 @@ async def lookup(upc: str, client: httpx.AsyncClient) -> provider_result.Provide
     `httpx.NetworkError` are recorded as `transport_failed` rather than folded
     into `no_match`, so `_scan_upc` can render the connectivity card and log
     the scan as `error`. Offline is not "no such record" (GOTCHAS G47).
+
+    a 5xx is `transport_failed` carrying its status.
 
     `rate_limited` for a 429 — a rate-limited product lookup is not "unknown
     barcode" either.

@@ -1515,6 +1515,12 @@ no cap would not have found this entry under the old title.)
   test snapshots the watch ids before it presses the button and deletes every
   newer one in cleanup. When the action cannot be scoped, own its blast
   radius instead.
+- **Fourth face: a parametrized test that seeds an identifier.** The
+  desktop/mobile `context_kwargs` variants run against the same server, so
+  two variants seeding one ISBN collide on the second with
+  `UNIQUE constraint failed: items.isbn, items.media_type`. Key the seeded
+  ISBN (and any other unique field) on the variant's label. Hit in
+  `feat/issue-194-scan-submit-button` T1 (`d39ea14`, 2026-11-23).
 - **Evidence:** caught on paper by the issue-31 `/plan-review` (R2,
   2026-08-21). The plan's `E2E Unassigned Book` already had at least eight
   earlier-sorting seriesless titles ahead of it (`1984`, `Book To Delete`,
@@ -1645,6 +1651,11 @@ python -m pytest tests/test_items.py -k round_trip -q   # must FAIL; then revert
   wrong-patch-target waiting to happen. Module-level imports have the mirror
   trap and the opposite fix — there the *using* module holds its own
   reference, so that is what must be patched.
+  The same holds in reverse when an F401 says that module-level import is
+  unused: a test may still patch through it (`app.routers.items.openlibrary`
+  was read only by five `patch(...)` strings). Before deleting one, grep
+  `tests/` for `<module>.<name>`; if found, retarget the patch to the
+  defining module, never `# noqa` the import (`f355b72`, 2026-11-13).
 - **Evidence:** called out in the `intake-covers` plan review (Codex R2) and
   written into the plan's test text before it could bite; the same reasoning
   drove the `_lookup_metadata` patches in
@@ -1840,6 +1851,13 @@ grep -rn "post_data_buffer" tests/e2e/
   giving the locations/borrowers/platforms rows a `flex-wrap` seam.
   Re-verified under Tailwind 4.3.3 (2026-10, issue #160): `.sm\:flex-1` still
   precedes `.sm\:basis-auto` in the built app.css.
+  **A row with no seam of its own still has one, inherited from its column**
+  (issue #194, `d39ea14`, 2026-11-23): Scan's new barcode + button row used
+  the `store.html` pattern (`flex-1 min-w-0` input), which is safe at full
+  width. On Scan the row sits in a one-third grid column from `sm` up, and at
+  640px the input measured 73px of content. Fixed with `flex flex-wrap` and a
+  `min-w-36` floor on the input, so the button wraps below it instead. Copying
+  a row that passes on one page proves nothing about a narrower parent.
 - **Verify:** the responsive gate measures every top-level page at
   320/390/430/640/768/1024 for both overflow *and* text columns squeezed under
   80px. A breakpoint's own width is the worst case for the layout it turns on,
@@ -3735,6 +3753,10 @@ docker logs shelf-dev 2>&1 | grep -iE "https?://[^ ]*@|HTTP Request:"
 - **Evidence:** `7a1b5ec` (2026-09-03, plan `intake-media-lookup` T2).
   Resolved by not forwarding it, with the reason in a two-line comment at the
   call site so the next reader does not "fix" the omission.
+  **That specific decision was reversed on purpose by #191** (`0a962c3`,
+  2026-11-24): the game scan now forwards `platform` — filtered pass first,
+  then unfiltered — and the call-site comment says so. The rule stands; the
+  example is history.
 - **Verify:** judgement. When a task says behaviour-preserving, read the
   original call and compare argument lists — not the surrounding structure:
 
@@ -4054,7 +4076,7 @@ grep -n "__guardToastAppends" tests/e2e/test_component_load_guard.py
     shape returns in **29 ms** with the row unmoved; D's in ~10 ms with the
     **pre-swap** grid still on screen.
   - **B is redundant post-click cleanup, not a race repair** — green both
-    ways. Playwright 1.52 (`requirements-dev.txt:8`) documents `click()` as
+    ways. Playwright 1.52 (pinned in `requirements-dev.in`) documents `click()` as
     waiting for a navigation it *directly initiates*, and the measured
     baseline click alone spans 1.560s against the 1500 ms delay. The pre-armed
     `expect_navigation` keeps the intended event visible in the test; it does
@@ -4488,7 +4510,10 @@ done
 ```
 
 - **Status:** documented — a lint candidate; the loop above is already the
-  check, and it has no false-positive surface worth speaking of.
+  check, and it has no false-positive surface worth speaking of. **`make
+  check-ruff` does not cover it:** ruff's `F811` fires only when the first
+  definition is unused, and here earlier tests call it. Probed 2026-11-13
+  (`ruff-lint-gate`) against a two-`_login_page` module: clean.
 
 ## G95 — When excluding tests from a gate target, exclude by path, not by marker
 
@@ -5328,6 +5353,15 @@ print('OK')"
   else in the task was correct, the full gate was green, and the sentence was
   caught only by the orchestrator reading the diff. The subagent's own
   "Surprises" section reported none — it did not know it had invented it.
+  **Again on `feat/issue-191-game-title-match` (2026-11-24), with the brief
+  asking for exactly this check:** T1's subagent wrote a `strip_game_words`
+  docstring claiming the helper was "used on both sides of a game title
+  comparison" — true only after the *next* task — and its report said it had
+  removed the claim. The diff still carried it (cut before `1d020e0`). T2's
+  subagent wrote a guard that let the stripped path agree under an empty
+  F1, contrary to the plan's fail-closed list, while reporting the list met.
+  **A subagent's list of checks it ran is a self-report too**: read the diff
+  for the specific sentence or branch it says it fixed.
 - **The asymmetry that makes this worth an entry:** a wrong *line of code* has
   many chances to be caught — a test, a lint, a reviewer, production. A wrong
   *sentence about the code* has exactly one: somebody reading the diff. So the
@@ -6490,6 +6524,12 @@ grep -rn "import gettext as _" app/routers/            # expect no hits
 
 - **Status:** documented. `make check-i18n` catches unextracted strings but 
   not import-time translation.
+- **Also:** `i18n.gettext(message)` and `i18n.ngettext(singular, plural, n)`
+  take **no format keywords**. Unlike Jinja's `_('… %(x)s', x=…)`, a router
+  interpolates after translating: `i18n.gettext("Filled %(count)s") % {"count": n}`.
+  A plan that writes the Jinja form in Python is a `TypeError` on first call.
+  Evidence: `audnexus-provider` T7's plan specified the kwarg form; caught at
+  drafting, `fc096dd`, 2026-11-13.
 
 ## G155 — When the Audiobookshelf sync gains a field in its `desired` dict
 
@@ -6538,6 +6578,77 @@ python -m pytest tests/e2e/test_store_pwa.py -m e2e -q -k flush_reads_owned_row_
 ```
 
 - **Status:** documented.
+
+## G157 — When adding a new file under `tests/e2e/`
+
+- **Rule:** give it `pytestmark = pytest.mark.e2e` at module level (or mark
+  every test). Then run it with `-m e2e` and check that it collects.
+- **Why:** `make test` excludes `tests/e2e/` by path, and `make test-e2e` runs
+  `-m "e2e and not live"`. An unmarked E2E file therefore runs in **neither**
+  gate. Both stay green, and the new test has never executed.
+- **Evidence:** `audnexus-provider` T8, `c303aef`, 2026-11-13. The worker's
+  first `-m e2e` run deselected both new tests.
+- **Verify:**
+
+```bash
+/usr/bin/grep -L "pytestmark\|mark.e2e" tests/e2e/test_*.py   # expect no output
+```
+
+- **Status:** documented. **Lint candidate** for `make check-tests`: the
+  Verify line above is the whole check.
+
+## G158 — When mutation-testing `--require-hashes` against the universal lock
+
+- **Rule:** to prove the hash check bites, rewrite one whole requirement block
+  in `requirements.txt` as a single unhashed line (`bcrypt==4.3.0`, no trailing
+  `\`, no `--hash=` lines). Do not delete one arbitrary `--hash=` line.
+- **Why:** the lock is compiled `--universal`, so each pin lists a hash for
+  every wheel and sdist. pip accepts a download that matches **any** listed
+  hash, so deleting one line usually removes some other platform's artifact,
+  and the build stays green. That green reads as "`--require-hashes` does
+  nothing" when the mutation was the defect (G108).
+- **Evidence:** `dep-lock-hashes` plan review (codex R1) and T2, `7b8838a`,
+  2026-11-14. The whole-block rewrite failed `docker build` with
+  `Hashes are required in --require-hashes mode … bcrypt==4.3.0`.
+  The Verify line needs `--ignore-installed`: in an env that already has
+  `bcrypt`, pip never downloads it, checks no hash, and the dry run passes —
+  the same false green one level down (hit while writing this entry).
+- **Verify:**
+
+```bash
+python - <<'PY'
+import re,subprocess,tempfile
+s=open("requirements.txt").read()
+s=re.sub(r"bcrypt==4\.3\.0 \\\n(\s+--hash=\S+( \\)?\n)+", "bcrypt==4.3.0\n", s)
+f=tempfile.NamedTemporaryFile("w",suffix=".txt",delete=False); f.write(s); f.close()
+r=subprocess.run(["pip","install","--dry-run","--ignore-installed","--require-hashes","-r",f.name],capture_output=True,text=True)
+print("trap holds" if "Hashes are required" in r.stderr and "bcrypt" in r.stderr else "check: no hash error")
+PY
+```
+
+- **Status:** documented.
+
+## G159 — When `make check-lock` passes and you read it as "the hashes are right"
+
+- **Rule:** never hand-edit a `--hash=` line in `requirements*.txt`, and never
+  compile a lock over one that still carries its hashes. The lock targets strip
+  them first (`LOCK_IN_TMP` in the `Makefile`). A red `check-lock` on a PR that
+  touched no dependency usually means PyPI added a file to a version already
+  pinned; `make lock` is the repair in every case.
+- **Why:** uv reads an existing `-o` file as preferences and keeps its hash
+  lines verbatim, even with `--refresh`, so a compile over the committed lock
+  could neither catch nor repair an invented or deleted hash. Stripping the
+  hash lines keeps the version preferences and makes uv fetch every hash fresh.
+- **Evidence:** `dep-lock-hashes` diff review, codex M1, 2026-11-14 (an
+  invented `aiofiles` digest passed `make check-lock`). Fixed by
+  `check-lock-hash-verify`, `5c5f777`, 2026-11-15.
+- **Verify** (prints the check line while the lint holds):
+
+```bash
+make --no-print-directory -s check-lock-selftest >/dev/null 2>&1 && echo "check: check-lock caught the invented hash" || { echo "trap holds"; make --no-print-directory -s check-lock-selftest; }
+```
+
+- **Status:** linted: `make check-lock` (self-tested by `make check-lock-selftest`, in `make checks` and CI's `test` job).
 
 ## Graveyard
 

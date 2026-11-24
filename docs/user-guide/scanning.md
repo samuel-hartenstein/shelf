@@ -19,7 +19,9 @@ barcode field once and scan away. No camera involved, no configuration.
 Let each result appear before scanning the next item: a scan made while the
 previous one is still being looked up is ignored.
 
-**Keyboard.** Type an ISBN-10, ISBN-13 or UPC and press Enter.
+**Keyboard.** Type an ISBN-10, ISBN-13 or UPC. Send it with Enter or with the
+**Scan** button beside the field. On a phone, the button is the way to send a
+typed code. On a narrow screen it wraps below the field.
 
 ## Scan modes
 
@@ -174,11 +176,13 @@ pre-ISBN books, retro game cartridges, discs with a scuffed UPC:
   ranks matching editions first.
 - **Movies** — TMDb title search (needs a TMDb key).
 - **Video games** — IGDB title search (needs IGDB credentials); filter by
-  platform for "Super Mario Bros." ambiguity.
+  platform for "Super Mario Bros." ambiguity. The same goes for scanning:
+  choose the platform **before** you scan, and Shelf searches only that
+  platform's games.
 
 An empty result box tells you *why* it is empty, in the same words the scan
-card uses: a rejected key, a provider that is rate-limiting us, or a provider
-Shelf could not reach at all. "No books found for …" now means only what it
+card uses: a rejected key, a provider that is rate-limiting us, a provider that
+answered with a server error, or a provider Shelf could not reach at all. "No books found for …" now means only what it
 says — the provider answered and genuinely had nothing.
 
 An item added from the results takes the [default tags](#default-tags) and
@@ -352,10 +356,23 @@ rather than claiming a detection it did not make.
 A UPC scan brings back a synopsis, a year and cover art when TMDb (discs) or
 IGDB (games) is configured. Barcode databases store retail shelf titles rather
 than film or game titles — `Goodfellas [DVD]  Feature Thriller Drama …` — so
-Shelf strips format tags, platform suffixes and edition wording, and if that
-still finds nothing it retries with progressively shorter versions of the
-title. It stops short of searching a single short word, because a one-word
-search comes back with a *different* film rather than nothing.
+Shelf strips format tags, platform suffixes and edition wording.
+
+For a disc, if that still finds nothing it retries with progressively shorter
+versions of the title. It stops short of searching a single short word,
+because a one-word search comes back with a *different* film rather than
+nothing.
+
+A game is matched more strictly, and it is never shortened. Shelf searches
+IGDB for the barcode's title as it stands, and again with the brand, platform
+and "game" words removed. It looks at up to ten results for each search and
+takes one only when the whole title matches the barcode's. A close but
+different game — *Grand Theft Auto V* for a *Vice City* barcode — is not
+taken. If you chose a platform before scanning, Shelf looks only among that
+platform's games, so it never files another platform's game of the same name. When no result
+matches, Shelf adds the game under its barcode title with a "no IGDB match for
+this barcode" notice. Fix it with the game title search below the barcode
+field, or edit the item.
 
 For one class of scan it does not search at all. When the retail title names
 console hardware — a console, controller or headset **together with** a
@@ -391,7 +408,7 @@ When no provider matches, the item is still added under its own title — use
 **Retry cover** or **Find cover** on the item page, or edit the title and type
 directly in the item editor, to fill it in.
 
-**And the card says why it was thin**, because the six reasons need six
+**And the card says why it was thin**, because the seven reasons need seven
 different responses:
 
 - **no lookup was attempted** — nothing to fix. The title named console
@@ -401,6 +418,9 @@ different responses:
 - **the key was rejected** — fix it. The provider answered, and said no.
 - **a provider is rate-limiting us** — wait and re-scan. This may not be a
   genuine miss, so it is worth trying again before adding anything by hand.
+- **a provider returned an error** — wait and re-scan. The provider was
+  reached but answered with a server error, so this may not be a genuine miss.
+  The card names the provider when it knows which one failed.
 - **Shelf has no metadata source for this format yet** — nothing to fix. CDs
   are the case today: there is no music provider wired up, so a scanned CD is
   filed under its barcode title. That now happens on **Auto** — the CD is
@@ -418,6 +438,10 @@ would be a guess. See
 A **Not found** card can carry the rate-limit line too. That one matters: it
 means the barcode may well be catalogued, and typing the book in by hand is
 probably wasted effort. Try again later first.
+
+When a provider answered with a server error, the **Not found** card keeps its
+add-by-hand form and says the miss may not be genuine. Its badge reads **try
+again**, and the camera overlay shows that same text.
 
 ## Tips
 

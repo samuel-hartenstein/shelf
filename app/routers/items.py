@@ -30,7 +30,7 @@ from app.services.item_write import (IdentifierInTrash, ItemValueError,
                                      update_items_fields, validate_item_fields,
                                      validated_location_id)
 from app.services import item_write  # _coerce_owned (bulk update), promote_wishlisted (scan), trash_item (delete)
-from app.services import openlibrary, googlebooks, hardcover, covers, national
+from app.services import hardcover, covers
 from app.services import detect
 from app.services import cover_queue
 from app.services import legacy_book
@@ -40,9 +40,8 @@ from app.services import item_merge
 from app.services import restore_report
 from app.services import tags as tags_svc
 from app.services import item_template
-from app.services import upc as upc_svc, tmdb, igdb
+from app.services import upc as upc_svc, igdb
 from app.services import synopsis as synopsis_svc
-from app.services import authors as authors_svc
 
 router = APIRouter(prefix="/api")
 
@@ -192,13 +191,13 @@ def _legacy_choice_context(
 
 def _legacy_resolution_message(resolution: legacy_book.LegacyBookResolution) -> str:
     if resolution.outcome == "ambiguous":
-        return "Older book barcode matches more than one book — scan the printed ISBN"
+        return i18n.gettext("Older book barcode matches more than one book — scan the printed ISBN")
     if resolution.outcome == "inconclusive":
-        return (
+        return i18n.gettext(
             "Couldn’t safely verify this older book barcode right now — "
             "try again later or scan the printed ISBN"
         )
-    return (
+    return i18n.gettext(
         "Older book barcode recognized, but no unique book match was found — "
         "scan the printed ISBN instead"
     )
@@ -559,7 +558,12 @@ async def _scan_isbn_inner(request, isbn, media_type, location_id, platform, mod
             # anybody is not a book that does not exist. Only an Open
             # Library exception used to reach this card; the other three
             # legs swallowed their transport failures into `not_found`.
-            if cascade.outcome == "transport_failed":
+            # A provider 5xx is neither: it is not a missing record (logged
+            # `error`) and not a network failure (no connectivity card — the
+            # manual form still belongs here). `scan_outcome` decides which,
+            # as `offline` vs `unavailable` (issue #190).
+            state = scan_outcome.not_found_status(cascade)
+            if state == "offline":
                 logger.warning("Network error looking up ISBN %s", isbn13)
                 items_common._log_scan(isbn13, media_type, "error", mode=mode)
                 return templates.TemplateResponse(
@@ -569,7 +573,8 @@ async def _scan_isbn_inner(request, isbn, media_type, location_id, platform, mod
                 )
 
             preview_cover = await items_common._fetch_preview_cover(isbn13, client)
-            items_common._log_scan(isbn13, media_type, "not_found", mode=mode)
+            items_common._log_scan(isbn13, media_type,
+                                   "error" if state == "unavailable" else "not_found", mode=mode)
             # The same vocabulary the added-card notice uses, projected
             # from the cascade record — so `rejected` reaches the arm
             # `fragments/scan_result.html` has always carried for it and
@@ -583,7 +588,7 @@ async def _scan_isbn_inner(request, isbn, media_type, location_id, platform, mod
                     "status": "not_found", "isbn": isbn13, "media_type": media_type,
                     "message": i18n.gettext("Not found — add manually below"),
                     "preview_cover": preview_cover,
-                    "enrich_status": scan_outcome.not_found_status(cascade),
+                    "enrich_status": state,
                     "enrich_provider": scan_outcome.provider_label(cascade),
                     "locations": items_common._manual_form_locations(),
                 },
@@ -642,7 +647,7 @@ async def _scan_isbn_inner(request, isbn, media_type, location_id, platform, mod
             **card,
             "item_id": item_id,
             "source": source,
-            "media_type_label": MEDIA_TYPES.get(media_type, media_type), "media_type": media_type,
+            "media_type_label": i18n.gettext(MEDIA_TYPES.get(media_type, media_type)), "media_type": media_type,
             # T5 renders these; T4 only has to carry them.
             "detect_reason": detect_reason,
             "detect_overrode": detect_overrode,
@@ -852,7 +857,7 @@ async def manual_add(request: Request, _=Depends(require_role("editor"))):
                      **({"cover_path": cover_path} if cover_path else {})}),
             "item_id": item_id,
             "source": "manual",
-            "media_type_label": MEDIA_TYPES.get(media_type, media_type), "media_type": media_type,
+            "media_type_label": i18n.gettext(MEDIA_TYPES.get(media_type, media_type)), "media_type": media_type,
         },
     )
     toast_message = f"Added to wishlist: {title[:50]}" if mode == "wishlist" else f"Added: {title[:50]}"
@@ -1061,19 +1066,19 @@ async def merge_items(request: Request, _=Depends(require_role("admin"))):
         return {"ok": False, "message": "Invalid item IDs"}
 
     if not keep_id or not merge_ids:
-        return {"ok": False, "message": "Specify keep_id and merge_ids"}
+        return {"ok": False, "message": i18n.gettext("Specify keep_id and merge_ids")}
 
     # Drop the kept row and repeats before anything is written. Both end in
     # `DELETE FROM items WHERE id = keep_id` further down, destroying the row
     # the caller asked to keep (#86).
     targets = list(dict.fromkeys(mid for mid in merge_ids if mid != keep_id))
     if not targets:
-        return {"ok": False, "message": "Cannot merge an item into itself"}
+        return {"ok": False, "message": i18n.gettext("Cannot merge an item into itself")}
 
     with get_db() as db:
         primary = db.execute("SELECT * FROM items_live WHERE id = ?", (keep_id,)).fetchone()
         if not primary:
-            return {"ok": False, "message": "Primary item not found"}
+            return {"ok": False, "message": i18n.gettext("Primary item not found")}
 
         # Refuse before writing anything: the merge is one transaction, and a
         # kept row holding two open loans is a state no surface can show.
@@ -1089,9 +1094,8 @@ async def merge_items(request: Request, _=Depends(require_role("admin"))):
             ]
             return {
                 "ok": False,
-                "message": "Cannot merge items that are both on loan: "
-                           + ", ".join(f'"{t}"' for t in titles)
-                           + ". Check one in first.",
+                "message": i18n.gettext("Cannot merge items that are both on loan: %(titles)s. Check one in first.")
+                           % {"titles": ", ".join(f'"{t}"' for t in titles)},
             }
 
         merged = 0
@@ -1122,7 +1126,7 @@ async def merge_items(request: Request, _=Depends(require_role("admin"))):
                     # tell which item carried it.
                     return {
                         "ok": False,
-                        "message": f"Cannot merge \"{other['title']}\" (#{mid}): {e}",
+                        "message": i18n.gettext("Cannot merge \"%(title)s\" (#%(id)s): %(reason)s") % {"title": other["title"], "id": mid, "reason": e},
                         "item_id": mid,
                     }
 

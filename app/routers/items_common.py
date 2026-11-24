@@ -16,7 +16,6 @@ rather than `from ... import resolve_missing_cover`. Tests patch these by
 attribute, and a from-import binds a copy that patching cannot reach.
 """
 
-import asyncio
 import json
 import logging
 import sqlite3
@@ -28,10 +27,10 @@ from fastapi import Request
 from app import i18n
 from app.config import HTTP_TIMEOUT, MEDIA_TYPES
 from app.database import get_db, get_setting
-from app.services import covers, detect, googlebooks, hardcover, national, openlibrary, provider_result
+from app.services import audnexus, covers, detect, googlebooks, hardcover, national, openlibrary, provider_result
 from app.services import cover_queue
 from app.services import authors as authors_svc
-from app.services import igdb, scan_outcome, title_lookup, tmdb, upcitemdb
+from app.services import scan_outcome, title_lookup, title_match, upcitemdb
 from app.services import upc as upc_svc
 from app.services import isbn as isbn_svc
 from app.services.item_write import ItemValueError, insert_item, update_item_fields
@@ -126,6 +125,9 @@ async def _lookup_metadata(isbn13: str, hc_token: str | None, client: httpx.Asyn
                     "cover_url": hc_data.get("cover_url"),
                 }
 
+    if not metadata:  # one line naming every leg; WARNING only if one failed (#190)
+        level, summary = scan_outcome.cascade_log(legs)
+        logger.log(level, "No metadata for ISBN %s: %s", isbn13, summary)
     return metadata, source, hc_ids, provider_result.combine(legs, provider="isbn-cascade")
 
 def _save_item(metadata: dict, isbn13: str, media_type: str, location_id: int | None,
@@ -211,7 +213,8 @@ async def resolve_missing_cover(
     LibraryThing tries verified English related editions only if that fails
     (imported and print-on-demand edition ISBNs often have no cover
     anywhere). A recovered ISBN is stored on ISBN-less items unless another
-    item already holds it.
+    item already holds it. An audiobook with an ASIN asks Audnexus for the
+    Audible edition's cover after any hint and before the ISBN chain.
 
     `hints` carries a caller's own cover inputs (`cover_url`, `cover_id`,
     `hardcover_cover_url`) — the scan path passes the ones it already looked
@@ -226,7 +229,7 @@ async def resolve_missing_cover(
     """
     with get_db() as db:
         row = db.execute(
-            "SELECT title, authors, isbn, cover_path, media_type FROM items_live WHERE id = ?",
+            "SELECT title, authors, isbn, asin, cover_path, media_type FROM items_live WHERE id = ?",
             (item_id,),
         ).fetchone()
     if not row or row["cover_path"]:
@@ -243,7 +246,9 @@ async def resolve_missing_cover(
             client,
             hardcover_cover_url=hints.get("hardcover_cover_url"),
         )
-    elif row["isbn"]:
+    if not cover_path and row["asin"] and row["media_type"] == "audiobook":
+        cover_path = await audnexus.cover_for_item(item_id, row["asin"], client)
+    if not cover_path and not hints and row["isbn"]:
         cover_path = await covers.download_cover(
             item_id, row["isbn"], None, None, client)
 
@@ -444,30 +449,14 @@ async def _scan_upc(request: Request, templates, upc_code: str, media_type: str,
             {"status": status, "isbn": upc_norm, "title": existing["title"], "item_id": existing["id"]},
         )
 
-    # --- Board games ask GameUPC, not UPC Item DB (#167).
-    #
-    # An explicit Board Game pick goes straight there; Auto reaches the same
-    # path through the GameUPC probe just below. Below the
-    # barcode-only duplicate check above, so a game already on the shelf
-    # still costs no lookup. Deferred import: the board game router imports
-    # this module.
-    if media_type == "board_game":
-        from app.routers import items_board_games
-        return await items_board_games.scan_upc(request, templates, upc_norm, location_id, mode=mode)
-
-    # --- Auto: ask GameUPC first, once board games are set up.
-    #
-    # Nothing in a board game's barcode or its UPC Item DB record says "board
-    # game", so detection below can never pick the type. With no type chosen
-    # and a BGG token or GameUPC key configured (the household has opted into
-    # board games), GameUPC is asked first. Only a barcode it ties to at least
-    # one BGG game goes the board game way; a film or an album GameUPC merely
-    # names, or a GameUPC outage, carries on below exactly as before.
-    if (media_type or "auto") == "auto":
-        from app.routers import items_board_games
-        routed = await items_board_games.scan_upc_if_game(request, templates, upc_norm, location_id, mode=mode)
-        if routed is not None:
-            return routed
+    # --- Board games ask GameUPC, not UPC Item DB (#167): a Board Game pick
+    # always, Auto once board games are set up (see `route_scan`). Below the
+    # duplicate check, so a game already on the shelf costs no lookup.
+    # Deferred import: the board game router imports this module.
+    from app.routers import items_board_games
+    routed = await items_board_games.route_scan(request, templates, upc_norm, media_type, location_id, mode=mode)
+    if routed is not None:
+        return routed
 
     # --- One UPC Item DB lookup, above the game/film fork.
     #
@@ -481,7 +470,7 @@ async def _scan_upc(request: Request, templates, upc_code: str, media_type: str,
     # (G47) — without a handler that reads as live when nothing can raise.
     async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
         product_result = await upcitemdb.lookup(upc_norm, client)
-    if product_result.outcome == "transport_failed":
+    if scan_outcome.enrich_status(product_result) == "offline":  # a 5xx falls through (#190)
         return _upc_lookup_error(request, templates, upc_norm, media_type, mode, product_result)
     product = product_result.payload
 
@@ -542,7 +531,8 @@ async def _scan_upc(request: Request, templates, upc_code: str, media_type: str,
         # No transport handler here, deliberately: `tmdb.lookup_by_title`
         # returns `transport_failed` as a `ProviderResult`, never a raise, so
         # a handler here would be dead code that reads as live (`G47`). A TMDb
-        # outage reads as "no TMDb match"; the error card is the product lookup's.
+        # 5xx renders the result card's `unavailable` arm (#190); the
+        # connectivity card is the product lookup's.
         async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
             tmdb_result, _matched = await _first_hit(
                 queries,
@@ -565,12 +555,13 @@ async def _scan_upc(request: Request, templates, upc_code: str, media_type: str,
         # is ever computed. Without the state below, a rate-limited barcode is
         # rendered as an unknown one — the same dishonesty as #44, one phase
         # earlier. The `not_found` card renders it beside the message.
-        _log_scan(upc_norm, media_type, "not_found", mode=mode)
+        state = scan_outcome.not_found_status(product_result)
+        _log_scan(upc_norm, media_type, "error" if state == "unavailable" else "not_found", mode=mode)
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
             {"status": "not_found", "isbn": upc_norm, "media_type": media_type,
              "message": i18n.gettext("Not found — add manually below"), "preview_cover": None,
-             "enrich_status": scan_outcome.not_found_status(product_result),
+             "enrich_status": state, "enrich_provider": scan_outcome.provider_label(product_result),
              "locations": _manual_form_locations()},
         )
 
@@ -693,7 +684,7 @@ async def _scan_upc(request: Request, templates, upc_code: str, media_type: str,
                 "cover_path": cover_path}
                if status != "restored" else restore_report.restored_card(item_id)),
             "item_id": item_id,
-            "source": source, "media_type_label": MEDIA_TYPES.get(media_type, media_type),
+            "source": source, "media_type_label": i18n.gettext(MEDIA_TYPES.get(media_type, media_type)),
             "media_type": media_type,
             # T5 renders these; T4 only has to carry them.
             "detect_reason": detect_reason, "detect_overrode": detect_overrode,
@@ -707,9 +698,10 @@ async def _first_hit(queries, search):
 
     `search` is a coroutine answering a `ProviderResult` whose payload, on a
     hit, is a metadata **dict** — the game adapter unwraps its provider's list
-    to `[0]` before handing it over, so the ladder never carries a list (G45).
-    Both UPC paths climb this one ladder, so the film and game paths cannot
-    drift apart, and the rung floor stays `upcitemdb.search_queries`' (G46).
+    to the *accepted* candidate first, so this never carries a list (G45). The
+    film path climbs `upcitemdb.search_queries`' ladder, floor at
+    `MIN_SOLO_WORD` (G46); the game path sends `game_queries` × `game_attempts`,
+    with no shortened rung.
 
     The first `found` returns with its query. A `rejected`, `rate_limited` or
     `transport_failed` **stops the ladder** and returns `(that record, None)`:
@@ -745,20 +737,23 @@ async def _scan_upc_game(request: Request, templates, upc_norm: str, product: di
     *both* branches or one barcode gets two stories. It is read only where the
     ladder never runs: below, the card projects from the IGDB record alone.
     """
-    # Step 1: normalise the retail title into a search ladder. Same ladder as
-    # the film path, from the same record.
-    queries = upcitemdb.search_queries((product or {}).get("title") or "")
+    # Step 1: the barcode title's first field, and that field stripped of brand
+    # and platform words (#191). Not the film path's shortening ladder.
+    title, brand = (product or {}).get("title") or "", (product or {}).get("brand")
+    f1, stripped = upcitemdb.game_title_fields(title, brand)
+    queries = upcitemdb.game_queries(title, brand)
 
     if not queries:
         # The film branch's twin: a product-lookup 429 leaves no title, so this
         # returns above the `enrich_status` ladder and is the one place the
         # product record's own failure channel is what the card has to report.
-        _log_scan(upc_norm, "video_game", "not_found", mode=mode)
+        state = scan_outcome.not_found_status(product_result)
+        _log_scan(upc_norm, "video_game", "error" if state == "unavailable" else "not_found", mode=mode)
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
             {"status": "not_found", "isbn": upc_norm, "media_type": "video_game",
              "message": i18n.gettext("Not found — add manually below"), "preview_cover": None,
-             "enrich_status": scan_outcome.not_found_status(product_result),
+             "enrich_status": state, "enrich_provider": scan_outcome.provider_label(product_result),
              "locations": _manual_form_locations()},
         )
 
@@ -773,12 +768,15 @@ async def _scan_upc_game(request: Request, templates, upc_norm: str, product: di
     igdb_result = provider_result.no_credential("igdb")
     if igdb_id and igdb_secret:
         async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
-            # IGDB's list payload is unwrapped inside the helper now (G45).
-            # `platform` stays unforwarded: this ladder never filtered on it.
+            # The helper unwraps the first candidate whose whole title agrees
+            # (G45, G74). `platform` IS forwarded, on purpose (#191, reversing
+            # G77's note): filtered only for an IGDB slug, never unfiltered
+            # after it — the title guard cannot tell platforms apart.
             igdb_result, _matched = await _first_hit(
-                queries,
-                lambda q: title_lookup.lookup_by_title(
-                    q, "video_game", client,
+                title_lookup.game_attempts(queries, platform),
+                lambda a: title_lookup.lookup_by_title(
+                    a[0], "video_game", client, platform=a[1],
+                    accept=lambda t: title_match.game_title_agrees(t, f1, stripped),
                     creds={"igdb_client_id": igdb_id, "igdb_client_secret": igdb_secret}),
             )
             if igdb_result.outcome == "rejected":
@@ -799,7 +797,8 @@ async def _scan_upc_game(request: Request, templates, upc_norm: str, product: di
     # No `has_provider`: a video game always has IGDB.
     enrich_status = scan_outcome.enrich_status(igdb_result)
 
-    # Save item — with IGDB metadata if found, otherwise the cleaned UPC title
+    # Save item — IGDB metadata if found, else title-only under the barcode's
+    # title field (F1: `game_queries` puts it first)
     source = "igdb" if metadata else "upc"
     game_title = metadata["title"] if metadata else queries[0]
 
@@ -877,7 +876,7 @@ async def _scan_upc_game(request: Request, templates, upc_norm: str, product: di
                 "cover_path": cover_path}
                if status != "restored" else restore_report.restored_card(item_id)),
             "item_id": item_id,
-            "source": source, "media_type_label": "Video Game", "media_type": "video_game",
+            "source": source, "media_type_label": i18n.gettext("Video Game"), "media_type": "video_game",
             # T5 renders these; T4 only has to carry them.
             "detect_reason": detect_reason, "detect_overrode": detect_overrode,
             "enrich_status": enrich_status, "enrich_provider": "IGDB",

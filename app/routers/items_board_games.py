@@ -172,7 +172,7 @@ async def _file_game(
                if status != "restored" else restore_report.restored_card(item_id)),
             "item_id": item_id,
             "source": "BoardGameGeek" if source == "bgg" else "GameUPC",
-            "media_type_label": MEDIA_TYPE_LABEL, "media_type": MEDIA_TYPE,
+            "media_type_label": i18n.gettext(MEDIA_TYPE_LABEL), "media_type": MEDIA_TYPE,
             "enrich_status": enrich_status, "enrich_provider": "BGG",
         },
     )
@@ -190,6 +190,24 @@ def _choice_card(request, templates, *, upc_raw: str | None, candidates: list[di
          "location_id": location_id or "", "mode": mode,
          "from_scan": bool(upc_raw), "search_status": search_status, "search_provider": "BGG"},
     )
+
+
+async def route_scan(request: Request, templates, upc_raw: str, media_type: str | None,
+                     location_id: int | None, mode: str = "add"):
+    """`items_common._scan_upc`'s board game fork: the card, or `None` to carry on.
+
+    An explicit Board Game pick always comes here. Under Auto, nothing in a
+    board game's barcode or its UPC Item DB record says "board game", so
+    GameUPC is asked first, once a BGG token or GameUPC key says the household
+    has opted into board games. Only a barcode it ties to at least one BGG
+    game goes this way; a film or album GameUPC merely names, or a GameUPC
+    outage, carries on exactly as before.
+    """
+    if media_type == MEDIA_TYPE:
+        return await scan_upc(request, templates, upc_raw, location_id, mode=mode)
+    if (media_type or "auto") == "auto":
+        return await scan_upc_if_game(request, templates, upc_raw, location_id, mode=mode)
+    return None
 
 
 async def scan_upc_if_game(request: Request, templates, upc_raw: str, location_id: int | None, mode: str = "add"):

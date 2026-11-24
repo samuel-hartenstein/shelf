@@ -6,6 +6,315 @@ All notable changes to Shelf are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.82.2] - 2026-11-24
+
+Scanning a video game often filed the wrong game. Shelf sent IGDB the
+barcode's whole product title, or a shortened piece of it, and took IGDB's
+first answer. A *Grand Theft Auto: Vice City* barcode could become *Grand
+Theft Auto V*, and *Call of Duty: Black Ops III* could become plain *Call of
+Duty*. On a test set of 40 real game barcodes, 17 were filed as the wrong
+game. Shelf now takes an IGDB record only when its whole title matches the
+barcode's, and files the game under its barcode title otherwise. On the same
+40 barcodes, run live, none was filed wrong. This release also carries more
+of the interface in Italian from [@vjandrea](https://github.com/vjandrea).
+
+### Added
+
+- **Duplicates, Logs, Share, the feature-off pages and the Settings Library
+  tab are translated into Italian.** Contributed by
+  [@vjandrea](https://github.com/vjandrea) in
+  [#199](https://github.com/dgahagan/shelf/pull/199).
+
+### Changed
+
+- **A game scan files an IGDB record only when its title matches the
+  barcode's.** Shelf searches IGDB for the barcode's title, and again with
+  the brand, platform and "game" words removed, and looks at up to ten
+  results for each search. Small differences in punctuation, "&" for "and",
+  and Roman numerals ("Black Ops 3" and "Black Ops III") still match. A close
+  but different game does not. Reported by
+  [@LocalBoomer](https://github.com/LocalBoomer) in
+  [#191](https://github.com/dgahagan/shelf/issues/191).
+- **When no IGDB title matches, the game is added with its barcode title
+  only,** and the card says "no IGDB match for this barcode". This is
+  deliberate: a game with no metadata is easy to spot and fix with the game
+  search, and a wrong game is not. Some barcodes whose product title carries
+  extra words ("Mario Kart 8 Deluxe racing video game") are now added this
+  way where Shelf used to guess.
+- **Choosing a platform before you scan a game limits the IGDB search to
+  that platform.** Shelf no longer falls back to every platform, so a Wii
+  scan cannot pick up the DS game of the same name. With no platform chosen,
+  Shelf searches every platform, as before.
+- **A game scan no longer shortens the barcode's title** to find a match.
+  Film scans still do.
+
+## [0.82.1] - 2026-11-23
+
+When a metadata provider failed with a server error, Shelf said the book was
+"not found". A scan during a Google Books outage looked exactly like a book no
+catalogue knew, so people added it by hand or gave up on a book that would have
+been found a minute later. Shelf now says which provider failed and that the
+miss may not be genuine. This release also carries two Audiobookshelf sync
+fixes from [@litong5969](https://github.com/litong5969) and more of the
+interface in Italian from [@vjandrea](https://github.com/vjandrea).
+
+### Added
+
+- **Home, Stats, Wrap-up, Valuation, Labels, Trash and Audits are translated
+  into Italian,** including the messages their actions show. Contributed by
+  [@vjandrea](https://github.com/vjandrea) in
+  [#198](https://github.com/dgahagan/shelf/pull/198).
+
+### Changed
+
+- **A provider server error is no longer reported as "not found".** When a
+  provider answers with a 5xx error, the scan card names it, for example
+  "Google Books returned an error — this may not be a genuine miss", and its
+  badge reads **try again**. The manual-add form and the preview cover stay on
+  the card, so you can still add the item by hand. Title search, the game and
+  film searches, and the cover picker show the same notice. Reported by
+  [@smellychunks](https://github.com/smellychunks) in
+  [#190](https://github.com/dgahagan/shelf/issues/190).
+- **Recent scans records a provider outage as `error`, not `not_found`.**
+  Add by ISBN does the same.
+- **The connectivity card now means only that Shelf could not reach the
+  provider.** A provider that answered with an error gets the card above
+  instead.
+- **The server log says why an ISBN lookup found nothing.** One line names
+  each source, its answer and its HTTP status. It is a WARNING when a source
+  failed and an INFO line when every source was a genuine miss.
+- **Audiobookshelf series group as one.** The sync stored the ABS display
+  string, "Name #6", as the series name, so every volume became a series of
+  its own. The name and the number are now stored separately (the first
+  series when ABS lists several). Items synced before are repaired by the
+  next sync. A series position you set by hand is kept when the ABS series
+  carries no number. Contributed by [@litong5969](https://github.com/litong5969)
+  in [#196](https://github.com/dgahagan/shelf/pull/196).
+
+### Fixed
+
+- **Audiobookshelf no longer links unrelated books with non-Latin titles.**
+  The title match behind auto-linking (also used by the Audible import's
+  print-copy links) kept only a-z and 0-9. Chinese, Japanese, Korean,
+  Cyrillic and Greek titles all became empty, or only their digits, and were
+  linked to each other wherever the author check allowed. Titles now keep
+  letters of every script, and a title with no letters never title-matches.
+  Links the old match already made are not removed; unlink them by hand.
+  Contributed by [@litong5969](https://github.com/litong5969) in
+  [#197](https://github.com/dgahagan/shelf/pull/197).
+- **A server error from MusicBrainz, Audnexus, LibraryThing or IGDB is
+  reported the same way as any other provider's,** instead of each client's
+  own wording or a silent miss. LibraryThing's old "LibraryThing unavailable"
+  message is gone.
+
+## [0.82.0] - 2026-11-23
+
+On a phone, a barcode typed into Scan could not be sent. The field had no
+button of its own, and the keyboard's action key read "Next" and moved on to
+another field. Only a physical Enter key worked. Scan and Shelf Fill now have
+a visible **Scan** button beside the barcode field. This release also carries
+two community translations: Series, Upcoming, Discover, Music and Periodicals
+in Italian, from [@vjandrea](https://github.com/vjandrea), and six more areas
+in Simplified Chinese, from [@litong5969](https://github.com/litong5969).
+
+### Added
+
+- **A Scan button beside the barcode field, on Scan and Shelf Fill.** Type a
+  code and tap it to send it. On a phone this is the way to send a typed code.
+  Enter, a USB or Bluetooth scanner, and the camera work as before. In a
+  narrow column the button wraps below the field. Reported by
+  [@MartinZwolle](https://github.com/MartinZwolle) in
+  [#194](https://github.com/dgahagan/shelf/issues/194).
+- **Series, Upcoming, Discover, Music and Periodicals are translated into
+  Italian,** including the messages the Series and Hardcover actions show.
+  Contributed by [@vjandrea](https://github.com/vjandrea) in
+  [#192](https://github.com/dgahagan/shelf/pull/192).
+- **The item page, item edit, Scan, Photo Intake, Shelf Fill and Store Mode
+  are translated into Simplified Chinese.** Contributed by
+  [@litong5969](https://github.com/litong5969) in
+  [#189](https://github.com/dgahagan/shelf/pull/189).
+
+### Changed
+
+- **Phone keyboards are asked for a "Go" key on both barcode fields.** On
+  Gboard the action key becomes a Go arrow that sends the code. Other
+  keyboards may ignore the request; the button works either way.
+- **On desktop, the Scan barcode field is narrower** to make room for the
+  button. A full 13-digit ISBN scrolls by one digit while you type it.
+
+### Fixed
+
+- **Shelf Fill clears its barcode field after each scan.** A typed code used
+  to stay in the field after it was filed, so the next code had to be typed
+  over it. The field is now emptied and keeps focus, as on Scan. A scan
+  refused because no shelf is chosen keeps the code for the retry.
+
+## [0.81.1] - 2026-11-15
+
+This release changes nothing in the app. It fixes a contributor check. Since
+0.81.0, every dependency is pinned with the hashes of its files. The check that
+the locks are current compared only versions, not those hashes. A missing or
+mistyped hash could pass it and then break the arm64 image build when a
+release was tagged. The check now compares the hashes too, and `make lock` repairs them.
+
+### Changed
+
+- **For contributors:** `make check-lock` now checks the `--hash=` lines in
+  the dependency locks as well as the versions, and `make lock` repairs a bad
+  hash. A pull request can now fail `check-lock` when PyPI adds a file to a
+  version that is already pinned, even if the pull request changed no
+  dependency. Run `make lock` and commit the result.
+
+## [0.81.0] - 2026-11-14
+
+Shelf's image was published for x86-64 only, so a Raspberry Pi or another
+ARM64 machine had to build it from source. It is now published for both, a
+community contribution from [@Chrisser73](https://github.com/Chrisser73). This
+release also locks every dependency, so the packages inside an image no
+longer depend on the day it was built.
+
+### Added
+
+- **The Docker image is now published for `linux/arm64` as well as
+  `linux/amd64`.** A Raspberry Pi or another ARM64 device can pull
+  `dangahagan/shelf` directly instead of building the image locally. The same
+  tag serves both; Docker picks the right one. Contributed by
+  [@Chrisser73](https://github.com/Chrisser73) in
+  [#186](https://github.com/dgahagan/shelf/pull/186).
+
+### Changed
+
+- **Every dependency is now installed from a hash-checked lock.** The image
+  build installs all packages, direct and indirect, at pinned versions whose
+  hashes must match, so two builds of the same tag get the same packages, and
+  `make check-deps` audits exactly that set. A from-source install is
+  hash-checked too and needs Python 3.12 or later. Contributors change
+  dependencies in `requirements.in` / `requirements-dev.in` and run
+  `make lock`.
+
+## [0.80.0] - 2026-11-13
+
+An audiobook bought on Audible has an ASIN but usually no ISBN, and Shelf could
+only look up covers and details by ISBN. Audiobooks from a Libation or
+audible-cli import therefore often arrived without a cover, and Retry answered
+"No ISBN". Shelf now asks the Audible catalogue, through the public Audnexus
+service, for an audiobook's cover and details by its ASIN. This release also
+translates Photo Intake, Shelf Fill and Store Mode into Italian, a community
+contribution from [@vjandrea](https://github.com/vjandrea).
+
+### Added
+
+- **Audiobooks with an ASIN get their cover from the Audible catalogue.** When
+  a Libation or audible-cli import has "Fetch covers" ticked, the cover queue
+  looks up each new audiobook by its ASIN. The startup retry and Retry Missing
+  Covers in Settings do the same. A cover found by its ASIN is the edition you
+  bought, so Shelf tries it before the ISBN sources. An audiobook without an
+  ASIN, and any item that is not an audiobook, is looked up exactly as before.
+- **Retry ASIN on an audiobook with no ISBN.** The item page offers "Retry
+  ASIN" where it used to offer nothing, and Find cover shows the Audible
+  cover first, labelled "Audible · ASIN match". The Cover Review queue shows
+  the same tile when you search.
+- **Fill details from Audible.** A button on an audiobook page that has an ASIN
+  fills its empty fields from the catalogue: subtitle, authors, narrator,
+  publisher, year, duration, synopsis and series. It never overwrites a value
+  you have set, and it never sets the ISBN. Audible's ISBN identifies a
+  different edition, and storing it would make a scan of that edition look
+  like this audiobook. To replace a value, use Edit.
+- **Audible marketplace setting** (Settings → Library). Audible sells some
+  titles in only one marketplace. If your audiobooks come from the UK or
+  German store, choose that marketplace, or those titles are reported as "not
+  in the Audible catalogue". The default is the United States.
+- **Photo Intake, Shelf Fill and Store Mode are translated into Italian.** This
+  covers the photo, tiling and result states of Photo Intake, the Shelf Fill
+  result and summary cards, and Store Mode. Titles
+  you queued in Store Mode are your own data and stay as written. Contributed
+  by [@vjandrea](https://github.com/vjandrea) in
+  [#185](https://github.com/dgahagan/shelf/pull/185).
+
+### Changed
+
+- **The Cover Review card no longer says "No covers found" before you search.**
+  The queue does not search when a card opens, because each Skip would then
+  cost a provider request. The card now asks you to type in the search box.
+
+Not included, on purpose: adding an audiobook by typing its ASIN, and
+searching the Audible catalogue by title. Audnexus looks books up by ASIN only.
+To add one, add it by title, set its ASIN in Edit, then use Fill details from
+Audible.
+
+## [0.79.1] - 2026-11-13
+
+Three things were out of step. Linking an audiobook or ebook to its print copy
+in Related Media left the item's "Also available as" links stale until you
+reloaded the page. A brief Open Library outage could turn a scan into an error
+page instead of trying the next source. And a reading-app import could store a
+date that does not exist. This release fixes all three. The Related Media fix
+is a community contribution from
+[@sudo-rpaisley](https://github.com/sudo-rpaisley).
+
+### Fixed
+
+- **"Also available as" updates immediately when you link or unlink another
+  format in Related Media.** Adding the first format or removing the last no
+  longer needs a page reload, and the links keep your Series or Stats back
+  destination. Only formats appear there: a link marked Related or Adaptation
+  stays in the Related Media panel, as before. Contributed by
+  [@sudo-rpaisley](https://github.com/sudo-rpaisley) in
+  [#184](https://github.com/dgahagan/shelf/pull/184).
+- **A scan or title search no longer fails with an error page when Open
+  Library drops the connection mid-reply or redirects in a loop.** The lookup
+  falls through to the next source instead.
+- **Importing a reading-app CSV no longer stores an impossible date.** A date
+  such as `2023/13/45` is left blank instead of being saved as a finished or
+  acquired date.
+
+## [0.79.0] - 2026-11-12
+
+In a translated interface, Scan was still in English: the mode tabs, the
+form, and every card a scan returns. Scan is the page you use most when
+adding to a collection, so an Italian interface stopped being Italian at the
+point you used it most. This release translates Scan into Italian. It is a
+community contribution from [@vjandrea](https://github.com/vjandrea), the
+fourth area of the translated interface.
+
+### Added
+
+- **The Scan page is translated into Italian.** This covers the eight modes
+  and their descriptions, the camera, and the location, borrower, platform,
+  tag and status controls. It also covers title search, Add by hand, the
+  periodical card, and every result card and message a scan returns (add,
+  lend, return, move, inventory, lookup and quick rate). The labels follow the
+  mode and the media type, as they do in English: Move asks for the
+  destination location, and a video game asks for its UPC. The loan wording
+  is "In prestito presso", here and in Browse's loan tooltip. That form reads
+  correctly before any borrower name. Contributed by
+  [@vjandrea](https://github.com/vjandrea) in
+  [#183](https://github.com/dgahagan/shelf/pull/183).
+
+## [0.78.3] - 2026-11-12
+
+The keyboard-shortcuts help was broken in a translated interface: in Italian
+or Chinese the `?` button, the close button and the backdrop all did nothing.
+Separately, Shelf's single-key shortcuts also fired while Ctrl, Cmd or Alt was
+held, so Ctrl+F opened Browse's filters instead of the browser's find bar.
+This release fixes both, and tidies how the help looks on screen.
+
+### Fixed
+
+- **The keyboard-shortcuts `?` button now works in Italian and Chinese.**
+  Before, in a translated interface the button did nothing, and the help's
+  close button and its backdrop did nothing either — the list could only be
+  opened with the `?` key and closed with Escape. All three now work in every
+  language.
+- **Keyboard shortcuts no longer fire while Ctrl, Cmd or Alt is held.**
+  Ctrl/Cmd+F (find in page), Ctrl+S, Ctrl+B and similar browser shortcuts
+  reach the browser again instead of toggling Browse's filters or jumping to
+  Scan or Browse. The plain keys work exactly as before.
+- **The keyboard-shortcuts help now opens in the middle of the screen.**
+  Before, it opened in the top-left corner on a desktop, and on a phone its
+  right edge ran off the screen. It is now centred, and it fits a phone
+  screen with a margin on both sides.
+
 ## [0.78.2] - 2026-11-11
 
 Shelf upgrades its database at startup, and it skips a few upgrade steps on
@@ -5719,6 +6028,15 @@ First public release.
   protection, encrypted credential storage, optional passphrase-encrypted
   backups, HTTPS out of the box, non-root container
 
+[0.82.2]: https://github.com/dgahagan/shelf/releases/tag/v0.82.2
+[0.82.1]: https://github.com/dgahagan/shelf/releases/tag/v0.82.1
+[0.82.0]: https://github.com/dgahagan/shelf/releases/tag/v0.82.0
+[0.81.1]: https://github.com/dgahagan/shelf/releases/tag/v0.81.1
+[0.81.0]: https://github.com/dgahagan/shelf/releases/tag/v0.81.0
+[0.80.0]: https://github.com/dgahagan/shelf/releases/tag/v0.80.0
+[0.79.1]: https://github.com/dgahagan/shelf/releases/tag/v0.79.1
+[0.79.0]: https://github.com/dgahagan/shelf/releases/tag/v0.79.0
+[0.78.3]: https://github.com/dgahagan/shelf/releases/tag/v0.78.3
 [0.78.2]: https://github.com/dgahagan/shelf/releases/tag/v0.78.2
 [0.78.1]: https://github.com/dgahagan/shelf/releases/tag/v0.78.1
 [0.78.0]: https://github.com/dgahagan/shelf/releases/tag/v0.78.0

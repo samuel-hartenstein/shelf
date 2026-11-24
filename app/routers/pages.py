@@ -3,7 +3,7 @@ from datetime import date, datetime, timedelta
 from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import RedirectResponse
 
-from app import browse_filters, features, nav
+from app import browse_filters, features, i18n, nav
 from app.auth import require_role
 from app.features import require_feature
 from app.config import (
@@ -24,7 +24,6 @@ from app.services import buy_links as buy_links_svc
 from app.services import release_radar
 from app.services import wrapups
 from app.database import get_db, get_setting, get_game_platforms, get_reading_history
-from app.routers import items_common
 from app.routers.items_common import SORT_OPTIONS
 from app.routers.series import find_gaps
 from app.services import item_copies, item_template, item_write
@@ -244,7 +243,7 @@ def _status_label_sets():
     neutral set, and every status-capable type its own. The keys other than
     `auto` are the types the control is enabled for."""
     def words(labels):
-        return [labels.want, labels.doing, labels.done]
+        return [i18n.gettext(labels.want), i18n.gettext(labels.doing), i18n.gettext(labels.done)]
     sets = {t: words(status_labels(t)) for t in sorted(STATUS_MEDIA_TYPES)}
     return {"auto": words(status_labels(None)), **sets}
 
@@ -544,7 +543,7 @@ async def stats(request: Request, _=Depends(require_role("viewer")),
 
     read_pairs = sorted(book_by_year.items())
     finished_this_year = [
-        (by_key.get(k, {}).get(current_year, 0), labels.done_lower)
+        (by_key.get(k, {}).get(current_year, 0), i18n.gettext(labels.done_lower))
         for k, labels in (("read", READ_LABELS), ("watch", WATCH_LABELS), ("play", PLAY_LABELS))
     ]
     finished_this_year = [(n, word) for n, word in finished_this_year if n > 0]

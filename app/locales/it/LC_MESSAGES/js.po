@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: andrea@bergamasco.me\n"
-"PO-Revision-Date: 2026-11-06 15:53+0100\n"
+"PO-Revision-Date: 2026-11-13 20:30+0100\n"
 "Last-Translator: Andrea Bergamasco\n"
 "Language: it\n"
 "Language-Team: Italian\n"
@@ -30,28 +30,159 @@ msgstr "Seleziona"
 msgid "Press ? for keyboard shortcuts"
 msgstr "Premi ? per le scorciatoie da tastiera"
 
-#: static/js/browse.js:482
+#: static/js/browse.js:484
 #, python-brace-format
 msgid "Updated {count} items"
 msgstr "Elementi aggiornati: {count}"
 
-#: static/js/browse.js:486 static/js/browse.js:489
+#: static/js/browse.js:488 static/js/browse.js:491
 msgid "Update failed"
 msgstr "Aggiornamento non riuscito"
 
-#: static/js/browse.js:523 static/js/browse.js:526
+#: static/js/browse.js:525 static/js/browse.js:528
 msgid "Tag update failed"
 msgstr "Aggiornamento dei tag non riuscito"
 
-#: static/js/browse.js:531
+#: static/js/browse.js:533
 #, python-brace-format
 msgid "Move {count} items to Trash?"
 msgstr "Elementi da spostare nel cestino: {count}. Confermi?"
 
-#: static/js/browse.js:535
+#: static/js/browse.js:537
 #, python-brace-format
 msgid "Moved {count} items to Trash"
 msgstr "Elementi spostati nel cestino: {count}"
+
+#: static/js/components-item.js:75
+#, python-brace-format
+msgid "{count} missing"
+msgstr "{count} mancanti"
+
+#: static/js/components-item.js:78
+#, python-brace-format
+msgid "checked {date}"
+msgstr "verificata il {date}"
+
+#: static/js/components-item.js:81 static/js/components-item.js:85
+#: static/js/components-item.js:154 static/js/components-settings.js:889
+#: static/js/location-order.js:67
+msgid "Saving…"
+msgstr "Salvataggio…"
+
+#: static/js/components-item.js:82
+msgid "Unmark complete"
+msgstr "Segna come incompleta"
+
+#: static/js/components-item.js:82
+msgid "Mark complete"
+msgstr "Segna come completa"
+
+#: static/js/components-item.js:86
+msgid "Watching"
+msgstr "Seguita"
+
+#: static/js/components-item.js:86
+msgid "Watch for new volumes"
+msgstr "Segui i nuovi volumi"
+
+#: static/js/components-item.js:104 static/js/components-item.js:110
+#: static/js/components-item.js:127 static/js/components-item.js:133
+#: static/js/components-item.js:312 static/js/components-item.js:313
+#: static/js/components-item.js:346 static/js/components-item.js:349
+#: static/js/components-item.js:444
+msgid "Failed"
+msgstr "Non riuscito"
+
+#: static/js/components-item.js:106
+msgid "Watching for new volumes"
+msgstr "Segui i nuovi volumi"
+
+#: static/js/components-item.js:106
+msgid "Stopped watching"
+msgstr "Non la segui più"
+
+#: static/js/components-item.js:128
+msgid "Marked complete"
+msgstr "Segnata come completata"
+
+#: static/js/components-item.js:128
+msgid "Completeness cleared"
+msgstr "Completamento rimosso"
+
+#: static/js/components-item.js:155
+#, python-brace-format
+msgid "Merge into {name}"
+msgstr "Unisci a {name}"
+
+#: static/js/components-item.js:155
+msgid "Rename"
+msgstr "Rinomina"
+
+#: static/js/components-item.js:172 static/js/components-item.js:183
+msgid "Rename failed"
+msgstr "La rinomina non è riuscita"
+
+#: static/js/components-item.js:176
+#, python-brace-format
+msgid "Merged {books} into {name}"
+msgstr "{books} uniti a {name}"
+
+#: static/js/components-item.js:177
+#, python-brace-format
+msgid "Series renamed to {name}"
+msgstr "Serie rinominata in {name}"
+
+#: static/js/components-item.js:210 static/js/components-item.js:216
+msgid "Remove failed"
+msgstr "Rimozione non riuscita"
+
+#: static/js/components-item.js:213
+#, python-brace-format
+msgid "Removed {books} from the series"
+msgstr "{books} rimossi dalla serie"
+
+#: static/js/components-item.js:219
+msgid "1 book"
+msgstr "1 libro"
+
+#: static/js/components-item.js:219
+#, python-brace-format
+msgid "{count} books"
+msgstr "{count} libri"
+
+#: static/js/components-item.js:248
+msgid "Synopsis saved"
+msgstr "Sinossi salvata"
+
+#: static/js/components-item.js:250 static/js/components-item.js:253
+msgid "Save failed"
+msgstr "Salvataggio non riuscito"
+
+#: static/js/components-item.js:267
+msgid "Synopsis fetched from Hardcover"
+msgstr "Sinossi recuperata da Hardcover"
+
+#: static/js/components-item.js:275
+msgid "No synopsis found"
+msgstr "Nessuna sinossi trovata"
+
+#: static/js/components-item.js:278
+msgid "Fetch failed"
+msgstr "Recupero non riuscito"
+
+#: static/js/components-item.js:303
+msgid "Check failed"
+msgstr "Verifica non riuscita"
+
+#: static/js/components-item.js:312 static/js/components-item.js:342
+#: static/js/components-item.js:443
+msgid "Restored from Trash"
+msgstr "Recuperato dal cestino"
+
+#: static/js/components-item.js:312 static/js/components-item.js:342
+#: static/js/components-item.js:443
+msgid "Added to wishlist"
+msgstr "Aggiunto alla lista desideri"
 
 #: static/js/components-item.js:419
 msgid "Synced to Hardcover"
@@ -61,18 +192,6 @@ msgstr "Sincronizzato con Hardcover"
 msgid "Connection failed"
 msgstr "Connessione non riuscita"
 
-#: static/js/components-item.js:443
-msgid "Restored from Trash"
-msgstr "Recuperato dal cestino"
-
-#: static/js/components-item.js:443
-msgid "Added to wishlist"
-msgstr "Aggiunto alla lista desideri"
-
-#: static/js/components-item.js:444
-msgid "Failed"
-msgstr "Non riuscito"
-
 #: static/js/components-item.js:537 static/js/intake.js:400
 msgid "Author(s)"
 msgstr "Autore/i"
@@ -80,6 +199,28 @@ msgstr "Autore/i"
 #: static/js/components-item.js:578 static/js/components-item.js:582
 msgid "Could not copy from that item."
 msgstr "Impossibile copiare da questo elemento."
+
+#: static/js/components-settings.js:21
+msgid "Network error — check your connection"
+msgstr "Errore di rete: controlla la connessione"
+
+#: static/js/components-settings.js:26
+msgid "Unexpected response from server"
+msgstr "Risposta inattesa dal server"
+
+#: static/js/components-settings.js:26
+#, python-brace-format
+msgid "Request failed ({status})"
+msgstr "Richiesta non riuscita ({status})"
+
+#: static/js/components-settings.js:82
+msgid "Request failed"
+msgstr "Richiesta non riuscita"
+
+#: static/js/components-settings.js:753
+#, python-brace-format
+msgid "Delete user {name}?"
+msgstr "Eliminare l'utente {name}?"
 
 #: static/js/components-settings.js:767
 msgid "Never"
@@ -93,14 +234,58 @@ msgstr "Copiato"
 msgid "Copy"
 msgstr "Copia"
 
-#: static/js/components-settings.js:807
+#: static/js/components-settings.js:807 static/js/components-settings.js:847
 #, python-brace-format
 msgid "Revoke token {name}?"
 msgstr "Revocare il token {name}?"
 
+#: static/js/components-settings.js:910
+msgid "Could not refresh feature settings"
+msgstr "Impossibile aggiornare le impostazioni delle funzionalità"
+
+#: static/js/components-settings.js:926
+msgid "Could not save feature settings"
+msgstr "Impossibile salvare le impostazioni delle funzionalità"
+
 #: static/js/components.js:82
 msgid "Could not change the language"
 msgstr "Impossibile cambiare la lingua"
+
+#: static/js/duplicates.js:53
+#, python-brace-format
+msgid "That did not go through ({why}) — reload and try again"
+msgstr "Non è andata a buon fine ({why}): ricarica e riprova"
+
+#: static/js/duplicates.js:152
+#, python-brace-format
+msgid "Merge {count} records into \"{title}\"? The merged-away records cannot be restored."
+msgstr "Unire {count} schede in \"{title}\"? Le schede unite non si potranno ripristinare."
+
+#: static/js/intake.js:186
+msgid "No camera found. Use Choose photo instead."
+msgstr "Nessuna fotocamera trovata. Usa invece Scegli una foto."
+
+#: static/js/intake.js:187 static/js/item_edit.js:55 static/js/item_edit.js:142
+#: static/js/scan.js:386
+msgid "Camera access denied. Check browser permissions for this site."
+msgstr "Accesso alla fotocamera negato. Controlla i permessi del browser per questo sito."
+
+#: static/js/intake.js:197
+msgid "Could not capture a frame — try again."
+msgstr "Impossibile catturare l'immagine: riprova."
+
+#: static/js/intake.js:362 static/js/intake.js:366
+msgid "Analysis failed"
+msgstr "Analisi non riuscita"
+
+#: static/js/intake.js:440
+#, python-brace-format
+msgid "Added {count} items"
+msgstr "Elementi aggiunti: {count}"
+
+#: static/js/intake.js:442 static/js/intake.js:445
+msgid "Add failed"
+msgstr "Aggiunta non riuscita"
 
 #: static/js/item_edit.js:28 static/js/item_edit.js:46
 msgid "Point the camera at a 978 or 979 ISBN barcode."
@@ -110,13 +295,9 @@ msgstr "Inquadra un codice a barre ISBN che inizi con 978 o 979."
 msgid "Starting camera…"
 msgstr "Avvio della fotocamera…"
 
-#: static/js/item_edit.js:53 static/js/item_edit.js:140 static/js/scan.js:360
+#: static/js/item_edit.js:53 static/js/item_edit.js:140 static/js/scan.js:384
 msgid "Camera requires HTTPS. Open Shelf through an HTTPS reverse proxy, or leave SHELF_TLS on."
 msgstr "La fotocamera richiede HTTPS. Apri Shelf tramite un reverse proxy HTTPS o lascia attivo SHELF_TLS."
-
-#: static/js/item_edit.js:55 static/js/item_edit.js:142 static/js/scan.js:362
-msgid "Camera access denied. Check browser permissions for this site."
-msgstr "Accesso alla fotocamera negato. Controlla i permessi del browser per questo sito."
 
 #: static/js/item_edit.js:71
 msgid "That barcode is not a 978/979 ISBN. Try again."
@@ -130,127 +311,367 @@ msgstr "Inquadra un codice a barre commerciale UPC-A o EAN-13."
 msgid "That is not a valid UPC-A / EAN-13 retail barcode. Try again."
 msgstr "Questo non è un codice a barre commerciale UPC-A / EAN-13 valido. Riprova."
 
+#: static/js/location-order.js:32
+msgid "Order changed — save when ready."
+msgstr "Ordine cambiato: salva quando hai finito."
+
+#: static/js/location-order.js:60
+msgid "Could not save shelf order"
+msgstr "Impossibile salvare l'ordine dello scaffale"
+
+#: static/js/location-order.js:70
+msgid "Shelf order saved."
+msgstr "Ordine dello scaffale salvato."
+
+#: static/js/location-order.js:81
+msgid "Ordering…"
+msgstr "Ordinamento in corso…"
+
+#: static/js/scan.js:28 static/js/scan.js:163 static/js/scan.js:165
+msgid "Want to"
+msgstr "Da iniziare"
+
+#: static/js/scan.js:29 static/js/scan.js:163 static/js/scan.js:165
+msgid "In progress"
+msgstr "In corso"
+
+#: static/js/scan.js:30 static/js/scan.js:163 static/js/scan.js:165
+msgid "Finished"
+msgstr "Finito"
+
 #: static/js/scan.js:52
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #: static/js/scan.js:53
 msgid "Wishlist"
-msgstr ""
+msgstr "Lista desideri"
 
 #: static/js/scan.js:54
 msgid "Lend"
-msgstr ""
+msgstr "Presta"
 
 #: static/js/scan.js:55
 msgid "Return"
-msgstr ""
+msgstr "Restituisci"
 
 #: static/js/scan.js:56
 msgid "Move"
-msgstr ""
+msgstr "Sposta"
 
 #: static/js/scan.js:57
 msgid "Inventory"
-msgstr ""
+msgstr "Inventario"
 
-#: static/js/scan.js:58 static/js/scan.js:70
+#: static/js/scan.js:58 static/js/scan.js:94
 msgid "Lookup"
-msgstr ""
+msgstr "Consulta"
 
-#: static/js/scan.js:59 static/js/scan.js:71
+#: static/js/scan.js:59 static/js/scan.js:95
 msgid "Quick Rate"
-msgstr ""
-
-#: static/js/scan.js:64
-msgid "Add Items"
-msgstr ""
-
-#: static/js/scan.js:64
-msgid "Scan barcodes to add items to your collection."
-msgstr ""
+msgstr "Segna finito"
 
 #: static/js/scan.js:65
-msgid "Add to Wishlist"
-msgstr ""
+msgid "Target Location"
+msgstr "Posizione di destinazione"
 
 #: static/js/scan.js:65
-msgid "Scan to save items you want but haven't bought yet."
-msgstr ""
+msgid "Auditing Location"
+msgstr "Posizione da inventariare"
 
-#: static/js/scan.js:66
-msgid "Lend Items"
-msgstr ""
-
-#: static/js/scan.js:66
-msgid "Select a borrower, then scan items to check them out."
-msgstr ""
-
-#: static/js/scan.js:67
-msgid "Return Items"
-msgstr ""
-
-#: static/js/scan.js:67
-msgid "Scan items to check them back in."
-msgstr ""
-
-#: static/js/scan.js:68
-msgid "Move Items"
-msgstr ""
-
-#: static/js/scan.js:68
-msgid "Select a target location, then scan items to move them."
-msgstr ""
-
-#: static/js/scan.js:69
-msgid "Inventory Audit"
-msgstr ""
-
-#: static/js/scan.js:69
-msgid "Select a location and scan every item you find there. Start an audit to get a report."
-msgstr ""
+#: static/js/scan.js:65
+msgid "Location"
+msgstr "Posizione"
 
 #: static/js/scan.js:70
-msgid "Scan to check if an item is in your collection. No changes are made."
-msgstr ""
+msgid "Barcode"
+msgstr "Codice a barre"
 
-#: static/js/scan.js:71
-msgid "Scan to mark items as read or completed."
-msgstr ""
+#: static/js/scan.js:70
+msgid "ISBN / UPC"
+msgstr "ISBN / UPC"
+
+#: static/js/scan.js:72
+msgid "Scan barcode..."
+msgstr "Scansiona il codice a barre..."
+
+#: static/js/scan.js:73
+msgid "Scan any barcode..."
+msgstr "Scansiona un codice a barre..."
+
+#: static/js/scan.js:74
+msgid "Scan UPC barcode..."
+msgstr "Scansiona il codice UPC..."
+
+#: static/js/scan.js:74
+msgid "Scan or type ISBN..."
+msgstr "Scansiona o scrivi l'ISBN..."
+
+#: static/js/scan.js:77
+msgid "Title or author..."
+msgstr "Titolo o autore..."
+
+#: static/js/scan.js:77
+msgid "Game title..."
+msgstr "Titolo del gioco..."
+
+#: static/js/scan.js:77
+msgid "Movie title..."
+msgstr "Titolo del film..."
+
+#: static/js/scan.js:78
+msgid "Book title or author..."
+msgstr "Titolo o autore del libro..."
+
+#: static/js/scan.js:81
+msgid "Recently Added"
+msgstr "Aggiunti di recente"
+
+#: static/js/scan.js:81
+msgid "Added to Wishlist"
+msgstr "Aggiunti alla lista desideri"
+
+#: static/js/scan.js:81
+msgid "Checked Out"
+msgstr "Prestati"
+
+#: static/js/scan.js:81
+msgid "Returned"
+msgstr "Restituiti"
+
+#: static/js/scan.js:82
+msgid "Moved"
+msgstr "Spostati"
+
+#: static/js/scan.js:82
+msgid "Scanned Items"
+msgstr "Elementi scansionati"
+
+#: static/js/scan.js:82
+msgid "Lookup Results"
+msgstr "Risultati della consultazione"
+
+#: static/js/scan.js:83
+msgid "Marked as finished"
+msgstr "Segnati come finiti"
+
+#: static/js/scan.js:83
+msgid "Results"
+msgstr "Risultati"
+
+#: static/js/scan.js:88
+msgid "Add Items"
+msgstr "Aggiungi elementi"
+
+#: static/js/scan.js:88
+msgid "Scan barcodes to add items to your collection."
+msgstr "Scansiona i codici a barre per aggiungere elementi alla collezione."
+
+#: static/js/scan.js:89
+msgid "Add to Wishlist"
+msgstr "Aggiungi alla lista desideri"
+
+#: static/js/scan.js:89
+msgid "Scan to save items you want but haven't bought yet."
+msgstr "Scansiona per salvare gli elementi che vuoi ma non hai ancora comprato."
+
+#: static/js/scan.js:90
+msgid "Lend Items"
+msgstr "Presta elementi"
+
+#: static/js/scan.js:90
+msgid "Select a borrower, then scan items to check them out."
+msgstr "Scegli a chi prestare, poi scansiona gli elementi da prestare."
+
+#: static/js/scan.js:91
+msgid "Return Items"
+msgstr "Restituzione"
+
+#: static/js/scan.js:91
+msgid "Scan items to check them back in."
+msgstr "Scansiona gli elementi restituiti."
+
+#: static/js/scan.js:92
+msgid "Move Items"
+msgstr "Sposta elementi"
+
+#: static/js/scan.js:92
+msgid "Select a target location, then scan items to move them."
+msgstr "Scegli la posizione di destinazione, poi scansiona gli elementi da spostare."
+
+#: static/js/scan.js:93
+msgid "Inventory Audit"
+msgstr "Inventario"
+
+#: static/js/scan.js:93
+msgid "Select a location and scan every item you find there. Start an audit to get a report."
+msgstr "Scegli una posizione e scansiona ogni elemento che trovi lì. Avvia un inventario per ottenere un resoconto."
 
 #: static/js/scan.js:94
+msgid "Scan to check if an item is in your collection. No changes are made."
+msgstr "Scansiona per controllare se un elemento è nella collezione. Non viene modificato nulla."
+
+#: static/js/scan.js:95
+msgid "Scan to mark items as read or completed."
+msgstr "Scansiona per segnare gli elementi come letti o completati."
+
+#: static/js/scan.js:118
 msgid "Could not load recent scans"
-msgstr ""
+msgstr "Impossibile caricare le scansioni recenti"
 
-#: static/js/scan.js:243 static/js/scan.js:392
+#: static/js/scan.js:267 static/js/scan.js:416
 msgid "Select a borrower first"
-msgstr ""
+msgstr "Prima scegli a chi prestare"
 
-#: static/js/scan.js:248 static/js/scan.js:396
+#: static/js/scan.js:272 static/js/scan.js:420
 msgid "Select a location first"
-msgstr ""
+msgstr "Prima scegli una posizione"
 
-#: static/js/scan.js:464
+#: static/js/scan.js:488
 msgid "Choose the matching game below"
 msgstr ""
 
-#: static/js/scan.js:465
+#: static/js/scan.js:489
 msgid "Choose the matching book below"
-msgstr ""
+msgstr "Scegli il libro corrispondente qui sotto"
 
-#: static/js/scan.js:465
+#: static/js/scan.js:489
 msgid "Type the five digits below"
-msgstr ""
+msgstr "Scrivi le cinque cifre qui sotto"
 
-#: static/js/scan.js:473
+#: static/js/scan.js:497
 msgid "done"
 msgstr ""
 
-#: static/js/scan.js:484
+#: static/js/scan.js:508 static/js/shelf-fill.js:135
 msgid "error"
-msgstr ""
+msgstr "errore"
 
-#: static/js/scan.js:484
+#: static/js/scan.js:508 static/js/shelf-fill.js:135
 msgid "Scan failed"
-msgstr ""
+msgstr "Scansione non riuscita"
+
+#: static/js/shelf-fill.js:4
+msgid "shelved"
+msgstr "sistemato"
+
+#: static/js/shelf-fill.js:33 static/js/shelf-fill.js:51
+msgid "Choose a shelf location first"
+msgstr "Prima scegli la posizione dello scaffale"
+
+#: static/js/shelf-fill.js:70
+msgid "Camera access failed. Check browser permissions and HTTPS."
+msgstr "Accesso alla fotocamera non riuscito. Controlla i permessi del browser e l'HTTPS."
+
+#: static/js/store.js:155
+msgid "Store Mode is turned off on this Shelf. Your queued scans are kept."
+msgstr "La modalità negozio è disattivata su questo Shelf. Le scansioni in coda vengono conservate."
+
+#: static/js/store.js:156
+msgid "Sign in to Shelf to sync your queued scans."
+msgstr "Accedi a Shelf per sincronizzare le scansioni in coda."
+
+#: static/js/store.js:201
+msgid "1 barcode didn't scan cleanly — saved to your wishlist to fix later."
+msgstr "1 codice a barre non è stato letto bene: è nella lista desideri, da sistemare dopo."
+
+#: static/js/store.js:202
+#, python-brace-format
+msgid "{count} barcodes didn't scan cleanly — saved to your wishlist to fix later."
+msgstr "{count} codici a barre non sono stati letti bene: sono nella lista desideri, da sistemare dopo."
+
+#: static/js/store.js:206
+msgid "1 restored from Trash."
+msgstr "1 ripristinato dal cestino."
+
+#: static/js/store.js:207
+#, python-brace-format
+msgid "{count} restored from Trash."
+msgstr "{count} ripristinati dal cestino."
+
+#: static/js/store.js:237
+msgid "Already queued for your wishlist."
+msgstr "Già in coda nella lista desideri."
+
+#: static/js/store.js:241
+msgid "Added to sync queue — syncing now…"
+msgstr "Aggiunto alla coda di sincronizzazione: sincronizzazione in corso…"
+
+#: static/js/store.js:242
+msgid "Queued — will be added to your wishlist when back online."
+msgstr "In coda: verrà aggiunto alla lista desideri quando torni online."
+
+#: static/js/store.js:266
+msgid "OWNED"
+msgstr "POSSEDUTO"
+
+#: static/js/store.js:272
+msgid "ON WISHLIST"
+msgstr "IN LISTA DESIDERI"
+
+#: static/js/store.js:278
+msgid "NOT IN LIBRARY"
+msgstr "NON IN BIBLIOTECA"
+
+#: static/js/store.js:279
+#, python-brace-format
+msgid "ISBN {code}"
+msgstr "ISBN {code}"
+
+#: static/js/store.js:295 static/js/store.js:317
+msgid "Scan with Camera"
+msgstr "Scansiona con la fotocamera"
+
+#: static/js/store.js:313
+msgid "Stop Camera"
+msgstr "Ferma la fotocamera"
+
+#: static/js/store.js:323
+msgid "Camera unavailable — use manual entry."
+msgstr "Fotocamera non disponibile: inserisci il codice a mano."
+
+#: static/js/store.js:363
+#, python-brace-format
+msgid "{count} titles cached"
+msgstr "{count} titoli in memoria"
+
+#: static/js/store.js:363
+msgid "No library data cached yet"
+msgstr "Ancora nessun dato della biblioteca in memoria"
+
+#: static/js/store.js:365
+#, python-brace-format
+msgid "synced {when}"
+msgstr "sincronizzato il {when}"
+
+#: static/js/store.js:367
+msgid "online"
+msgstr "online"
+
+#: static/js/store.js:367
+msgid "offline"
+msgstr "offline"
+
+#: static/js/wrapup.js:128
+msgid "Untitled"
+msgstr "Senza titolo"
+
+#: static/js/wrapup.js:205
+#, python-brace-format
+msgid "Finished in {period}"
+msgstr "Finiti ({period})"
+
+#: static/js/wrapup.js:205
+#, python-brace-format
+msgid "Added in {period}"
+msgstr "Aggiunti ({period})"
+
+#: static/js/wrapup.js:206
+#, python-brace-format
+msgid "Latest {shown} of {total}"
+msgstr "Ultimi {shown} di {total}"
+
+#: static/js/wrapup.js:250
+msgid "This browser could not export the image."
+msgstr "Questo browser non è riuscito a esportare l'immagine."
 

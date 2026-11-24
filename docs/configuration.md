@@ -43,6 +43,8 @@ priority** over anything stored:
 | `ISBNDB_API_KEY` | ISBNdb key (valuation, price alerts) |
 | `TMDB_API_KEY` | TMDb credential (DVD / Blu-ray metadata **and** DVD cover search) — either the 32-character v3 API Key or the v4 Read Access Token |
 | `IGDB_CLIENT_ID`, `IGDB_CLIENT_SECRET` | Twitch developer credentials (video game metadata **and** game cover search — both fields are required) |
+| `BGG_API_TOKEN` | BoardGameGeek XML API token (board game metadata, box art and the Update from BGG button). BGG issues one per registered application |
+| `GAMEUPC_API_KEY` | Optional GameUPC key (board game barcode → BGG id). Unset, Shelf uses GameUPC's public test endpoint, which serves real data |
 | `LIBRARYTHING_TOKEN` | LibraryThing API token, for the English related-edition cover fallback (non-commercial use unless LibraryThing grants permission) |
 
 Useful with Docker secrets or a secrets manager. Vision-provider keys (Photo
@@ -78,7 +80,7 @@ lives:
 
 | Card | Options |
 |---|---|
-| **Collection** | Display currency (20 choices; formatting only, never conversion). Preferred language for title searches |
+| **Collection** | Display currency (20 choices; formatting only, never conversion). Preferred language for title searches. Audible marketplace (10 choices, default United States) — used to look up audiobook covers and details by ASIN |
 | **Navigation** | Which tabs appear in the nav. Tabs for unconfigured integrations hide themselves automatically; you can also hide any tab manually. Hiding a tab here only hides it — its pages keep working. A tab whose feature is turned off under [Features](#features) reads "Turned off in Features" |
 | **Locations** | Add, rename and delete shelves/rooms. Names must be unique and non-blank — a clash is refused with a message rather than saved. Deleting a location unassigns its items |
 | **Borrowers** | People you lend to. Deleting a borrower keeps their loan history |
@@ -204,6 +206,9 @@ manage their own API tokens, from the account menu — not from Settings.
   routing follows the ISBN's registration group and has no on/off switch, for
   SBN, DNB, BnF, KB or NeoDB.
 - Outbound API pacing per host is fixed to each provider's published limit.
+- The Audible catalogue (Audnexus) has no on/off switch. It is called only
+  for an audiobook with an ASIN that has no cover, from the cover picker for
+  such an audiobook, or when you press **Fill details from Audible**.
 - Media types are a fixed list: book, audiobook, eBook, magazine,
   DVD / Blu-ray, vinyl, cassette, CD, digital music, comic / graphic novel,
   Manga, video game. A kids' book is a **book carrying a `Kids` tag**, not a

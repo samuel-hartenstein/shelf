@@ -2,6 +2,7 @@
 
 import pytest
 
+from app import i18n
 from app.routers import items_board_games
 from app.services import bgg, covers, provider_result
 from app.services import tags as tags_svc
@@ -94,10 +95,13 @@ def bgg_calls(monkeypatch):
 
 
 class TestCoverPicker:
-    async def test_a_filed_game_offers_its_editions(self, bgg_calls, monkeypatch):
-        monkeypatch.setenv("SHELF_DEFAULT_LANGUAGE", "de")
+    async def test_a_filed_game_offers_its_editions(self, bgg_calls):
+        token = i18n.current_locale.set("de")  # a German reader sees German boxes first
         item = {"media_type": "board_game", "title": "CATAN", "bgg_id": 13}
-        result = await covers.search_covers(item, "CATAN", None, creds={"bgg_api_token": "t"})
+        try:
+            result = await covers.search_covers(item, "CATAN", None, creds={"bgg_api_token": "t"})
+        finally:
+            i18n.current_locale.reset(token)
         assert result.found
         assert [c["url"].rsplit("/", 1)[1] for c in result.payload] == ["main.jpg", "de2022.jpg", "de1995.jpg", "en.jpg"]
         assert result.payload[1]["source"] == "BGG · German edition 2022"

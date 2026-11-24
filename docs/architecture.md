@@ -526,7 +526,12 @@ splits the set without rewriting a group id anywhere.
 The item page carries **two** surfaces over that one table, and the split is
 deliberate. The older "Also available as:" block reads `link_type = 'format'`
 only, because it asserts the same content in another format — which `related`
-and `adaptation` are not. The **Related Media panel** (`routers/related_media.py`,
+and `adaptation` are not. It is the shared fragment
+`fragments/also_available_as.html`, which always renders its `#also-available-as`
+target (empty when nothing is linked); a successful link or unlink response
+carries it as an HTMX out-of-band swap beside the panel, so the block follows
+the edit without a reload. The panel's own GETs and refused mutations send no
+replacement. The **Related Media panel** (`routers/related_media.py`,
 lazy-loaded into `item_detail.html` below the tags) shows the whole connected
 group across all three types, labelling a direct link apart from a member
 reached only through a third item. Its four endpoints sit under
@@ -541,6 +546,8 @@ transaction has committed, on a fresh connection:
 for the synced rows, and after an Audible CSV import for the audiobooks it
 created or matched. It links an origin to a live row of a different media
 type that shares its ISBN, or else its normalized title and first author.
+The title normalisation keeps letters of every script, and a title that
+normalises to nothing never title-matches.
 The Related Media panel never infers one: a `related` or `adaptation` link
 exists because someone made it.
 
@@ -678,7 +685,19 @@ a retail UPC and neither produces a plain `items` row:
   setting, and `api.discogs.com` is paced at 1 req/s, the published rate for
   authenticated requests.
 
-All three pace through `services/outbound.py` like every other shared public host.
+- **Audnexus** (`services/audnexus.py`) answers for an audiobook by its
+  **ASIN**, not its ISBN, so it sits outside the ISBN cascade too. It is the
+  hosted API of `github.com/laxamentumtech/audnexus` (GPL-3.0; Shelf calls the
+  API and links none of its code), republishing Audible's catalogue in one of
+  ten marketplaces (`audible_region`). It is asked for a cover (see below) and
+  by the item page's **Fill details from Audible**, which writes only empty
+  fields. Its `isbn` is never stored: it is often the print edition's. The
+  project names **AudiobookDB** as its successor; that was rejected because it
+  needs a per-install API key, and Audible's own API needs the user's Audible
+  credentials. Revisit if Audnexus announces a shutdown or AudiobookDB offers
+  keyless lookup by ASIN — the client is one module so that swap is one file.
+
+All four pace through `services/outbound.py` like every other shared public host.
 
 **One family of UPC is intercepted above all of that**, by
 `services/legacy_book.py`: the pre-Bookland price-point UPC-A a few publishers
@@ -823,11 +842,21 @@ A retail title is not a search query —
 `Goodfellas [DVD]  Feature Thriller Drama …` matches nothing — so the same
 module normalises it (format tags, platform suffixes, edition noise) and
 builds a short **ladder** of progressively shorter queries, tried in order
-until a provider answers. Both the film and game paths climb that one ladder.
+until a provider answers. Only the film path climbs that ladder. The game path
+sends at most two queries (`upcitemdb.game_queries`: the title field, and the
+field with brand, platform and "game" words removed) and no shortened rung. It
+asks IGDB for up to ten candidates per query, filtered by platform alone when
+the user chose an IGDB platform (`title_lookup.game_attempts`, with no
+unfiltered fallback — the title check cannot tell two platforms' same-named
+games apart), and accepts
+only a candidate whose whole title agrees with the barcode's
+(`title_match.game_title_agrees`). When none agrees it files the game
+title-only under the title field. "First hit wins" therefore no longer holds
+on the game path: the first *agreeing* candidate wins.
 TMDb accepts either credential type: a 32-hex v3 API Key authenticates as a
 query parameter, anything else as a Bearer token, decided in one helper that
 the Settings key test shares. A credential rejection is distinguishable from
-an empty result set, and files the item title-only rather than silently. The
+an empty result set, and files the item title-only rather than silently. On both paths the
 ladder stops at the first rung that reports a rejection, a rate limit or a
 transport failure instead of trying a shorter query — the same credential
 cannot answer differently on a shorter phrasing of the same request, and a
@@ -839,7 +868,12 @@ Amazon → Google Books → PORBASE (Portuguese ISBNs only, last resort) → IGD
 and film artwork does not run the cascade — IGDB and TMDb each supply one URL
 with the metadata, downloaded directly through the same allow-list and
 post-redirect re-check. Misses are retried by a background **cover queue**
-(`services/cover_queue.py`). With a LibraryThing token saved,
+(`services/cover_queue.py`). For an **audiobook with an ASIN**,
+`resolve_missing_cover` asks Audnexus for the Audible edition's cover after
+any caller hint and **before** the ISBN chain, so the queue, the startup
+requeue, the admin sweep and per-item retry all reach it; an Audible import
+row that misses there stops (`skip_title_search`) rather than taking a print
+edition's cover. With a LibraryThing token saved,
 `resolve_missing_cover` tries one more step after the cascade misses: a
 verified English related edition (`services/librarything.py`, thingISBN →
 Open Library / Google Books), recording that edition's ISBN and language
@@ -890,7 +924,9 @@ reaches `_download`'s post-redirect allow-list re-check when the user picks it.
 `search_covers` returns a `ProviderResult` whose payload is the candidate
 list, so the picker projects the provider's own outcome through the same
 `scan_outcome.not_found_status` the scan card uses — one vocabulary across
-both surfaces. The route renders three things in precedence order: the
+both surfaces. The review queue's card renders the picker before any search,
+with an empty query, and says so rather than reporting a miss. After a search,
+the route renders three things in precedence order: the
 unconfigured-provider note first (nothing was asked, so there is no outcome to
 report), then the actionable state, then the generic "No covers found" line,
 which now means only that the provider answered and had nothing. A `found`
@@ -977,7 +1013,8 @@ are in precedence order:
 | `no_credential` | nothing was asked, because nothing could be |
 | `rejected` | the provider refused the configured credential — outranks `quota`, being the one the user can act on |
 | `quota` | the provider answered 429; this may not be a genuine miss |
-| `offline` | Shelf could not reach the provider at all — below `quota`, because a refusal the provider *sent* is a stronger statement than one it never answered |
+| `offline` | Shelf could not reach the provider at all. Status-less: no HTTP answer came back. Below `quota`, because a refusal the provider *sent* is a stronger statement than one it never answered |
+| `unavailable` | the provider answered with a server error (a `transport_failed` record that carries its status). The miss may not be genuine. Below `quota` too |
 | `no_match` | the provider was asked and had nothing |
 
 A state with no arm in the template renders nothing rather than raising, so
@@ -988,14 +1025,19 @@ whose cascade was starved and for a UPC whose *product* lookup was.
 `services/scan_outcome.py`'s `enrich_status` is a **projection** over one
 `ProviderResult` (plus a `has_provider` flag), not a reassembly from booleans
 the caller had to keep in step — a branch that holds no flags at all can still
-call it and get back one of the six *projected* states above. A
-`transport_failed` record answers `offline` rather than `no_match`: the scan routers pick the
-connectivity card *before* this function whenever the product or cascade
+call it and get back one of the seven *projected* states above. A
+`transport_failed` record answers `offline` (no status) or `unavailable` (a
+status) rather than `no_match`. Routers branch on that projected state, not on
+the raw record. The scan routers pick the connectivity card *before* this function whenever the product or cascade
 lookup was what failed, so what reaches here is an enrichment-leg failure on
 an item that was filed anyway. The `offline` arm therefore lives in the
 **added** card only — every branch that renders the `not_found` card turns a
-transport failure into the connectivity card first, so an arm there would be
-copy nothing can produce. Its sibling
+status-less transport failure into the connectivity card first, so an arm
+there would be copy nothing can produce. `unavailable` is the deliberate
+exception: the network is fine, so it reaches the `not_found` card, which
+keeps its manual-add form and shows a "may not be a genuine miss" notice with
+a **try again** badge. It also has an arm on the added card, in search
+notices and in the cover picker. Its sibling
 `not_found_status` answers the same projection but suppresses `no_match`,
 because a "Not found" card already says that in its own words; `provider_label`
 reads the display name straight off the record's `provider` field. Because the
@@ -1023,7 +1065,9 @@ bearer the provider has stopped honouring. `classify_response` turns a raw respo
 client did not have to parse into that outcome — an auth status (401/403 for
 Hardcover; 400, 401 or 403 for Google Books, which answers a bad key with 400
 rather than 401 or 403) outranks a 429, so a status that could be read as
-either resolves to the one the user can act on. No client raises for a
+either resolves to the one the user can act on. A 500–599 maps to
+`transport_failed` carrying that status, never to `rate_limited`, so a server
+error is not read as a spent quota. No client raises for a
 rejected credential or a spent quota any more.
 
 Three of the four ISBN sources never enter `outbound.fetch` at all: they call
@@ -1058,11 +1102,17 @@ asked should not speak over one that was asked and refused) — and the winner
 is returned **as it stands**, keeping the leg's own provider so the card can
 name the credential that was refused. The ISBN cascade, the UPC product
 lookup and the TMDb/IGDB query ladder above all resolve through it.
+When an ISBN lookup finds nothing, `scan_outcome.cascade_log` formats the one
+server-log line `No metadata for ISBN <isbn>: provider=outcome(status), …`. It
+logs at WARNING if any source failed to answer and at INFO if every source was
+a genuine miss, so an outage is not buried under ordinary misses. It carries
+ids, outcomes and statuses only.
 
 **Outbound pacing** (`services/outbound.py`, limits in `config.py`): every
 external host has a minimum interval matching its published rate limit,
 with retry on transient failures. This is what lets a 200-book session not
-get throttled. The daily release-radar pass rides the same
+get throttled. `api.audnex.us` runs at 1 req/s (it reports 300 per minute;
+its self-hosted README documents 100). The daily release-radar pass rides the same
 `api.hardcover.app` interval as every other Hardcover call. Retries honour a server's `Retry-After` up to a fixed ceiling
 (`RETRY_AFTER_MAX`, 30s); a stated wait beyond that ends the attempt and
 returns the response at once, on the reasoning that a server asking for an
@@ -1283,15 +1333,18 @@ CSP-safe pattern as Browse's filter config. Catalogs live in
 are committed so the image needs no Babel. `make i18n` extracts and compiles,
 and `make check-i18n` fails when a marked string is missing from a `.po` or a
 `.mo` is stale. Each user picks a language in the Account dialog (any role);
-"Automatic" stores NULL and follows the browser.
+"Automatic" stores NULL and follows the browser, and a browser that names
+no language Shelf has falls to `SHELF_DEFAULT_LANGUAGE` (else English).
 
 Jinja2 templates; HTMX for partial updates (Browse pagination, filter
 counts via out-of-band swaps, scan results); Alpine.js **CSP build** for
 client state (scan modes, selection bars, settings cards) — expressions
 must be simple, which is why the lint exists. Tailwind compiled locally to
 `static/css/app.css` and committed. Camera scanning uses a shared engine
-(`static/js/scanner-engine.js`) choosing ZXing on iOS Safari and
-html5-qrcode elsewhere.
+(`static/js/scanner-engine.js`) choosing ZXing on iOS Safari and on
+desktops (a fine, hovering primary pointer: a webcam, which html5-qrcode's
+default resolution and small qrbox read poorly) and html5-qrcode on other
+touch devices.
 
 **A click- or submit-triggered htmx control is guarded by default.** A
 delegated listener in `static/js/app.js` marks the control that issued a
@@ -1516,6 +1569,40 @@ of `items.py`: `music.py`, `periodicals.py`, `shelf_fill.py`,
 `location_order.py`, and `romm.py` / `komga.py` for the two sync integrations.
 All are registered in `app/main.py` — **registration happens there and nowhere
 else**, never at package import time.
+
+Board games (`items_board_games.py`, #167) follow the same rule. A board
+game's barcode says nothing about the game, so the scan goes to **GameUPC**
+(`services/gameupc.py`: EAN/UPC → BoardGameGeek ids with a confidence each)
+and then to **BGG's XML API2** (`services/bgg.py`, Bearer token) for the
+details: players, play time (stored in `duration_mins`), minimum age,
+designers, publisher and box art. A verified or clearly leading GameUPC
+candidate is filed at once; otherwise the card lists the candidates and the
+barcode rides along on the chosen one. Under Auto, `_scan_upc` asks GameUPC
+first, but only once a BGG token or GameUPC key is configured — a library
+without board games pays no extra request — and only a barcode GameUPC ties
+to at least one BGG game goes this way; everything else carries on to UPC Item
+DB as before. Both hosts are paced through `outbound.py`. The cover picker
+asks BGG for the game's printings (`versions=1`) and offers each edition's box,
+the viewer's language first; **Update from BGG** fills only empty fields and a
+missing cover, never a value already on the item.
+
+BGG's categories ("Puzzle", "Party Game", …) and a handful of mechanics a
+player picks a game by ("Cooperative", "Trick-taking", …) are filed as
+ordinary tags in the same transaction as the row (`services/bgg_tags.py`), so
+the Browse tag filter answers "show me the puzzle games" with no new column.
+Browse adds **Players** ("3 players" matches every game whose range holds 3)
+and **Play time** (four buckets over `duration_mins`), both declared in
+`browse_filters.py` and shown only when the library holds a board game.
+
+Stored data every user shares is written in the **library's language**
+(`i18n.library_locale()`: `SHELF_DEFAULT_LANGUAGE` while the translated UI is
+on, else English), never the language of whoever scanned: tag names go
+through `i18n.library_pgettext` (marked with `NC_`, a context-carrying `N_`,
+so the category "Book" is not the media type "Book"), as do the starter tag
+suggestions. A game is filed under the title most of the library language's
+BGG printings carry ("Zug um Zug" for Ticket to Ride), with that printing's box
+art, and Update from BGG renames a title only while it is still BGG's English
+name.
 
 ### Writing items
 

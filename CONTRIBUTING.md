@@ -31,6 +31,10 @@ make dev                  # docker compose up -d --build
 # or: DATA_DIR=./data-dev uvicorn app.main:app --reload
 ```
 
+To change a dependency, edit `requirements.in` (or `requirements-dev.in`), run
+`make lock`, and commit the `.in` file together with both regenerated
+`requirements*.txt` locks. Never edit a `requirements*.txt` by hand.
+
 Full details — running, testing, project layout, the rules that bite — are in
 [docs/development.md](docs/development.md) and
 [docs/architecture.md](docs/architecture.md).
@@ -79,7 +83,7 @@ None of this applies to typo and docs fixes. Send those straight in.
 ```bash
 make test        # unit + integration tests
 make test-e2e    # Playwright E2E tests (starts its own server)
-make checks      # dependency audit, license check, secret scan, CSRF lint, Alpine CSP lint
+make checks      # dependency audit, license check, secret scan, CSRF lint, Alpine CSP lint, Python lint (ruff)
 make test-contract   # live UPC Item DB check (one lookup/run) — not needed for a PR
 make css         # if you touched templates or Tailwind classes — to see your work; do NOT commit the result
 ```

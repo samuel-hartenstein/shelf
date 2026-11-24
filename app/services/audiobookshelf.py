@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 from urllib.parse import urlparse
 
 import httpx
@@ -11,6 +12,26 @@ from app.services.item_write import ItemValueError, update_item_fields
 from app.services import isbn as isbn_svc
 
 logger = logging.getLogger(__name__)
+
+# The library items endpoint reports an item's series as one display string,
+# "<name> #<sequence>" per series and comma-joined when there are several
+# ("Discworld #3, Rincewind #1"). Shelf groups by series_name, so keeping the
+# "#6" filed every volume as a series of its own, and every sync wrote it back.
+# Take the first series and its sequence, the same normalisation komga_books
+# makes for Komga's "<Series> (<Volume>)". A name without a numeric sequence is
+# kept as it is.
+_SERIES_SEQUENCE_RE = re.compile(r"^(?P<name>.+?)\s+#(?P<sequence>\d+(?:\.\d+)?)(?=,\s|$)")
+
+
+def _split_series(value) -> tuple[str | None, float | None]:
+    """'Discworld #3, Rincewind #1' -> ('Discworld', 3.0); 'Dune' -> ('Dune', None)."""
+    text = value.strip() if isinstance(value, str) else ""
+    if not text:
+        return None, None
+    match = _SERIES_SEQUENCE_RE.match(text)
+    if match:
+        return match.group("name").strip(), float(match.group("sequence"))
+    return text, None
 
 
 def validate_url(url: str) -> str | None:
@@ -184,7 +205,7 @@ async def sync(abs_url: str, abs_token: str, on_progress=None) -> dict:
                         "%s: %r is not a valid ASIN — stored without one",
                         f"Audiobookshelf item {abs_id} ({title})", raw_asin,
                     )
-                series_name = metadata.get("seriesName")
+                series_name, series_position = _split_series(metadata.get("seriesName"))
                 publisher = metadata.get("publisher")
                 pub_year = _normalise_publish_year(metadata.get("publishedYear"))
                 description = metadata.get("description")
@@ -200,7 +221,7 @@ async def sync(abs_url: str, abs_token: str, on_progress=None) -> dict:
                     # unique, so a trashed row must never win over a live one
                     # sharing the id: order live rows first.
                     existing = db.execute(
-                        """SELECT id, title, authors, narrator, isbn, series_name,
+                        """SELECT id, title, authors, narrator, isbn, series_name, series_position,
                                   publisher, publish_year, description, duration_mins,
                                   media_type, abs_id, abs_library_id, cover_path,
                                   asin, deleted_at
@@ -259,7 +280,7 @@ async def sync(abs_url: str, abs_token: str, on_progress=None) -> dict:
                         # instead of attempting a duplicate insert. From this
                         # point on it follows the normal ABS update path.
                         existing = db.execute(
-                            """SELECT id, title, authors, narrator, isbn, series_name,
+                            """SELECT id, title, authors, narrator, isbn, series_name, series_position,
                                       publisher, publish_year, description, duration_mins,
                                       media_type, abs_id, abs_library_id, cover_path,
                                       asin
@@ -286,6 +307,11 @@ async def sync(abs_url: str, abs_token: str, on_progress=None) -> dict:
                             "abs_id": abs_id,
                             "abs_library_id": lib_id,
                         }
+                        if series_position is not None:
+                            # Only ever set, like the ASIN below: a position
+                            # typed by hand survives a sync whose series name
+                            # carries no "#<n>".
+                            desired["series_position"] = series_position
                         if asin is not None:
                             # Only ever set: an ASIN stamped by hand or by an
                             # import survives a sync where ABS sends none or
@@ -334,6 +360,7 @@ async def sync(abs_url: str, abs_token: str, on_progress=None) -> dict:
                                 publish_year=pub_year,
                                 description=description,
                                 series_name=series_name,
+                                series_position=series_position,
                                 narrator=narrator,
                                 duration_mins=duration_mins,
                                 abs_id=abs_id,
@@ -403,13 +430,22 @@ def get_playback_url(abs_url: str, abs_id: str, public_url: str | None = None) -
 
 
 def _normalize_title(title: str) -> str:
-    """Normalize title for fuzzy matching."""
+    """Normalize title for fuzzy matching.
+
+    Letters of every script survive, not only a-z. An ASCII-only filter turned
+    every Chinese, Japanese, Korean, Cyrillic or Greek title into "" (or into
+    its digits, so "罗马人的故事 8" became "8"), and `auto_link` then matched all
+    such titles to each other wherever the author guard let them through.
+    A title that still normalizes to "" never title-matches (see `auto_link`),
+    the same fail-closed call `title_match` makes.
+    """
     import re
-    title = title.lower().strip()
+    import unicodedata
+    title = unicodedata.normalize("NFKC", title or "").casefold().strip()
     title = re.sub(r"^(the|a|an)\s+", "", title)
     title = re.sub(r"\s*[:—–\-]\s.*$", "", title)  # strip subtitle
-    title = re.sub(r"[^a-z0-9\s]", "", title)
-    return title.strip()
+    title = re.sub(r"[^\w\s]|_", "", title)
+    return " ".join(title.split())
 
 
 def _authors_compatible(a: str | None, b: str | None) -> bool:
@@ -460,8 +496,9 @@ def auto_link(origin_ids) -> int:
             else:
                 matches = []
 
-            # Match by normalized title + compatible authors if no ISBN match
-            if not matches:
+            # Match by normalized title + compatible authors if no ISBN match.
+            # An empty normalized title (punctuation only) cannot tell: no match.
+            if not matches and norm_title:
                 all_items = db.execute(
                     "SELECT id, title, authors, media_type FROM items_live WHERE id != ?",
                     (origin["id"],),

@@ -84,16 +84,10 @@ Library, and thinner otherwise.
 - **A translated interface.** In progress. The translation machinery and the
   first catalog have landed, and each user can pick a language or follow the
   browser. Other languages come next. The page shell (navigation, sign-in,
-  setup, the Account dialog), Browse and the item page are translated; the other feature pages
+  setup, the Account dialog), Browse, the item page, item edit, manual add, Scan,
+  Photo Intake, Shelf Fill and Store Mode are translated, and in Italian also
+  Series, Upcoming, Discover, Music and Periodicals; the other feature pages
   follow area by area. Until then it sits behind `SHELF_I18N`, off by default.
-
-## Import and migration
-
-**In progress.** Goodreads, StoryGraph, LibraryThing, Libib, CSV, a portable
-archive and an **Audible library export** (audible-cli or Libation, since
-0.76.0) are supported today. Next is looking up an audiobook's details and cover
-by its ASIN, so an imported title fills in what the export leaves out. Shelf
-stores the catalogue record, never the audio.
 
 ## Reading life
 
@@ -120,11 +114,11 @@ or not, is in the [changelog](../CHANGELOG.md).
 
 | Version | What landed |
 |---|---|
-| [0.78.1](https://github.com/dgahagan/shelf/releases/tag/v0.78.1) | **The valuation report counts a value of 0.** An item you valued at 0 now counts as priced at $0.00 instead of being filled in with the collection's average price, so the report's totals are no longer too high. |
-| [0.78.0](https://github.com/dgahagan/shelf/releases/tag/v0.78.0) | **Browse finds items with no location.** The Location filter lists **No location** with a count, so items that were never filed can be found and moved in bulk, contributed by @larsvilhuber. Also: re-adding a video game with no platform reports it as already in your collection instead of adding a second copy, and the item edit page and manual add in Italian, contributed by @vjandrea. |
-| [0.77.0](https://github.com/dgahagan/shelf/releases/tag/v0.77.0) | **Store Mode trusts the sync.** A wishlisted book no longer shows as Owned after a sync, the verdict card updates to Shelf's answer as soon as an online scan syncs, an ISBN-10 leaves the queue, and a long queue syncs in one go. Also Chinese ISBNs looked up in NeoDB and Browse in Simplified Chinese, contributed by @litong5969, and the item page in Italian with regional and script language variants, contributed by @vjandrea. |
-| [0.76.0](https://github.com/dgahagan/shelf/releases/tag/v0.76.0) | **Audible library import.** Upload an export from audible-cli or Libation under Settings → Data, and each title becomes an audiobook with its narrator, length and ASIN; re-imports add nothing twice, an audiobook already synced from Audiobookshelf is matched instead of duplicated, and the print copy you own shows **Also available as: Audiobook**. Also French ISBNs looked up in the BnF, contributed by @larsvilhuber, and the page shell in Simplified Chinese, contributed by @litong5969. |
-| [0.75.0](https://github.com/dgahagan/shelf/releases/tag/v0.75.0) | **Buy links.** Wishlisted books and the missing volumes of a series can show Bookshop.org and Amazon links carrying your own affiliate tags — Shelf earns nothing. Enter a tag under Settings → Library → Buy links; nothing shows until you do. Also the first translated pages: the page shell in Italian, contributed by @vjandrea, behind `SHELF_I18N=on`. |
+| [0.82.2](https://github.com/dgahagan/shelf/releases/tag/v0.82.2) | **A game scan files the right game, or none.** Shelf takes an IGDB record only when its title matches the barcode's, so a *Vice City* barcode no longer becomes *Grand Theft Auto V*; when nothing matches, the game is added under its barcode title. A platform chosen before scanning limits the search to that platform. Also: Duplicates, Logs, Share and the Settings Library tab in Italian, contributed by @vjandrea. |
+| [0.82.1](https://github.com/dgahagan/shelf/releases/tag/v0.82.1) | **A provider outage is not a "not found".** When Google Books or another source fails with a server error, the scan card names it and says to try again, instead of calling the book unknown. Also: Audiobookshelf series group as one, non-Latin titles no longer link unrelated audiobooks, and more of the interface in Italian. |
+| [0.82.0](https://github.com/dgahagan/shelf/releases/tag/v0.82.0) | **A Scan button for typed barcodes.** Scan and Shelf Fill have a button beside the barcode field, so a code typed on a phone can be sent; Shelf Fill also clears its field after each scan. Also: Series, Upcoming, Discover, Music and Periodicals in Italian, contributed by @vjandrea, and six more areas in Simplified Chinese, contributed by @litong5969. |
+| [0.81.0](https://github.com/dgahagan/shelf/releases/tag/v0.81.0) | **Shelf on a Raspberry Pi.** The Docker image is published for `arm64` as well as `amd64`, so an ARM64 machine such as a Raspberry Pi pulls it directly instead of building it. Contributed by @Chrisser73. |
+| [0.80.0](https://github.com/dgahagan/shelf/releases/tag/v0.80.0) | **Audiobook covers and details from Audible.** An audiobook with an ASIN, such as one from a Libation or audible-cli import, gets its cover from the Audible catalogue, and **Fill details from Audible** fills its empty fields. Choose your Audible marketplace in Settings. Also: Photo Intake, Shelf Fill and Store Mode in Italian, contributed by @vjandrea. |
 ---
 
 ## Suggesting something

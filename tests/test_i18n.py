@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from app import i18n
+from app import features, i18n
 from app.services import api_tokens
 from tests.conftest import _insert_item
 
@@ -27,7 +27,7 @@ def _i18n_on(monkeypatch):
     (None, "it;q=0.4,en;q=0.9", "en"),            # q-value beats position
     (None, "it;q=0", "en"),                       # q=0 means "not this one"
     (None, "it;level=1;q=0", "en"),               # q is read wherever it sits
-    (None, "de, *", "de"),                        # German ships now (fork)
+    (None, "de, *", "de"),
     (None, "nl, *", "en"),                        # an unsupported tag plus a wildcard falls back
     ("it", "en-US,en;q=0.9", "it"),               # the user's choice beats the browser
     ("xx", "it", "it"),                           # an unknown stored value falls through
@@ -209,7 +209,87 @@ def test_item_edit_and_manual_add_are_translated(admin_client, db):
     assert '"dvd": "Regista"' in scan  # the creator labels the manual-add form reads
 
 
-# --- German (fork) ---------------------------------------------------------
+def test_scan_page_and_results_are_translated(admin_client):
+    admin_client.post("/api/account/language", data={"language": "it"})
+
+    page = admin_client.get("/scan").text
+    assert "Scansiona con la fotocamera" in page and "Automatico (dal codice a barre)" in page
+    assert '"Recently Added": "Aggiunti di recente"' in page  # the results heading getter
+    assert '"auto": ["Da iniziare", "In corso", "Finito"]' in page  # default-status words
+    # Both manual-entry toggle labels are server-rendered, not an x-text literal.
+    assert "Aggiungi a mano" in page and "Nascondi inserimento manuale" in page
+    assert "'Hide manual entry'" not in page
+
+    card = admin_client.post("/api/scan", data={"isbn": "9780000000088", "mode": "lookup"}).text
+    assert "Non è nella tua collezione" in card and "non trovato" in card
+
+
+def test_intake_shelf_fill_and_store_are_translated(admin_client):
+    admin_client.post("/api/account/language", data={"language": "it"})
+
+    assert "Nessun servizio di visione configurato" in admin_client.get("/intake").text
+    shelf_fill = admin_client.get("/shelf-fill").text
+    assert 'pagina <span class="text-shelf-text">Disponi</span>.' in shelf_fill
+    store = admin_client.get("/store").text
+    assert '<html lang="it"' in store and "Modalità negozio" in store
+    assert '"OWNED": "POSSEDUTO"' in store  # store.js reads the catalog itself
+
+
+def test_series_page_is_translated(admin_client, db):
+    for n, isbn in ((1, "9780000000095"), (3, "9780000000101")):
+        _insert_item(db, title=f"Saga {n}", isbn=isbn, series_name="Saga", series_position=n)
+    db.commit()
+    admin_client.post("/api/account/language", data={"language": "it"})
+
+    page = admin_client.get("/series").text
+    for text in ("La tua biblioteca raggruppata per serie", "2 posseduti", "forse mancano", '"1 book": "1 libro"'):
+        assert text in page, text
+
+
+def test_music_and_periodicals_are_translated(admin_client):
+    admin_client.post("/api/account/language", data={"language": "it"})
+
+    assert "La tua musica" in admin_client.get("/music").text
+    assert "Ancora nessun periodico in catalogo" in admin_client.get("/periodicals").text
+
+
+def test_home_stats_and_labels_are_translated(admin_client):
+    admin_client.post("/api/account/language", data={"language": "it"})
+
+    assert "La tua collezione è vuota." in admin_client.get("/").text
+    assert "Statistiche della collezione" in admin_client.get("/stats").text
+    assert "Riepilogo: ottobre 2026" in admin_client.get("/stats/wrapup?period=2026-10").text
+    assert "Etichette delle copie" in admin_client.get("/labels").text
+
+
+def test_trash_and_audits_are_translated(admin_client):
+    admin_client.post("/api/account/language", data={"language": "it"})
+
+    assert "Il cestino è vuoto." in admin_client.get("/trash").text
+    assert "Ancora nessun inventario" in admin_client.get("/audits").text
+
+
+def test_duplicates_logs_and_feature_pages_are_translated(admin_client, db):
+    admin_client.post("/api/account/language", data={"language": "it"})
+
+    assert "Pagina" in admin_client.get("/logs").text or "Ancora nessuna voce nel log" in admin_client.get("/logs").text
+    assert "Non sono duplicati" in admin_client.get("/duplicates").text or "Niente qui." in admin_client.get("/duplicates").text
+    db.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('feature.series', '0')")
+    db.commit()
+    features.invalidate_cache()
+    off = admin_client.get("/series")
+    assert "Serie" in off.text and "è disattivato su questo Shelf" in off.text
+
+
+def test_settings_library_tab_is_translated(admin_client):
+    admin_client.post("/api/account/language", data={"language": "it"})
+
+    page = admin_client.get("/settings").text
+    for text in ("Posizioni", "Dollaro statunitense", "Persone per i prestiti", "Ultima esecuzione"):
+        assert text in page, text
+
+
+# --- German -----------------------------------------------------------------
 
 
 @pytest.mark.parametrize("env, header, expected", [
@@ -231,19 +311,19 @@ def test_german_is_offered_in_the_picker():
 
 
 def test_home_and_scan_are_translated_into_german(admin_client, db):
-    _insert_item(db, title="Catan", media_type="board_game", upc="4002051693602")
+    _insert_item(db, title="Zelda", media_type="video_game", upc="045496590420")
     db.commit()
     admin_client.post("/api/account/language", data={"language": "de"})
 
     home = admin_client.get("/").text
     assert '<html lang="de"' in home
-    for text in ("Sammlung ansehen", "Zuletzt hinzugefügt", "Brettspiel", "Fehlende Cover"):
+    for text in ("Sammlung ansehen", "Zuletzt hinzugefügt", "Videospiel", "Fehlende Cover"):
         assert text in home, text
 
     scan = admin_client.get("/scan").text
-    for text in ("Mit Kamera scannen", "Nach Titel suchen", "Brettspiel"):
+    for text in ("Mit Kamera scannen", "Nach Titel suchen", "Videospiel"):
         assert text in scan, text
-    assert '"Choose the matching game below": "W\\u00e4hle unten das passende Spiel"' in scan
+    assert '"Recently Added": "Zuletzt hinzugef\\u00fcgt"' in scan  # the results heading getter
 
 
 def test_scan_messages_are_translated_into_german(admin_client, db):
@@ -252,3 +332,21 @@ def test_scan_messages_are_translated_into_german(admin_client, db):
     admin_client.post("/api/account/language", data={"language": "de"})
     r = admin_client.post("/api/scan", data={"isbn": "9780000000132", "mode": "lend"})
     assert "Keine Person ausgewählt" in r.text
+
+
+def test_settings_stats_and_trash_are_translated_into_german(admin_client):
+    admin_client.post("/api/account/language", data={"language": "de"})
+
+    settings = admin_client.get("/settings").text
+    for text in ("Orte", "US-Dollar", "Personen"):
+        assert text in settings, text
+    assert "Statistik der Sammlung" in admin_client.get("/stats").text
+    assert "Der Papierkorb ist leer." in admin_client.get("/trash").text
+
+
+def test_recent_scan_words_are_translated(admin_client, db):
+    db.execute("INSERT INTO scan_log (isbn, media_type, result) VALUES ('9780000000088', 'book', 'not_found')")
+    db.commit()
+    admin_client.post("/api/account/language", data={"language": "de"})
+    page = admin_client.get("/api/recent-scans").text
+    assert "nicht gefunden" in page and "not_found" not in page

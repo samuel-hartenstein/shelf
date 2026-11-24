@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import httpx
 
 from app.config import COVERS_DIR
-from app.services import book_cover_search, igdb, national, outbound, porbase, provider_result, tmdb
+from app.services import audnexus, book_cover_search, igdb, national, outbound, porbase, provider_result, tmdb
 
 logger = logging.getLogger(__name__)
 
@@ -252,6 +252,47 @@ async def search_covers(
         client,
         google_api_key=creds.get("google_books_api_key"),
     )
+    audible = await _audible_asin_candidate(item, typed, client, creds)
+    merged = await _book_leg_candidates(item, typed, client, creds, result)
+    if audible is None:
+        return merged
+    if audible.found:
+        candidates = _dedupe_by_url(audible.payload + (merged.payload if merged.found else []))
+        return provider_result.found(merged.provider if merged.found else "audnexus", candidates)
+    if merged.found:
+        return merged
+    # Neither leg has a cover: an Audnexus outage must not read as a genuine
+    # miss (issue #190, G47), so its outcome competes with the book legs'.
+    return provider_result.combine([merged, audible], provider=merged.provider)
+
+
+async def _audible_asin_candidate(
+    item, typed: bool, client, creds: dict
+) -> provider_result.ProviderResult | None:
+    """The Audible edition's own cover, first in the grid, by ASIN.
+
+    Audiobook with an ASIN and an untyped query only: a typed query searches
+    its text alone, and any other item returns None (the leg was not asked).
+    Otherwise the Audnexus outcome is returned as it stands, so a failure can
+    reach the picker's notice; `found` without an image is a `no_match`. The
+    image is fetched later through `_download_to_item` (G11).
+    """
+    asin = (_col(item, "asin") or "").strip()
+    if typed or _col(item, "media_type") != "audiobook" or not asin:
+        return None
+    found = await audnexus.lookup(asin, client, region=creds.get("audible_region") or "us")
+    if not found.found:
+        return found
+    url = found.payload.get("cover_url")
+    if not url:
+        return provider_result.no_match("audnexus")
+    return provider_result.found(
+        "audnexus",
+        [{"url": url, "thumbnail": url, "source": "Audible · ASIN match", "match": "asin"}],
+    )
+
+
+async def _book_leg_candidates(item, typed: bool, client, creds: dict, result):
     from app.services import librarything
     # A typed query searches on that text alone (docs/user-guide/items.md), so
     # the stored ISBN must not reach LibraryThing either.
@@ -279,7 +320,7 @@ async def _bgg_candidates(
 
     A game filed from BGG knows its `bgg_id`, so the untyped search asks for
     that game's printings: its main image, then every edition with box art,
-    those in the library's language first, so a German shelf sees the German
+    those in the viewer's language first, so a German reader sees the German
     boxes before the American one. A typed query, or a game added by hand
     without a BGG id, searches BGG by title and offers each hit's main image.
     """
@@ -303,7 +344,7 @@ async def _bgg_candidates(
                                    "thumbnail": game.get("thumbnail_url") or game["cover_url"],
                                    "source": f"BGG · {_label(game.get('title'))}"})
             for version in bgg.versions_in_language(game.get("versions") or [],
-                                                    i18n.default_locale()):
+                                                    i18n.current_locale.get()):
                 label = version.get("name") or version.get("title")
                 candidates.append({"url": version["cover_url"],
                                    "thumbnail": version.get("thumbnail_url") or version["cover_url"],

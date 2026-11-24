@@ -33,13 +33,12 @@ editor cannot use. An editor-visible entry point belongs to roadmap item 22
 import logging
 
 import httpx
-from fastapi import APIRouter, Depends, Form, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
 
 from app.auth import require_role
 from app.config import HTTP_TIMEOUT
 from app.database import get_db
-from app.routers import items_common
 from app.routers import items_covers
 from app.services import covers
 
@@ -242,7 +241,7 @@ async def cover_review_search(
     templates = request.app.state.templates
     with get_db() as db:
         item = db.execute(
-            "SELECT id, title, authors, cover_path, media_type, publish_year, platform, isbn, cover_edition_language, bgg_id "
+            "SELECT id, title, authors, cover_path, media_type, publish_year, platform, isbn, asin, cover_edition_language, bgg_id "
             "FROM items_live WHERE id = ?", (item_id,)
         ).fetchone()
         # Key-by-key through get_setting, never the bulk accessor: provider

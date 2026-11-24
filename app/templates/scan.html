@@ -37,7 +37,7 @@
         <button @click="toggleCamera()" type="button"
                 :class="cameraActive ? 'bg-shelf-error/20 text-shelf-error border-shelf-error/40' : 'bg-shelf-card text-shelf-muted border-shelf-border hover:text-shelf-text hover:border-shelf-accent/50'"
                 class="border rounded-lg px-4 py-2 text-sm transition-colors mb-3">
-            <span x-text="cameraActive ? '{{ _("Stop Camera") }}' : '{{ _("Scan with Camera") }}'"></span>
+            <span x-show="!cameraActive">{{ _('Scan with Camera') }}</span><span x-show="cameraActive">{{ _('Stop Camera') }}</span>
         </button>
         <div x-show="cameraActive" x-transition class="relative max-w-md mx-auto" style="display:none">
             <div id="camera-reader"
@@ -127,7 +127,7 @@
                 <!-- Location (add/move/inventory) -->
                 <div x-show="['add', 'move', 'inventory'].includes(mode)" x-transition>
                     <label for="location" class="block text-sm font-medium text-shelf-muted mb-1"
-                           x-text="mode === 'move' ? '{{ _("Target Location") }}' : mode === 'inventory' ? '{{ _("Auditing Location") }}' : '{{ _("Location") }}'"></label>
+                           x-text="locationLabel"></label>
                     <select id="location" name="location_id"
                             x-model="location" @change="persistLocation()"
                             class="w-full bg-shelf-bg border border-shelf-border rounded-lg px-3 py-2.5 text-shelf-text focus:ring-2 focus:ring-shelf-accent focus:border-transparent outline-hidden">
@@ -174,10 +174,16 @@
                 <!-- ISBN / Barcode Input (always shown) -->
                 <div>
                     <label for="isbn-input" class="block text-sm font-medium text-shelf-muted mb-1"
-                           x-text="['lend','return','move','inventory','lookup','quick_rate'].includes(mode) ? '{{ _("Barcode") }}' : '{{ _("ISBN / UPC") }}'"></label>
-                    <input type="text" id="isbn-input" name="isbn" autofocus autocomplete="off"
-                           :placeholder="['lend','return','move','inventory','lookup','quick_rate'].includes(mode) ? '{{ _("Scan barcode...") }}' : mediaType === 'auto' ? '{{ _("Scan any barcode...") }}' : mediaType === 'video_game' ? '{{ _("Scan UPC barcode...") }}' : '{{ _("Scan or type ISBN...") }}'"
-                           class="w-full bg-shelf-bg border border-shelf-border rounded-lg px-3 py-2.5 text-shelf-text text-lg font-mono focus:ring-2 focus:ring-shelf-accent focus:border-transparent outline-hidden placeholder-shelf-muted/50">
+                           x-text="barcodeLabel"></label>
+                    <div class="flex flex-wrap gap-2">
+                        <input type="text" id="isbn-input" name="isbn" autofocus autocomplete="off" enterkeyhint="go"
+                               :placeholder="barcodePlaceholder"
+                               class="flex-1 min-w-36 bg-shelf-bg border border-shelf-border rounded-lg px-3 py-2.5 text-shelf-text text-lg font-mono focus:ring-2 focus:ring-shelf-accent focus:border-transparent outline-hidden placeholder-shelf-muted/50">
+                        <button type="submit" data-testid="scan-submit"
+                                class="px-4 py-2.5 bg-shelf-hover text-shelf-text rounded-lg text-sm hover:bg-shelf-border transition-colors">
+                            {{ _('Scan') }}
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -236,7 +242,7 @@
             <p x-show="mediaType === 'auto'" class="text-xs text-shelf-muted mb-4" style="display:none">{{ _('Title search has no barcode to detect from, so it searches books. Pick a media type above to search TMDb or IGDB instead.') }}</p>
             <div class="flex gap-3">
                 <input type="text" id="title-search-input"
-                       :placeholder="mediaType === 'auto' ? '{{ _("Title or author...") }}' : mediaType === 'video_game' || mediaType === 'board_game' ? '{{ _("Game title...") }}' : mediaType === 'dvd' ? '{{ _("Movie title...") }}' : '{{ _("Book title or author...") }}'"
+                       :placeholder="titlePlaceholder"
                        class="flex-1 bg-shelf-bg border border-shelf-border rounded-lg px-3 py-2.5 text-shelf-text focus:ring-2 focus:ring-shelf-accent focus:border-transparent outline-hidden placeholder-shelf-muted/50"
                        hx-get="/api/title-search" hx-trigger="keyup changed delay:400ms"
                        hx-target="#title-search-results" hx-swap="innerHTML"
@@ -256,7 +262,9 @@
         <button type="button" @click="toggleManual()"
                 class="px-4 py-2 bg-shelf-card border border-shelf-border text-shelf-text rounded-lg text-sm hover:border-shelf-accent transition-colors"
                 data-manual-toggle>
-            <span x-text="manualOpen ? '{{ _("Hide manual entry") }}' : '{{ _("Add by hand") }}'">{{ _('Add by hand') }}</span>
+            {# Two spans, not an x-text ternary: x-text would overwrite the
+               translated text with an English literal as Alpine starts. #}
+            <span x-show="!manualOpen">{{ _('Add by hand') }}</span><span x-show="manualOpen" style="display:none">{{ _('Hide manual entry') }}</span>
         </button>
 
         <div x-show="manualOpen" x-transition class="mt-4"
@@ -280,14 +288,7 @@
 
     <!-- Scan Results -->
     <h2 class="text-lg font-semibold mb-3"
-        x-text="mode === 'add' ? '{{ _("Recently Added") }}' :
-                mode === 'wishlist' ? '{{ _("Added to Wishlist") }}' :
-                mode === 'lend' ? '{{ _("Checked Out") }}' :
-                mode === 'return' ? '{{ _("Returned") }}' :
-                mode === 'move' ? '{{ _("Moved") }}' :
-                mode === 'inventory' ? '{{ _("Scanned Items") }}' :
-                mode === 'lookup' ? '{{ _("Lookup Results") }}' :
-                mode === 'quick_rate' ? '{{ _("Marked as finished") }}' : '{{ _("Results") }}'">
+        x-text="resultsHeading">
     </h2>
     <div id="scan-results" class="space-y-3">
     </div>

@@ -11,8 +11,6 @@ import logging
 import os
 
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import JSONResponse
-from starlette.responses import Response
 
 from app.auth import require_role
 from app.database import get_db
@@ -39,8 +37,6 @@ _FORMAT_SOURCE = {"audible_cli": "audible_import", "libation": "audible_import"}
 
 @router.get("/export/csv")
 async def export_csv(user=Depends(require_role("viewer"))):
-    import csv
-    import io
     from fastapi.responses import StreamingResponse
 
     output = io.StringIO()
@@ -96,10 +92,6 @@ async def import_csv(request: Request, _=Depends(require_role("admin"))):
     the source is auto-detected from the header row (see
     services/reading_imports.py for the column mappings).
     """
-    import csv
-    import io
-    import os
-
     from app.services import reading_imports
 
     form = await request.form()
@@ -157,6 +149,9 @@ async def import_csv(request: Request, _=Depends(require_role("admin"))):
     errors = []
     new_item_ids: list[int] = []
     cover_hints: list[tuple[int, str]] = []  # (id, audible-cli cover URL)
+    # Audible-format rows with an ASIN and no cover URL (Libation): the
+    # resolver's Audnexus leg fetches their cover by ASIN.
+    asin_rows: list[int] = []
     # Rows an Audible-format import created — keyed on the format, not the
     # ASIN, so a row whose ASIN failed validation is still linked.
     audible_created: list[int] = []
@@ -488,6 +483,14 @@ async def import_csv(request: Request, _=Depends(require_role("admin"))):
                         new_item_ids.append(new_id)
                     elif norm.get("cover_url") and not item_write.was_restored(new_id):
                         cover_hints.append((new_id, norm["cover_url"]))
+                    elif (
+                        fmt in _FORMAT_SOURCE
+                        and norm.get("asin")
+                        and not item_write.was_restored(new_id)
+                    ):
+                        # Audible-format rows only: every one is an audiobook,
+                        # so the title-search-free hand-off is safe (G29).
+                        asin_rows.append(new_id)
                     imported += 1
             except ItemValueError as e:
                 errors.append(f"Row {i}: {e}")
@@ -510,6 +513,10 @@ async def import_csv(request: Request, _=Depends(require_role("admin"))):
         for hid, url in cover_hints:  # paced by outbound's per-host interval
             cover_queue.enqueue(hid, {"cover_url": url, "skip_title_search": True})
         covers_queued += len(cover_hints)
+    if enrich_covers and asin_rows and not os.environ.get("SHELF_DISABLE_COVER_ENRICH"):
+        for aid in asin_rows:
+            cover_queue.enqueue(aid, {"skip_title_search": True})
+        covers_queued += len(asin_rows)
     # After the block has committed: auto_link opens its own connection (G112).
     # Only Audible-format rows need linking to their print editions.
     if audible_created or matched_ids:

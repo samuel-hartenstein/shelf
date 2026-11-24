@@ -6,7 +6,10 @@ from app import browse_filters, config
 from app.services import bgg_tags
 from app.services import tags as tags_svc
 from tests.conftest import _insert_item
-from tests.test_board_games import CATAN_EAN, _scan, board_game_stubs  # noqa: F401  (fixture)
+from tests import test_board_games
+from tests.test_board_games import CATAN_EAN, _scan
+
+board_game_stubs = test_board_games.board_game_stubs  # the shared fixture, reused here
 
 
 def _game(db, title, lo, hi, minutes=None, media_type="board_game"):

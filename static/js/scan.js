@@ -25,9 +25,9 @@ function scanPage() {
         // The default-status words for the current media type, and whether
         // that type carries a status at all (refreshStatusLabels).
         statusLabelSets: {},
-        statusWant: 'Want to',
-        statusDoing: 'In progress',
-        statusDone: 'Finished',
+        statusWant: t('Want to'),
+        statusDoing: t('In progress'),
+        statusDone: t('Finished'),
         statusTypeOk: true,
         statusDisabled: false,
         borrowerId: '',
@@ -58,6 +58,30 @@ function scanPage() {
             {id: 'lookup', label: t('Lookup')},
             {id: 'quick_rate', label: t('Quick Rate')},
         ],
+
+        // Alpine's CSP build can't call t() in an expression: the scan form's
+        // mode- and type-dependent wording comes from these getters.
+        get locationLabel() {
+            return this.mode === 'move' ? t('Target Location') : this.mode === 'inventory' ? t('Auditing Location') : t('Location');
+        },
+        get barcodeOnly() {
+            return ['lend', 'return', 'move', 'inventory', 'lookup', 'quick_rate'].indexOf(this.mode) !== -1;
+        },
+        get barcodeLabel() { return this.barcodeOnly ? t('Barcode') : t('ISBN / UPC'); },
+        get barcodePlaceholder() {
+            if (this.barcodeOnly) return t('Scan barcode...');
+            if (this.mediaType === 'auto') return t('Scan any barcode...');
+            return (this.mediaType === 'video_game' || this.mediaType === 'board_game') ? t('Scan UPC barcode...') : t('Scan or type ISBN...');
+        },
+        get titlePlaceholder() {
+            return {auto: t('Title or author...'), video_game: t('Game title...'), board_game: t('Game title...'), dvd: t('Movie title...')}[this.mediaType] ||
+                t('Book title or author...');
+        },
+        get resultsHeading() {
+            return {add: t('Recently Added'), wishlist: t('Added to Wishlist'), lend: t('Checked Out'), 'return': t('Returned'),
+                    move: t('Moved'), inventory: t('Scanned Items'), lookup: t('Lookup Results'),
+                    quick_rate: t('Marked as finished')}[this.mode] || t('Results');
+        },
 
         get modeConfig() {
             var configs = {
@@ -136,9 +160,9 @@ function scanPage() {
         refreshStatusLabels() {
             var sets = this.statusLabelSets;
             var words = sets[this.mediaType] || sets.auto ||
-                ['Want to', 'In progress', 'Finished'];
+                [t('Want to'), t('In progress'), t('Finished')];
             this.statusTypeOk = this.mediaType === 'auto' || !!sets[this.mediaType];
-            if (!this.statusTypeOk) words = sets.auto || ['Want to', 'In progress', 'Finished'];
+            if (!this.statusTypeOk) words = sets.auto || [t('Want to'), t('In progress'), t('Finished')];
             this.statusWant = words[0];
             this.statusDoing = words[1];
             this.statusDone = words[2];
