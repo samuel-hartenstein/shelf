@@ -5,6 +5,7 @@ import pytest
 from app import i18n
 from app.routers import items_board_games
 from app.services import bgg, covers, provider_result
+from app.services import tags as tags_svc
 from tests.conftest import _insert_item
 from tests.test_board_games import _catan_meta
 
@@ -145,7 +146,7 @@ def _refresh(client, item_id):
 
 
 class TestUpdateFromBgg:
-    def test_fills_only_empty_fields_and_a_missing_cover(self, editor_client, db, refresh_stubs, monkeypatch):
+    def test_fills_only_empty_fields_tags_and_a_missing_cover(self, editor_client, db, refresh_stubs, monkeypatch):
         async def _lookup_game(bgg_id, token, client, *, versions=False):
             return provider_result.found("bgg", {**_catan_meta(), "categories": ["Economic", "Puzzle"]})
         monkeypatch.setattr(bgg, "lookup_game", _lookup_game)
@@ -159,6 +160,7 @@ class TestUpdateFromBgg:
         assert (row["min_players"], row["max_players"]) == (3, 6)
         assert row["duration_mins"] == 120 and row["publisher"] == "KOSMOS"
         assert row["cover_path"] == f"data/covers/{item_id}.jpg"
+        assert {t["name"] for t in tags_svc.get_item_tags(db, item_id)} == {"Economic", "Puzzle"}
 
     def test_keeps_an_existing_cover(self, editor_client, db, refresh_stubs):
         item_id = _insert_item(db, title="Catan", isbn=None, media_type="board_game", bgg_id=13,

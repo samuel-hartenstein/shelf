@@ -49,7 +49,7 @@
                         {{ _('Find cover') }}
                     </button>
                     {% if item.media_type == 'board_game' %}
-                    {# Fills empty fields and a missing cover from BGG. #}
+                    {# Fills empty fields, category tags and a missing cover from BGG. #}
                     <button hx-post="/api/board-games/{{ item.id }}/refresh" hx-swap="none" data-testid="bgg-refresh"
                             class="text-xs px-3 py-1 bg-shelf-accent/20 text-shelf-accent2 rounded-sm hover:bg-shelf-accent/30 transition-colors">
                         {{ _('Update from BGG') }}

@@ -1584,6 +1584,24 @@ asks BGG for the game's printings (`versions=1`) and offers each edition's box,
 the viewer's language first; **Update from BGG** fills only empty fields and a
 missing cover, never a value already on the item.
 
+BGG's categories ("Puzzle", "Party Game", …) and a handful of mechanics a
+player picks a game by ("Cooperative", "Trick-taking", …) are filed as
+ordinary tags in the same transaction as the row (`services/bgg_tags.py`), so
+the Browse tag filter answers "show me the puzzle games" with no new column.
+Browse adds **Players** ("3 players" matches every game whose range holds 3)
+and **Play time** (four buckets over `duration_mins`), both declared in
+`browse_filters.py` and shown only when the library holds a board game.
+
+Stored data every user shares is written in the **library's language**
+(`i18n.library_locale()`: `SHELF_DEFAULT_LANGUAGE` while the translated UI is
+on, else English), never the language of whoever scanned: tag names go
+through `i18n.library_pgettext` (marked with `NC_`, a context-carrying `N_`,
+so the category "Book" is not the media type "Book"), as do the starter tag
+suggestions. A game is filed under the title most of the library language's
+BGG printings carry ("Zug um Zug" for Ticket to Ride), with that printing's box
+art, and Update from BGG renames a title only while it is still BGG's English
+name.
+
 ### Writing items
 
 Every path that creates an item — scan, manual add, CSV import, photo intake,

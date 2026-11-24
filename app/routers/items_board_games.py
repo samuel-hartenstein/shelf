@@ -32,7 +32,7 @@ from app.auth import require_role
 from app.config import HTTP_TIMEOUT
 from app.database import get_db, get_setting
 from app.routers import items_common
-from app.services import bgg, covers, gameupc, item_write, provider_result, restore_report, scan_outcome
+from app.services import bgg, bgg_tags, covers, gameupc, item_write, provider_result, restore_report, scan_outcome
 from app.services import tags as tags_svc
 from app.services import upc as upc_svc
 from app.services.item_write import ItemValueError, insert_item
@@ -50,6 +50,11 @@ def _credentials() -> tuple[str | None, str | None]:
     with get_db() as db:
         return (get_setting(db, "bgg_api_token") or None,
                 get_setting(db, "gameupc_api_key") or None)
+
+
+def _versions() -> bool:
+    """Ask BGG for its printings too: a German library files the German title."""
+    return bgg.wants_versions(i18n.library_locale())
 
 
 def _item_fields(meta: dict) -> dict:
@@ -92,6 +97,8 @@ async def _file_game(
     """
     upc_key = upc_svc.normalize_upc(upc_raw) if upc_raw else None
     log_key = upc_raw or ""
+    # The title on the box in the library's language, not BGG's English name.
+    meta = bgg.localize(meta, i18n.library_locale())
     title = (meta.get("title") or "").strip()
     if not title:
         return templates.TemplateResponse(
@@ -117,6 +124,9 @@ async def _file_game(
                     owned=0 if mode == "wishlist" else 1,
                     wishlisted=(mode == "wishlist"),
                 )
+                # BGG categories and a few mechanics as tags, in the same
+                # transaction as the row (G118), so Browse can filter by them.
+                tags_svc.attach_tags(db, item_id, bgg_tags.tag_names(meta))
             except ItemValueError as e:
                 value_error = str(e)
             except sqlite3.IntegrityError:
@@ -235,7 +245,7 @@ async def scan_upc(request: Request, templates, upc_raw: str, location_id: int |
         pick = gameupc.auto_pick(found)
         if pick:
             if bgg_token:
-                bgg_result = await bgg.lookup_game(pick["bgg_id"], bgg_token, client)
+                bgg_result = await bgg.lookup_game(pick["bgg_id"], bgg_token, client, versions=_versions())
                 if bgg_result.found:
                     return await _file_game(request, templates, meta=bgg_result.payload, source="bgg",
                                             upc_raw=upc_raw, location_id=location_id, mode=mode)
@@ -324,7 +334,7 @@ async def add_board_game(
     meta, source = None, "bgg"
     async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
         if bgg_token:
-            result = await bgg.lookup_game(bgg_id, bgg_token, client)
+            result = await bgg.lookup_game(bgg_id, bgg_token, client, versions=_versions())
             meta = result.payload if result.found else None
         elif upc_raw:
             # No BGG token: a scan's choice card came from GameUPC, so the
@@ -354,7 +364,8 @@ async def add_board_game(
 
 # Columns the refresh may fill. Only empty ones: a value on the item is
 # either BGG's own from the add, or something the user typed, and the user's
-# edit must win. The title is never touched for the same reason.
+# edit must win. The title is touched only while it is still BGG's English
+# name, to file it under the printed title of the library's language.
 _REFRESH_FIELDS = ("authors", "publisher", "publish_year", "description", "duration_mins",
                    "min_players", "max_players", "min_age", "bgg_id")
 
@@ -369,9 +380,10 @@ def _refresh_reply(message: str, ok: bool, item_id: int):
 
 @router.post("/board-games/{item_id}/refresh")
 async def refresh_board_game(item_id: int, _=Depends(require_role("editor"))):
-    """Fill a board game in from BGG: empty fields and a missing cover.
+    """Fill a board game in from BGG: empty fields, category tags, a missing cover.
 
-    For a game typed in by hand, or one filed while BGG was down. A game with no BGG id is matched by its
+    For a game filed before the categories existed, one typed in by hand, or
+    one filed while BGG was down. A game with no BGG id is matched by its
     exact title, and only when exactly one BGG game carries it; anything
     looser could pull in the wrong game's data, and Find cover remains for
     choosing by eye.
@@ -389,7 +401,7 @@ async def refresh_board_game(item_id: int, _=Depends(require_role("editor"))):
 
     async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
         if item["bgg_id"]:
-            result = await bgg.lookup_game(item["bgg_id"], bgg_token, client)
+            result = await bgg.lookup_game(item["bgg_id"], bgg_token, client, versions=_versions())
             meta = result.payload if result.found else None
         else:
             result = await bgg.search_games(item["title"], bgg_token, client, limit=5)
@@ -410,11 +422,16 @@ async def refresh_board_game(item_id: int, _=Depends(require_role("editor"))):
         new = _item_fields(meta)
         fields = {key: new[key] for key in _REFRESH_FIELDS
                   if new.get(key) not in (None, "") and item[key] in (None, "")}
+        local = bgg.localize(meta, i18n.library_locale())
+        if (meta.get("title") and item["title"].strip().casefold() == meta["title"].strip().casefold()
+                and local["title"] and local["title"] != item["title"]):
+            fields["title"] = local["title"]
         with get_db() as db:
             if fields:
                 item_write.update_item_fields(db, item_id, fields)
+            tags_svc.attach_tags(db, item_id, bgg_tags.tag_names(meta))
 
-        cover_url = meta.get("cover_url") or meta.get("thumbnail_url")
+        cover_url = local.get("cover_url") or local.get("thumbnail_url")
         if not item["cover_path"] and cover_url:
             cover_path = await covers._download_to_item(item_id, cover_url, client)
             if cover_path:
