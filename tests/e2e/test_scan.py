@@ -320,11 +320,33 @@ def test_scan_camera_uses_zxing_on_ios(live_server, browser, setup_admin):
 
 
 def test_scan_camera_uses_zxing_on_desktop(live_server, browser, setup_admin):
-    """No touch screen, fine pointer -> ZXing: html5-qrcode's default webcam
+    """Mouse as the primary pointer -> ZXing: html5-qrcode's default webcam
     resolution and small qrbox miss an EAN-13 a desktop webcam shows soft."""
     ctx = browser.new_context()
     try:
         pg = _login_page(live_server, ctx, setup_admin)
+        _start_scan_camera(pg, live_server)
+
+        expect(pg.locator("#zxing-video-container")).to_be_visible()
+        expect(pg.locator("#camera-reader")).to_be_hidden()
+        wait_for_video_ready(pg, "#zxing-video")
+        _expect_no_camera_error(pg)
+        assert_page_clean(pg)
+    finally:
+        ctx.close()
+
+
+def test_scan_camera_uses_zxing_on_a_touch_screen_laptop(live_server, browser, setup_admin):
+    """A laptop with a touch screen (or a Windows driver that reports touch
+    points) still has a mouse as its primary pointer and a webcam -> ZXing."""
+    ctx = browser.new_context()
+    ctx.add_init_script(
+        "Object.defineProperty(navigator, 'maxTouchPoints', {get: () => 10});"
+        "window.ontouchstart = null;"
+    )
+    try:
+        pg = _login_page(live_server, ctx, setup_admin)
+        assert pg.evaluate("navigator.maxTouchPoints") == 10
         _start_scan_camera(pg, live_server)
 
         expect(pg.locator("#zxing-video-container")).to_be_visible()
