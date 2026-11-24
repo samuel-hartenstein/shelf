@@ -74,6 +74,8 @@ PROVIDER_LABELS = {
     "upcitemdb": "UPC Item DB",
     "kb": "KB",
     "audnexus": "Audnexus",
+    "bgg": "BGG",
+    "gameupc": "GameUPC",
 }
 
 
