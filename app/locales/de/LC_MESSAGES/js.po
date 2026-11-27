@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"PO-Revision-Date: 2026-11-27 22:43+0000\n"
+"PO-Revision-Date: 2026-11-27 23:29+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -224,304 +224,304 @@ msgstr "Anfrage fehlgeschlagen"
 #: static/js/components-settings.js:101 static/js/components-settings.js:208
 #: static/js/components-settings.js:406
 msgid "Hide details"
-msgstr ""
+msgstr "Details ausblenden"
 
 #: static/js/components-settings.js:101 static/js/components-settings.js:208
 #: static/js/components-settings.js:406
 #, python-brace-format
 msgid "Show details ({count} items)"
-msgstr ""
+msgstr "Details anzeigen ({count} Einträge)"
 
 #: static/js/components-settings.js:120
 msgid "Sync Now"
-msgstr ""
+msgstr "Jetzt synchronisieren"
 
 #: static/js/components-settings.js:121
 msgid "Save your settings to sync"
-msgstr ""
+msgstr "Speichere deine Einstellungen, um zu synchronisieren"
 
 #: static/js/components-settings.js:122
 msgid "Enter URL and token to sync"
-msgstr ""
+msgstr "URL und Token eingeben, um zu synchronisieren"
 
 #: static/js/components-settings.js:154 static/js/components-settings.js:256
 #: static/js/components-settings.js:282
 msgid "Connection lost"
-msgstr ""
+msgstr "Verbindung verloren"
 
 #: static/js/components-settings.js:175
 msgid "Failed to load libraries"
-msgstr ""
+msgstr "Bibliotheken konnten nicht geladen werden"
 
 #: static/js/components-settings.js:185
 msgid "Move all Shelf items that came from unchecked libraries to Trash? Audiobookshelf itself is not touched, and you can restore them from Trash. A later sync does not re-import an item that is in Trash: restore it first."
-msgstr ""
+msgstr "Alle Shelf-Einträge aus abgewählten Bibliotheken in den Papierkorb verschieben? Audiobookshelf selbst bleibt unberührt, und du kannst sie aus dem Papierkorb wiederherstellen. Ein späterer Sync importiert einen Eintrag im Papierkorb nicht erneut: Stelle ihn zuerst wieder her."
 
 #: static/js/components-settings.js:203
 msgid "Import from Hardcover"
-msgstr ""
+msgstr "Aus Hardcover importieren"
 
 #: static/js/components-settings.js:203
 msgid "Enter token to import"
-msgstr ""
+msgstr "Token eingeben, um zu importieren"
 
 #: static/js/components-settings.js:204
 msgid "Connecting to Hardcover..."
-msgstr ""
+msgstr "Verbinde mit Hardcover …"
 
 #: static/js/components-settings.js:206
 msgid "Export to Hardcover"
-msgstr ""
+msgstr "Nach Hardcover exportieren"
 
 #: static/js/components-settings.js:206
 msgid "Enter token to export"
-msgstr ""
+msgstr "Token eingeben, um zu exportieren"
 
 #: static/js/components-settings.js:462 static/js/components-settings.js:557
 msgid "Import failed"
-msgstr ""
+msgstr "Import fehlgeschlagen"
 
 #: static/js/components-settings.js:525
 msgid "Preview failed"
-msgstr ""
+msgstr "Vorschau fehlgeschlagen"
 
 #: static/js/components-settings.js:596
 #, python-brace-format
 msgid "Import {count} item"
-msgstr ""
+msgstr "{count} Eintrag importieren"
 
 #: static/js/components-settings.js:596
 #, python-brace-format
 msgid "Import {count} items"
-msgstr ""
+msgstr "{count} Einträge importieren"
 
 #: static/js/components-settings.js:611
 #, python-brace-format
 msgid "{count} new item"
-msgstr ""
+msgstr "{count} neuer Eintrag"
 
 #: static/js/components-settings.js:611
 #, python-brace-format
 msgid "{count} new items"
-msgstr ""
+msgstr "{count} neue Einträge"
 
 #: static/js/components-settings.js:612
 #, python-brace-format
 msgid "{count} restored from Trash"
-msgstr ""
+msgstr "{count} aus dem Papierkorb wiederhergestellt"
 
 #: static/js/components-settings.js:619
 #, python-brace-format
 msgid "{count} new"
-msgstr ""
+msgstr "{count} neu"
 
 #: static/js/components-settings.js:620
 #, python-brace-format
 msgid "{count} into Trash"
-msgstr ""
+msgstr "{count} in den Papierkorb"
 
 #: static/js/components-settings.js:622
 #, python-brace-format
 msgid "{count} already in your library (skipped)"
-msgstr ""
+msgstr "{count} schon in deiner Bibliothek (übersprungen)"
 
 #: static/js/components-settings.js:623
 #, python-brace-format
 msgid "{count} to update"
-msgstr ""
+msgstr "{count} zu aktualisieren"
 
 #: static/js/components-settings.js:624
 #, python-brace-format
 msgid "{count} to restore from Trash"
-msgstr ""
+msgstr "{count} aus dem Papierkorb wiederherzustellen"
 
 #: static/js/components-settings.js:632
 #, python-brace-format
 msgid "{count} matched by title/author"
-msgstr ""
+msgstr "{count} über Titel/Autor gefunden"
 
 #: static/js/components-settings.js:633
 #, python-brace-format
 msgid "{count} by ISBN"
-msgstr ""
+msgstr "{count} über ISBN"
 
 #: static/js/components-settings.js:642
 #, python-brace-format
 msgid "{count} cover"
-msgstr ""
+msgstr "{count} Cover"
 
 #: static/js/components-settings.js:642
 #, python-brace-format
 msgid "{count} covers"
-msgstr ""
+msgstr "{count} Cover"
 
 #: static/js/components-settings.js:643
 #, python-brace-format
 msgid "{count} new series"
-msgstr ""
+msgstr "{count} neue Reihe(n)"
 
 #: static/js/components-settings.js:644
 #, python-brace-format
 msgid "{count} new location"
-msgstr ""
+msgstr "{count} neuer Ort"
 
 #: static/js/components-settings.js:644
 #, python-brace-format
 msgid "{count} new locations"
-msgstr ""
+msgstr "{count} neue Orte"
 
 #: static/js/components-settings.js:645
 #, python-brace-format
 msgid "{count} new tag"
-msgstr ""
+msgstr "{count} neues Schlagwort"
 
 #: static/js/components-settings.js:645
 #, python-brace-format
 msgid "{count} new tags"
-msgstr ""
+msgstr "{count} neue Schlagwörter"
 
 #: static/js/components-settings.js:646
 #, python-brace-format
 msgid "{count} new borrower"
-msgstr ""
+msgstr "{count} neue Person"
 
 #: static/js/components-settings.js:646
 #, python-brace-format
 msgid "{count} new borrowers"
-msgstr ""
+msgstr "{count} neue Personen"
 
 #: static/js/components-settings.js:647
 #, python-brace-format
 msgid "{count} reading-log entry"
-msgstr ""
+msgstr "{count} Lesetagebuch-Eintrag"
 
 #: static/js/components-settings.js:647
 #, python-brace-format
 msgid "{count} reading-log entries"
-msgstr ""
+msgstr "{count} Lesetagebuch-Einträge"
 
 #: static/js/components-settings.js:648
 #, python-brace-format
 msgid "{count} loan"
-msgstr ""
+msgstr "{count} Ausleihe"
 
 #: static/js/components-settings.js:648
 #, python-brace-format
 msgid "{count} loans"
-msgstr ""
+msgstr "{count} Ausleihen"
 
 #: static/js/components-settings.js:649
 #, python-brace-format
 msgid "Plus {list}."
-msgstr ""
+msgstr "Dazu {list}."
 
 #: static/js/components-settings.js:655
 #, python-brace-format
 msgid "Replace {count} existing cover"
-msgstr ""
+msgstr "{count} vorhandenes Cover ersetzen"
 
 #: static/js/components-settings.js:655
 #, python-brace-format
 msgid "Replace {count} existing covers"
-msgstr ""
+msgstr "{count} vorhandene Cover ersetzen"
 
 #: static/js/components-settings.js:655
 msgid "Replace existing covers"
-msgstr ""
+msgstr "Vorhandene Cover ersetzen"
 
 #: static/js/components-settings.js:664
 #, python-brace-format
 msgid "{count} valuation-history row (not mergeable — this library already has valuation history)"
-msgstr ""
+msgstr "{count} Zeile Wertverlauf (nicht zusammenführbar – diese Bibliothek hat schon einen Wertverlauf)"
 
 #: static/js/components-settings.js:665
 #, python-brace-format
 msgid "{count} valuation-history rows (not mergeable — this library already has valuation history)"
-msgstr ""
+msgstr "{count} Zeilen Wertverlauf (nicht zusammenführbar – diese Bibliothek hat schon einen Wertverlauf)"
 
 #: static/js/components-settings.js:667
 #, python-brace-format
 msgid "{count} valuation-history row"
-msgstr ""
+msgstr "{count} Zeile Wertverlauf"
 
 #: static/js/components-settings.js:667
 #, python-brace-format
 msgid "{count} valuation-history rows"
-msgstr ""
+msgstr "{count} Zeilen Wertverlauf"
 
 #: static/js/components-settings.js:674
 #, python-brace-format
 msgid "{count} new item not imported (deselected)"
-msgstr ""
+msgstr "{count} neuer Eintrag nicht importiert (abgewählt)"
 
 #: static/js/components-settings.js:674
 #, python-brace-format
 msgid "{count} new items not imported (deselected)"
-msgstr ""
+msgstr "{count} neue Einträge nicht importiert (abgewählt)"
 
 #: static/js/components-settings.js:675
 #, python-brace-format
 msgid "{count} item not updated (deselected)"
-msgstr ""
+msgstr "{count} Eintrag nicht aktualisiert (abgewählt)"
 
 #: static/js/components-settings.js:675
 #, python-brace-format
 msgid "{count} items not updated (deselected)"
-msgstr ""
+msgstr "{count} Einträge nicht aktualisiert (abgewählt)"
 
 #: static/js/components-settings.js:676
 #, python-brace-format
 msgid "{count} cover not installed (deselected)"
-msgstr ""
+msgstr "{count} Cover nicht übernommen (abgewählt)"
 
 #: static/js/components-settings.js:676
 #, python-brace-format
 msgid "{count} covers not installed (deselected)"
-msgstr ""
+msgstr "{count} Cover nicht übernommen (abgewählt)"
 
 #: static/js/components-settings.js:677
 #, python-brace-format
 msgid "Reading log: {count} row not imported (deselected)"
-msgstr ""
+msgstr "Lesetagebuch: {count} Zeile nicht importiert (abgewählt)"
 
 #: static/js/components-settings.js:677
 #, python-brace-format
 msgid "Reading log: {count} rows not imported (deselected)"
-msgstr ""
+msgstr "Lesetagebuch: {count} Zeilen nicht importiert (abgewählt)"
 
 #: static/js/components-settings.js:678
 #, python-brace-format
 msgid "Loans: {count} row not imported (deselected)"
-msgstr ""
+msgstr "Ausleihen: {count} Zeile nicht importiert (abgewählt)"
 
 #: static/js/components-settings.js:678
 #, python-brace-format
 msgid "Loans: {count} rows not imported (deselected)"
-msgstr ""
+msgstr "Ausleihen: {count} Zeilen nicht importiert (abgewählt)"
 
 #: static/js/components-settings.js:679
 #, python-brace-format
 msgid "Valuation history: {count} row not imported (deselected)"
-msgstr ""
+msgstr "Wertverlauf: {count} Zeile nicht importiert (abgewählt)"
 
 #: static/js/components-settings.js:679
 #, python-brace-format
 msgid "Valuation history: {count} rows not imported (deselected)"
-msgstr ""
+msgstr "Wertverlauf: {count} Zeilen nicht importiert (abgewählt)"
 
 #: static/js/components-settings.js:685
 #, python-brace-format
 msgid "{count} item changed between the preview and the import, and was left alone."
-msgstr ""
+msgstr "{count} Eintrag hat sich zwischen Vorschau und Import geändert und wurde nicht angefasst."
 
 #: static/js/components-settings.js:686
 #, python-brace-format
 msgid "{count} items changed between the preview and the import, and were left alone."
-msgstr ""
+msgstr "{count} Einträge haben sich zwischen Vorschau und Import geändert und wurden nicht angefasst."
 
 #: static/js/components-settings.js:714
 msgid "Restore failed"
-msgstr ""
+msgstr "Wiederherstellen fehlgeschlagen"
 
 #: static/js/components-settings.js:768
 #, python-brace-format
