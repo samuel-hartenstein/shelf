@@ -6,6 +6,279 @@ All notable changes to Shelf are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.87.0] - 2026-11-27
+
+The navigation bar had grown one tab at a time to ten, and at the narrow end
+of a desktop window it no longer fitted. In German and Italian, or with a long
+display name, the row pushed your account menu off the right edge of the
+screen at widths from 1024 to about 1220 pixels. The bar now groups its tabs
+by what they are for, so it fits with room to spare in every language Shelf
+ships.
+
+### Changed
+
+- **The navigation bar groups its tabs into two menus.** **Explore** holds
+  Series, Music, Periodicals and Stats — the views onto what you own — and
+  **Tools** holds Photo Intake and Shelf Fill. Browse, Scan, Store and
+  Discover stay as tabs, so the collection and scanning are still one click
+  away. Click a menu's name to open it; Escape, a click elsewhere, or moving
+  keyboard focus out of it closes it. The menu's name is highlighted while
+  you are on one of its pages. A menu's name is only a menu, not a page of
+  its own.
+- **A menu with only one page available shows that page as a plain tab.**
+  With the Standard profile and no photo provider, for example, Tools holds
+  only Shelf Fill, so the bar shows **Shelf Fill** as a tab rather than a
+  menu with one item. A menu with nothing available does not appear, and
+  tabs you hide under Settings → Library leave their menu the same way.
+- **On a phone, the ☰ menu lists the same groups under headings,** with a
+  divider before and after each group, so the pages that follow a group do not
+  read as part of it.
+- **The account menu also closes when keyboard focus moves out of it.**
+
+### Fixed
+
+- **The navigation bar no longer pushes the account menu off the screen** at
+  widths from 1024 to about 1220 pixels in German and Italian, or with a long
+  display name.
+- **A long display name now truncates** in the account menu instead of
+  widening it without limit.
+
+## [0.86.1] - 2026-11-27
+
+Nothing changes for people who run Shelf. This release is for contributors.
+The development tools installed a test-coverage plugin and never used it, so
+there was no easy way to see which code no test reaches. There is now one
+command that shows it.
+
+### Added
+
+- **`make test-cov` reports test coverage.** It runs the unit tests the same
+  way `make test` does, then lists each file in `app/` with the lines that no
+  test runs. It only reports: no check fails on a coverage number, and it is
+  not part of any gate. See the development guide.
+
+## [0.86.0] - 2026-11-27
+
+Polish books now get their details from Poland's national library. Before,
+a 978-83 ISBN went straight to the general sources, which often know little
+about Polish editions. The Italian interface also covers the Audiobookshelf
+and Hardcover settings now. Both are community contributions, from
+[@sudo-rpaisley](https://github.com/sudo-rpaisley) and
+[@vjandrea](https://github.com/vjandrea). Separately, the build that makes the
+published Docker image is now pinned to exact versions of the tools it uses.
+
+### Added
+
+- **Polish ISBNs (978-83) are looked up in the Biblioteka Narodowa first.**
+  Title, subtitle, authors, publisher, year, pages and language come from the
+  National Library of Poland's public catalogue, which needs no key. Only a
+  record whose ISBN matches exactly is used, because the catalogue's search
+  also returns cancelled and related ISBNs. When it has no match or does not
+  answer, the scan carries on to Open Library, Hardcover and Google Books as
+  before. It supplies no cover art. Contributed by
+  [@sudo-rpaisley](https://github.com/sudo-rpaisley) in
+  [#211](https://github.com/dgahagan/shelf/pull/211).
+- **The Settings Audiobookshelf and Hardcover cards are translated into
+  Italian,** with the messages their sync, import and export actions show.
+  Menu paths in the other apps stay as those apps show them, so you can still
+  find them there. Contributed by
+  [@vjandrea](https://github.com/vjandrea) in
+  [#207](https://github.com/dgahagan/shelf/pull/207).
+
+### Changed
+
+- **The image build uses fixed versions of its tools.** Every GitHub Action
+  that builds, tests and publishes Shelf is pinned to an exact commit instead
+  of a version tag, which its publisher can move. All build jobs use the same
+  Python as the Docker image. Nothing changes for an existing install.
+- **Two new `make` targets for contributors.** `make check-workflows` fails
+  when an action is not pinned or a job sets its own Python or Node version.
+  It runs offline, as part of `make checks-fast`. `make check-actions` asks
+  GitHub whether each pinned commit is still what its version tag points at.
+
+## [0.85.0] - 2026-11-25
+
+Shelf's built-in HTTPS certificate is valid for two years, and nothing ever
+replaced it. When it ran out, browsers and phones refused to connect, and
+the only fix was to find and delete `data/certs/` by hand. Changing
+`CERT_SAN` had the same problem: the new name or address was ignored until
+you deleted the old certificate. Shelf now renews its own certificate on
+start when it is close to expiry or no longer matches `CERT_SAN`.
+
+### Changed
+
+- **Shelf renews its own certificate.** On start, a certificate that Shelf
+  generated is replaced when it expires within 30 days or when `CERT_SAN`
+  no longer lists the same names and addresses. The log says which, and
+  reminds you that devices which trust the old certificate must install the
+  new one. Order, upper or lower case and repeated entries in `CERT_SAN` do
+  not count as a change.
+- **Changing `CERT_SAN` now takes effect on restart.** You no longer need to
+  delete `data/certs/` first.
+- **Your own certificate is never replaced.** Shelf records which
+  certificate it made in a small `cert.sha256` file beside it. A certificate
+  from anywhere else, for example one you placed in `data/certs/` yourself,
+  is left alone. When such a certificate expires within 30 days, the log
+  prints a warning instead of renewing it.
+- **An existing certificate is adopted, not replaced.** On the first start
+  after upgrading, a certificate generated by an earlier Shelf is adopted
+  as Shelf's own if it still matches `CERT_SAN`. It keeps working, and
+  devices that already trust it keep trusting it. If you changed `CERT_SAN`
+  after that certificate was made, Shelf cannot tell it from one you made
+  yourself. It then leaves the certificate alone and prints a `NOTE:` line;
+  delete `data/certs/` once and restart to let Shelf manage it from then on.
+- **A failed renewal does not break the start.** If renewal fails, the
+  existing certificate and key stay exactly as they were, and Shelf keeps
+  serving them while they are still valid. It refuses to start only when
+  the old certificate has already expired.
+
+## [0.84.1] - 2026-11-25
+
+Every time the container started, it gave every file under `/data` to the
+Shelf user again, even when nothing needed fixing. That changed each file's
+change time, so backup tools that look for changed files, such as restic,
+read all of your covers again after every restart or upgrade. On storage
+where the container cannot change ownership, such as NFS with `root_squash`,
+it also stopped the container from starting, even though the files were
+already owned correctly. It now changes only the files whose owner is wrong.
+
+### Changed
+
+- **Starting the container leaves correctly owned files alone.** A data
+  directory that already belongs to UID 1000 is not touched at all, so
+  restarts and upgrades no longer make backups re-read every cover. Files
+  with the wrong owner or group, for example after a backup was restored as
+  root, are still fixed on the next start. Symbolic links are fixed as links,
+  and anything they point to outside the data directory is never changed.
+- **A clear message when ownership cannot be fixed.** If the container cannot
+  give a wrong-owned file to the Shelf user, it stops and says so, naming
+  `/data`, UID 1000 and the troubleshooting entry. Before, it stopped with
+  only `chown`'s own error.
+
+## [0.84.0] - 2026-11-25
+
+Shelf's translated interface now speaks German, and a server can choose the
+language that new users see. The series completeness check also stops
+reporting owned volumes as missing when they were catalogued under a different
+title, and a desktop webcam now reads barcodes it used to miss. The four
+headline changes are community contributions, from
+[@samuel-hartenstein](https://github.com/samuel-hartenstein),
+[@draarivpatel-ui](https://github.com/draarivpatel-ui) and
+[@vjandrea](https://github.com/vjandrea). Testing them on a real collection
+led to the smaller fixes beside them.
+
+### Added
+
+- **German.** Everything Shelf translates is now available in German, except
+  the four Settings tabs this release translates into Italian. Those show
+  English in German for now. Pick Deutsch in the Account dialog, or let a
+  browser set to German choose it. The translated interface still needs
+  `SHELF_I18N=on`. Contributed by
+  [@samuel-hartenstein](https://github.com/samuel-hartenstein) in
+  [#204](https://github.com/dgahagan/shelf/pull/204).
+- **`SHELF_DEFAULT_LANGUAGE` sets the language for users who have not picked
+  one** and whose browser asks for none that Shelf has (`de`, `it` or
+  `zh_Hans`). A user's own choice still wins, then the browser's language.
+  Unset, nothing changes, and Shelf falls back to English. An unknown value is
+  ignored. Contributed by
+  [@samuel-hartenstein](https://github.com/samuel-hartenstein) in
+  [#204](https://github.com/dgahagan/shelf/pull/204).
+- **The Settings Features, Tags, Users and Data tabs are translated into
+  Italian,** including the messages that their actions and the CSV import
+  show. CSV column names and values stay in English, so a file exported in
+  one language imports in any other. Contributed by
+  [@vjandrea](https://github.com/vjandrea) in
+  [#201](https://github.com/dgahagan/shelf/pull/201).
+
+### Changed
+
+- **Desktop and laptop webcams scan with the same engine as iPhones.** On a
+  computer whose main pointer is a mouse or touchpad, the camera scanner now
+  uses ZXing. ZXing asks for a 1080p picture and reads the whole frame. The
+  previous engine opened most webcams at 640×480 and read only a small box,
+  so it rarely read an EAN-13 through a fixed-focus lens. Android phones and
+  tablets keep the engine they had. The scan frame on a desktop is now the
+  full width of the video, as it is on iOS. Contributed by
+  [@samuel-hartenstein](https://github.com/samuel-hartenstein) in
+  [#202](https://github.com/dgahagan/shelf/pull/202).
+- **The series completeness check finds a volume by its position.** Before,
+  a volume had to match Hardcover's book ID or its exact title. A volume
+  added by ISBN scan, by CSV, or as a translated edition matched neither, so
+  it was reported missing although you own it. Now, when neither matches,
+  Shelf uses the series position you gave the volume. A volume already matched
+  to one book cannot fill a second position, whatever order Hardcover lists
+  the books in. An owned volume at a position, such as an omnibus shelved at
+  #1, counts for that position even beside an unowned single edition. Titles
+  also match across curly and straight apostrophes, so `Ender’s Game` is
+  Hardcover's `Ender's Game`. Series you have checked before can show fewer
+  missing volumes afterwards. Contributed by
+  [@draarivpatel-ui](https://github.com/draarivpatel-ui) in
+  [#200](https://github.com/dgahagan/shelf/pull/200), fixing
+  [#166](https://github.com/dgahagan/shelf/issues/166).
+- **A series check says how many volumes are on your wishlist.** Before, it
+  said "you have them all!" when nothing was missing, even when most of the
+  volumes were only wishlisted. Now it reads "you have them all!" only when
+  you own every volume. Otherwise it reads "none missing;" and gives the
+  number on your wishlist.
+- **The Settings Features tab's buttons and confirm questions are
+  translated:** Apply, Current, Turn off and Turn on, in Italian and German.
+
+### Fixed
+
+- **`SHELF_I18N` and `SHELF_DEFAULT_LANGUAGE` set in `.env` now reach the
+  container** when you use the bundled `docker-compose.yml`. Before, the
+  compose file passed neither variable through, so the translated interface
+  stayed off.
+
+## [0.83.0] - 2026-11-25
+
+The Docker image had no health check, though Shelf has had a `/health`
+endpoint for exactly that purpose. `docker ps` showed only `Up`, so a container
+whose server had hung, or whose database would not open, looked the same as a
+working one to Compose, Portainer and uptime monitors. The image now checks
+itself.
+
+### Added
+
+- **The Docker image reports its health.** Every 30 seconds it asks `/health`,
+  which opens the database. Three failures in a row mark the container
+  `unhealthy` in `docker ps`, and Compose `depends_on: condition:
+  service_healthy` can now wait for it. The check follows `SHELF_TLS` and
+  `SHELF_PORT` on its own, so nothing needs configuring. It talks to Shelf
+  directly inside the container, so an `HTTP_PROXY` set for outbound lookups
+  does not affect it. A Compose `healthcheck:` block changes or disables it. Docker does not restart a
+  container for being unhealthy. Nothing changes for an existing install
+  beyond the new status.
+
+### Changed
+
+- **Passing health checks leave no line in the container log.** A check every
+  30 seconds would otherwise add almost 3,000 lines a day. A failing check
+  still logs its `GET /health` 503, and so does every other request.
+
+## [0.82.3] - 2026-11-24
+
+The Docker image was built on `python:3.12-slim` by tag, and a tag is a
+pointer its publisher can move. Two builds of the same Shelf release could
+therefore sit on different operating-system and Python layers, and nothing
+recorded which one shipped. Every other input to the published image was
+already pinned. This release pins the base too, so a Shelf version names
+exactly one image.
+
+### Changed
+
+- **The Docker image builds from a base image pinned by digest.** The
+  `python:3.12-slim` tag stays in the Dockerfile as a label; the digest is
+  what Docker uses. It covers every platform the image is published for. The
+  pin does not stop security updates: each release checks it against the
+  tag's current image and moves it forward first, so a release still ships
+  the newest base. Nothing changes for an existing install.
+- **Two new `make` targets for contributors building the image themselves.**
+  `make pin-base` moves the pin to the tag's current image, and
+  `make check-base-image` fails when the pin is out of date. The check needs
+  Docker Hub, so it runs before a release, not on pull requests. The
+  pull-request checklist names the checks a contributor should run.
+
 ## [0.82.2] - 2026-11-24
 
 Scanning a video game often filed the wrong game. Shelf sent IGDB the
@@ -6028,6 +6301,14 @@ First public release.
   protection, encrypted credential storage, optional passphrase-encrypted
   backups, HTTPS out of the box, non-root container
 
+[0.87.0]: https://github.com/dgahagan/shelf/releases/tag/v0.87.0
+[0.86.1]: https://github.com/dgahagan/shelf/releases/tag/v0.86.1
+[0.86.0]: https://github.com/dgahagan/shelf/releases/tag/v0.86.0
+[0.85.0]: https://github.com/dgahagan/shelf/releases/tag/v0.85.0
+[0.84.1]: https://github.com/dgahagan/shelf/releases/tag/v0.84.1
+[0.84.0]: https://github.com/dgahagan/shelf/releases/tag/v0.84.0
+[0.83.0]: https://github.com/dgahagan/shelf/releases/tag/v0.83.0
+[0.82.3]: https://github.com/dgahagan/shelf/releases/tag/v0.82.3
 [0.82.2]: https://github.com/dgahagan/shelf/releases/tag/v0.82.2
 [0.82.1]: https://github.com/dgahagan/shelf/releases/tag/v0.82.1
 [0.82.0]: https://github.com/dgahagan/shelf/releases/tag/v0.82.0

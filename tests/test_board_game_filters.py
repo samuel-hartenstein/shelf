@@ -2,7 +2,7 @@
 
 import pytest
 
-from app import browse_filters, config
+from app import browse_filters
 from app.services import bgg_tags
 from app.services import tags as tags_svc
 from tests.conftest import _insert_item
@@ -72,13 +72,6 @@ class TestTagsFromBgg:
         names = {row["name"] for row in tags_svc.get_item_tags(db, item_id)}
         assert names == {"Economic", "Negotiation"}  # "Dice Rolling" is not a mapped mechanic
 
-    def test_board_game_starters_follow_the_library_language(self, db, monkeypatch):
-        monkeypatch.setenv("SHELF_I18N", "on")
-        monkeypatch.setenv("SHELF_DEFAULT_LANGUAGE", "de")
-        names = [row["name"] for row in tags_svc.suggestions_for(db, "board_game")]
-        assert "Knobelspiel" in names and "Puzzle" not in names
-        assert len(names) == len(config.TAG_SUGGESTIONS["board_game"])
-
 
 class TestPlayersFilter:
     @pytest.mark.parametrize("n, expected", [
@@ -100,6 +93,16 @@ class TestPlayersFilter:
         db.commit()
         page = admin_client.get("/api/search", params={"players": str(browse_filters.MAX_PLAYERS_OPTION)}).text
         assert "Werewolf" in page
+
+    def test_a_game_whose_minimum_is_above_the_top_option_is_counted_there(self, admin_client, db):
+        # The filter finds a game for 12-30 under "10 or more"; the count
+        # beside the option must say so too, not leave it out.
+        _game(db, "Big Werewolf", 12, 30)
+        _game(db, "Party", 4, 10)
+        db.commit()
+        top = browse_filters.MAX_PLAYERS_OPTION
+        assert "Big Werewolf" in admin_client.get("/api/search", params={"players": str(top)}).text
+        assert "10 or more players (2)" in admin_client.get("/browse").text
 
     def test_browse_offers_each_count_with_its_number(self, admin_client, library):
         page = admin_client.get("/browse").text
@@ -143,6 +146,14 @@ class TestPlayTimeFilter:
         page = admin_client.get("/browse").text
         assert "Up to 30 min (1)" in page
         assert "Over 2 hours" not in page
+
+    def test_labels_match_the_bucket_bounds(self):
+        # "30–60 min" over a 31–60 bucket read as if a 30-minute game were in it.
+        from app.services import browse_counts
+        for key, (low, high) in browse_filters.PLAY_TIME_BUCKETS.items():
+            label = browse_counts.PLAY_TIME_LABELS[key]
+            if low is not None and high is not None:
+                assert label == f"{low}–{high} min", label
 
     def test_filters_combine(self, admin_client, library):
         assert _titles(admin_client, players="2", play_time="short") == {"Codenames"}

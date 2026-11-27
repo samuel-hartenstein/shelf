@@ -1,6 +1,6 @@
 # Series
 
-The **Series** page groups your library by series name, sorted by size, with
+The **Series** page (under **Explore** in the nav) groups your library by series name, sorted by size, with
 each volume's position and a cover strip. It is the fastest way to answer
 "which Discworld am I missing?"
 
@@ -26,6 +26,10 @@ Hardcover knows how many books a series has. **Check completeness** compares you
 shelf against Hardcover's list: volumes you don't own appear with covers and
 an **Add to wishlist** button — one click per missing volume, or all of
 them. This is the feature that turns a wishlist into a completion list.
+A volume counts as yours when it matches Hardcover's book ID or its title,
+or, failing both, the **series position** you gave it, so a translated
+edition or a volume added by ISBN scan is still found. Each of your volumes
+fills one position at most.
 When [buy links](wishlist-and-store-mode.md#buy-links) are set up, each
 missing volume also carries Bookshop.org and Amazon search links that use
 your own affiliate tags.

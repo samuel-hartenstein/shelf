@@ -70,6 +70,7 @@ def _item_fields(meta: dict) -> dict:
         "max_players": meta.get("max_players"),
         "min_age": meta.get("min_age"),
         "bgg_id": meta.get("bgg_id"),
+        "original_title": meta.get("original_title"),
     }
 
 
@@ -97,7 +98,8 @@ async def _file_game(
     """
     upc_key = upc_svc.normalize_upc(upc_raw) if upc_raw else None
     log_key = upc_raw or ""
-    # The title on the box in the library's language, not BGG's English name.
+    # The title on the box in the library's language, not BGG's English name,
+    # which stays on the row as `original_title`.
     meta = bgg.localize(meta, i18n.library_locale())
     title = (meta.get("title") or "").strip()
     if not title:
@@ -198,10 +200,10 @@ async def route_scan(request: Request, templates, upc_raw: str, media_type: str 
 
     An explicit Board Game pick always comes here. Under Auto, nothing in a
     board game's barcode or its UPC Item DB record says "board game", so
-    GameUPC is asked first, once a BGG token or GameUPC key says the household
-    has opted into board games. Only a barcode it ties to at least one BGG
-    game goes this way; a film or album GameUPC merely names, or a GameUPC
-    outage, carries on exactly as before.
+    GameUPC is asked first, but only with a GameUPC key of the library's own
+    (see `scan_upc_if_game`). Only a barcode it ties to at least one BGG game
+    goes this way; a film or album GameUPC merely names, or a GameUPC outage,
+    carries on exactly as before.
     """
     if media_type == MEDIA_TYPE:
         return await scan_upc(request, templates, upc_raw, location_id, mode=mode)
@@ -214,11 +216,17 @@ async def scan_upc_if_game(request: Request, templates, upc_raw: str, location_i
     """Auto-mode probe: the board game card if GameUPC ties this barcode to a
     BGG game, else `None` and the caller carries on with its own lookup.
 
-    Asks nothing unless board games are set up (a BGG token or a GameUPC key),
-    so a library without games pays no extra request per scan.
+    Asks nothing without a GameUPC key of the library's own. A BGG token alone
+    is not enough: the probe runs on every Auto scan, DVDs and CDs included,
+    and must not lean on GameUPC's shared public test key, which every keyless
+    install would hit at once and GameUPC may throttle or retire. Without a
+    key, board games still come in by title search, or by a scan with the
+    media type set to Board Game (`scan_upc`, which may use the test key).
     """
     bgg_token, gameupc_key = _credentials()
-    if not (bgg_token or gameupc_key):
+    # eltern only: one household, few scans, so a BGG token alone is enough
+    # to probe, on GameUPC's public test key. Upstream requires a key of its own.
+    if not (gameupc_key or bgg_token):
         return None
     async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
         upc_result = await gameupc.lookup(upc_raw, client, api_key=gameupc_key)
@@ -365,9 +373,11 @@ async def add_board_game(
 # Columns the refresh may fill. Only empty ones: a value on the item is
 # either BGG's own from the add, or something the user typed, and the user's
 # edit must win. The title is touched only while it is still BGG's English
-# name, to file it under the printed title of the library's language.
+# name, to file it under the printed title of the library's language. Tags
+# are never touched: they are filed once, with the row, and a tag the user
+# removed stays removed.
 _REFRESH_FIELDS = ("authors", "publisher", "publish_year", "description", "duration_mins",
-                   "min_players", "max_players", "min_age", "bgg_id")
+                   "min_players", "max_players", "min_age", "bgg_id", "original_title")
 
 
 def _refresh_reply(message: str, ok: bool, item_id: int):
@@ -380,10 +390,9 @@ def _refresh_reply(message: str, ok: bool, item_id: int):
 
 @router.post("/board-games/{item_id}/refresh")
 async def refresh_board_game(item_id: int, _=Depends(require_role("editor"))):
-    """Fill a board game in from BGG: empty fields, category tags, a missing cover.
+    """Fill a board game in from BGG: empty fields and a missing cover.
 
-    For a game filed before the categories existed, one typed in by hand, or
-    one filed while BGG was down. A game with no BGG id is matched by its
+    For a game typed in by hand, or one filed while BGG was down. A game with no BGG id is matched by its
     exact title, and only when exactly one BGG game carries it; anything
     looser could pull in the wrong game's data, and Find cover remains for
     choosing by eye.
@@ -419,17 +428,16 @@ async def refresh_board_game(item_id: int, _=Depends(require_role("editor"))):
                 if result.outcome == "transport_failed"
                 else i18n.gettext("Failed to fetch game details from BoardGameGeek"), False, item_id)
 
-        new = _item_fields(meta)
+        local = bgg.localize(meta, i18n.library_locale())
+        new = _item_fields(local)
         fields = {key: new[key] for key in _REFRESH_FIELDS
                   if new.get(key) not in (None, "") and item[key] in (None, "")}
-        local = bgg.localize(meta, i18n.library_locale())
         if (meta.get("title") and item["title"].strip().casefold() == meta["title"].strip().casefold()
-                and local["title"] and local["title"] != item["title"]):
+                and local["title"] != meta["title"]):
             fields["title"] = local["title"]
         with get_db() as db:
             if fields:
                 item_write.update_item_fields(db, item_id, fields)
-            tags_svc.attach_tags(db, item_id, bgg_tags.tag_names(meta))
 
         cover_url = local.get("cover_url") or local.get("thumbnail_url")
         if not item["cover_path"] and cover_url:

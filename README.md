@@ -3,8 +3,8 @@
 [![Release](https://img.shields.io/github/v/release/dgahagan/shelf)](https://github.com/dgahagan/shelf/releases)
 [![Docker Pulls](https://img.shields.io/docker/pulls/dangahagan/shelf)](https://hub.docker.com/r/dangahagan/shelf)
 [![CI](https://github.com/dgahagan/shelf/actions/workflows/test.yml/badge.svg)](https://github.com/dgahagan/shelf/actions/workflows/test.yml)
-[![Unit tests](https://img.shields.io/badge/unit%20tests-6591%20passing-brightgreen)](https://github.com/dgahagan/shelf/actions/workflows/test.yml)
-[![E2E tests](https://img.shields.io/badge/e2e%20tests-400%20passing-brightgreen)](https://github.com/dgahagan/shelf/actions/workflows/test.yml)
+[![Unit tests](https://img.shields.io/badge/unit%20tests-6848%20passing-brightgreen)](https://github.com/dgahagan/shelf/actions/workflows/test.yml)
+[![E2E tests](https://img.shields.io/badge/e2e%20tests-407%20passing-brightgreen)](https://github.com/dgahagan/shelf/actions/workflows/test.yml)
 [![License: AGPL-3.0](https://img.shields.io/github/license/dgahagan/shelf)](LICENSE)
 
 A self-hosted home library catalog with barcode scanning, multi-mode scanning workflows, automatic metadata lookup, cover art, and collection management — all in a single Docker container.
@@ -28,7 +28,7 @@ Most home library apps are cloud-hosted, mobile-only, or require you to manually
 - **Zero cloud dependency** — runs entirely on your network in a single Docker container with a SQLite database. Your data never leaves your home
 - **Works on any device** — responsive web UI that works on phones, tablets, and desktops. No app store required
 - **Multi-user** — share with your household. Admins manage the catalog, viewers can browse and track what they're reading
-- **More than books** — catalog audiobooks, eBooks, DVDs, CDs, comics, manga, and video games. Link physical and digital formats together
+- **More than books** — catalog audiobooks, eBooks, DVDs, CDs, comics, manga, video games, and board games. Link physical and digital formats together
 - **Video game support** — scan UPC barcodes for modern games or search IGDB by title for retro cartridges (Atari 2600, NES, SNES, etc.). Cover art, publisher, series, and platform tracking with a customizable platform list
 - **Lend with confidence** — track who borrowed what with the Lend/Return scan modes and a "Lent Out" filter on the browse page
 - **Shelf audits** — start an audit of a shelf or the whole library, scan from any device (or several at once, or after a reload), and finish for a report: found, moved here, seen elsewhere, on loan, missing and unexpected. Mark the missing copies; the next scan of one clears it. See [Audits](docs/user-guide/audits.md)
@@ -136,6 +136,7 @@ of this whole directory carries the keys next to the data they protect.
 - **Manga as its own media type** — in the book family, so it carries an ISBN, belongs to a series, and filters separately from comics
 - **Retail barcodes on the edit form** — the Identifiers section takes a UPC/EAN as well as an ISBN, with the same camera scanner. UPC-A is canonicalised to EAN-13 and checksummed; 978/979 Bookland codes are refused, because they belong in the ISBN field. See [Editing barcodes](docs/user-guide/editing-barcodes.md)
 - **Video game support** — scan UPC barcodes for modern games or search IGDB by title for retro cartridges. Platform tracking with a customizable platform list (30+ platforms from Atari 2600 to PS5)
+- **Board game support** — scan a board game's barcode (matched to BoardGameGeek through GameUPC) or search BoardGameGeek by title. Players, play time, minimum age, designers and box art per printing, with a link back to BGG
 
 ### Scan Modes
 
@@ -150,8 +151,9 @@ of this whole directory carries the keys next to the data they protect.
 | **Lookup** | Scan to check if an item is in your collection — no changes made |
 | **Quick Rate** | Scan to mark items read, watched or played |
 
-Camera scanning picks its decoder to suit the device: iOS Safari drives the
-camera with ZXing, every other platform uses html5-qrcode. The scan page and
+Camera scanning picks its decoder to suit the device: iOS Safari and desktop
+webcams (a mouse or touchpad as the main pointer) use ZXing, which reads the
+whole 1080p frame; Android and other touch devices use html5-qrcode. The scan page and
 Store Mode share one engine, so both behave the same everywhere. Retail
 barcodes are covered — EAN-13, EAN-8, UPC-A and UPC-E — and so are Shelf's own
 Code 128 copy labels, on iPhone and iPad as well. USB and Bluetooth
@@ -165,7 +167,7 @@ scanners bypass the camera entirely and work regardless.
 
 Snap a photo of a shelf — or of books stacked or laid face-up — and Shelf
 reads the spines it can read and recognizes the covers it can't. Open
-**Photo Intake** in the nav, take or upload the photo, and the detected books appear
+**Tools → Photo Intake** in the nav, take or upload the photo, and the detected books appear
 as an editable candidate list: title, author, the ISBN read off a back cover
 if one was in frame, a per-row media type, and a marker on rows identified
 from the cover rather than read. Nothing is imported until you confirm.
@@ -230,6 +232,7 @@ each option before anything is sent.
 - **[Hardcover](https://hardcover.app)** — bidirectional reading status sync, import your library, discover new books
 - **[Audiobookshelf](https://www.audiobookshelf.org)** — sync selected libraries from your Audiobookshelf server, link physical + digital formats, and jump straight to an item in ABS from its Shelf page
 - **[IGDB](https://www.igdb.com)** — video game metadata, cover art, and platform info via Twitch developer credentials (free)
+- **[BoardGameGeek](https://boardgamegeek.com)** — board game metadata and box art (players, play time, age, designers), via a free BGG XML API token; [GameUPC](https://gameupc.com) maps a board game's barcode to its BGG entry
 - **[RomM](https://romm.app)** — sync a self-hosted RomM server's digital game library. A RomM game gets its own record rather than being matched onto a physical cartridge you already own; link the two yourself. See [RomM](docs/romm.md)
 - **[Komga](https://komga.org)** — sync a self-hosted Komga server's digital comics and manga, matching on ISBN where one exists. A library's Comic/Manga kind is kept apart from Shelf's own media type, so it never reclassifies an item you catalogued by hand. See [Komga](docs/komga.md)
 - **[ISBNdb](https://isbndb.com)** — collection valuation with list prices for insurance documentation, and wishlist price alerts
@@ -307,6 +310,7 @@ Shelf queries free, public APIs to look up book and game information — no API 
 | [Deutsche Nationalbibliothek](https://portal.dnb.de) | German (978-3) ISBNs, consulted before the rest: title, author, publisher, year, language; cover art | No |
 | [Servizio Bibliotecario Nazionale](https://opac.sbn.it) | Italian (978-88, 979-12) ISBNs, consulted before the rest: title, subtitle, author, publisher, year, language | No |
 | [PORBASE](https://porbase.bnportugal.gov.pt) (Biblioteca Nacional de Portugal) | Portuguese (978-989, 978-972) ISBNs, consulted before the rest: title, subtitle, author, publisher, year, pages, language; cover art as a last resort | No |
+| [Biblioteka Narodowa](https://data.bn.org.pl) (National Library of Poland) | Polish (978-83) ISBNs, consulted before the rest: title, subtitle, author, publisher, year, pages, language | No |
 | [NeoDB](https://neodb.social) | Chinese-language ISBNs (978-7 mainland China; 978-957, 978-986, 978-626 Taiwan; 978-962, 978-988 Hong Kong), consulted before the rest: title, subtitle, author, publisher, year, pages, description; cover art | No |
 | [Open Library](https://openlibrary.org) | Title, author, description, cover art, publish info, title search | No |
 | [Google Books](https://books.google.com) | Fallback metadata and cover art; magazine title search (and the chosen result's cover) when a 977 barcode does not resolve | No (optional key supported) |
@@ -327,6 +331,8 @@ Configure in Settings to unlock additional features:
 | **Hardcover** | Reading status sync, richer metadata, import/export, Discover page, release radar for new volumes in watched series | [hardcover.app](https://hardcover.app) |
 | **Google Books** | Optional credentialed metadata, synopsis, and cover requests; anonymous access remains available | [Google Books API](https://developers.google.com/books) |
 | **IGDB** (Twitch) | Video game metadata, cover art, and platform info — on UPC scan, title search, and Photo Intake confirm | [dev.twitch.tv/console](https://dev.twitch.tv/console) |
+| **BoardGameGeek** | Board game metadata and box art — on UPC scan (with GameUPC), title search, **Find cover** and **Update from BGG**. Board game data courtesy of BoardGameGeek | [boardgamegeek.com/applications](https://boardgamegeek.com/applications) |
+| **GameUPC** | Board game barcode → BGG id. Optional key; Auto mode asks it only with one | [gameupc.com](https://gameupc.com) |
 | **Discogs** | Pick the exact pressing of a Music item; Shelf keeps only the Discogs release ID | [discogs.com/settings/developers](https://www.discogs.com/settings/developers) |
 | **ISBNdb** | Collection valuation with market prices; wishlist price alerts | [isbndb.com](https://isbndb.com) |
 | **TMDb** | DVD/Blu-ray metadata — on UPC scan, title search, and Photo Intake confirm | [themoviedb.org](https://www.themoviedb.org) |
@@ -369,6 +375,7 @@ make install-playwright   # downloads headless Chromium
 | Target | What it does |
 |--------|-------------|
 | `make test` | Unit and integration tests (pytest, excludes E2E) |
+| `make test-cov` | Unit tests with line coverage of `app/`, missing lines per file (reports only; not on any gate) |
 | `make test-e2e` | Playwright E2E browser tests against a live local server |
 | `make test-contract` | Live UPC Item DB contract check — spends one trial lookup; run at release, never on a gate |
 | `make test-all` | `test` and `test-e2e` |
@@ -376,6 +383,10 @@ make install-playwright   # downloads headless Chromium
 | `make lock` | Regenerate the hashed `requirements*.txt` locks from the `.in` files |
 | `make check-lock` | Fail if a lock (versions or hashes) is not what `make lock` produces |
 | `make check-lock-selftest` | Prove `check-lock` fails on an invented hash |
+| `make pin-base` | Refresh the Dockerfile's base-image digest pin to the tag's current one |
+| `make check-base-image` | Fail if the Dockerfile's base-image digest is not the tag's current one |
+| `make check-workflows` | Lint that every workflow action is pinned by commit SHA and that Python and Node are set once |
+| `make check-actions` | Fail unless every pinned action's SHA is the commit its version tag points at |
 | `make check-licenses` | License compliance report |
 | `make check-secrets` | Scan tracked files for accidentally hardcoded secrets |
 | `make check-csrf` | Lint that raw `fetch()` calls send the CSRF token |

@@ -17,6 +17,7 @@ make setup                 # one-time: dev deps + npm (tailwind) + Playwright Ch
 make test                  # unit/integration tests — quiet + parallel (excludes tests/e2e/)
 make test-fast             # re-run only last run's failures (--lf, serial)
 make test-verbose          # per-test roll-call, for humans
+make test-cov              # unit suite + line coverage of app/ (missing lines per file) — reports, never gates
 make test-e2e              # Playwright E2E — spins up its own server, no dev server needed
 make test-contract         # live UPC Item DB contract check — run at release, never on a gate
 python -m pytest tests/test_items.py::test_name -v           # single unit test
@@ -30,12 +31,16 @@ make badges                # restamp README's test-count badges (generated — r
 make check-badges          # lint: README test-count badges match what pytest collects
 make check-tests           # lint: test conventions — app.main import isolation, CSP-safe waits, page guards, no networkidle wait after a click
 make check-ruff            # lint: ruff (E9 + F — unused imports/variables, redefinitions, syntax errors)
-make checks-fast           # instant offline lints (secrets, csrf, alpine, sw-version, tests, ruff, badges) — the inner-loop target
-make checks                # everything, incl. network check-lock + check-lock-selftest + pip-audit + licenses — before a release
+make checks-fast           # instant offline lints (secrets, csrf, alpine, sw-version, tests, ruff, badges, workflows) — the inner-loop target
+make checks                # everything, incl. network check-lock + check-lock-selftest + pip-audit + licenses + check-base-image + check-actions — before a release
 make lock                  # regenerate the hashed requirements*.txt locks from requirements*.in (generated — never hand-edit a .txt)
 make lock-upgrade          # same, taking new versions of indirect dependencies on purpose
 make check-lock            # lint: the committed locks, hashes included, are what make lock produces (needs the package index)
 make check-lock-selftest   # lint: proves check-lock fails on an invented hash (needs the package index)
+make pin-base              # refresh the Dockerfile's python base-image digest pin to the tag's current one (needs Docker Hub)
+make check-base-image      # lint: the Dockerfile's base-image digest is the tag's current one; red -> make pin-base (needs Docker Hub)
+make check-workflows       # lint: every workflow action pinned by SHA + `# vX.Y.Z`; Python/Node set once, Python = Dockerfile's
+make check-actions         # lint: every pinned SHA is what its version tag points at (needs GitHub); red is a stop
 make dev / dev-down / dev-logs   # docker compose up/down/logs
 uvicorn app.main:app --reload    # run without Docker
 ```

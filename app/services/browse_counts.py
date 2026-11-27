@@ -50,10 +50,12 @@ PLAYER_LABELS = {
     10: N_("10 or more players"),
 }
 
+# Labels name the bucket's own bounds (browse_filters.PLAY_TIME_BUCKETS), so a
+# 60-minute game is not offered under two of them.
 PLAY_TIME_LABELS = {
     "short": N_("Up to 30 min"),
-    "medium": N_("30–60 min"),
-    "long": N_("1–2 hours"),
+    "medium": N_("31–60 min"),
+    "long": N_("61–120 min"),
     "epic": N_("Over 2 hours"),
 }
 
@@ -199,7 +201,9 @@ def _player_counts(db, where_params) -> dict[int, int]:
     counts: dict[int, int] = {}
     for row in rows:
         lo, hi = max(1, row["lo"]), max(row["lo"], row["hi"])
-        for n in range(lo, min(hi, top) + 1):
+        # A game for 12-20 belongs under the top option even though its range
+        # starts above it, as the filter (`max >= top`) already says.
+        for n in range(min(lo, top), min(hi, top) + 1):
             counts[n] = counts.get(n, 0) + 1
     return dict(sorted(counts.items()))
 

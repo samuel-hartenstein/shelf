@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"PO-Revision-Date: 2026-11-24 09:37+0100\n"
+"PO-Revision-Date: 2026-11-27 15:02-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_Hans\n"
 "Language-Team: zh_Hans <LL@li.org>\n"
@@ -20,27 +20,27 @@ msgstr ""
 msgid "Title"
 msgstr "标题"
 
-#: app/browse_columns.py:63 app/browse_filters.py:276 app/config.py:158
+#: app/browse_columns.py:63 app/browse_filters.py:277 app/config.py:158
 #: app/templates/valuation_report.html:80
 msgid "Author"
 msgstr "作者"
 
-#: app/browse_columns.py:64 app/browse_filters.py:265
+#: app/browse_columns.py:64 app/browse_filters.py:266
 #: app/templates/valuation_report.html:82
 msgid "Type"
 msgstr "类型"
 
-#: app/browse_columns.py:65 app/browse_filters.py:267
+#: app/browse_columns.py:65 app/browse_filters.py:268
 #: app/templates/fragments/item_copy_edit.html:37
 #: app/templates/fragments/labels_scope.html:12
 #: app/templates/fragments/manual_add_form.html:160
 #: app/templates/intake.html:202 app/templates/item_edit.html:81
-#: app/templates/item_edit.html:301 app/templates/item_edit.html:306
+#: app/templates/item_edit.html:302 app/templates/item_edit.html:307
 msgid "Location"
 msgstr "位置"
 
-#: app/browse_columns.py:66 app/browse_filters.py:269
-#: app/templates/item_detail.html:252 app/templates/item_edit.html:138
+#: app/browse_columns.py:66 app/browse_filters.py:270
+#: app/templates/item_detail.html:253 app/templates/item_edit.html:139
 msgid "Status"
 msgstr "状态"
 
@@ -48,34 +48,34 @@ msgstr "状态"
 msgid "Value"
 msgstr "价值"
 
-#: app/browse_columns.py:68 app/features.py:168 app/nav.py:41
+#: app/browse_columns.py:68 app/features.py:168 app/nav.py:45
 #: app/services/audnexus.py:210 app/templates/browse.html:49
 #: app/templates/fragments/manual_add_form.html:155 app/templates/home.html:89
-#: app/templates/item_edit.html:79 app/templates/item_edit.html:217
-#: app/templates/item_edit.html:221 app/templates/series.html:2
+#: app/templates/item_edit.html:79 app/templates/item_edit.html:218
+#: app/templates/item_edit.html:222 app/templates/series.html:2
 #: app/templates/series.html:7 app/templates/upcoming.html:6
 msgid "Series"
 msgstr "系列"
 
 #: app/browse_columns.py:69 app/services/audnexus.py:206
 #: app/templates/fragments/manual_add_form.html:96
-#: app/templates/item_edit.html:118
+#: app/templates/item_edit.html:119
 msgid "Publisher"
 msgstr "出版社"
 
 #: app/browse_columns.py:70 app/services/audnexus.py:207
 #: app/templates/fragments/manual_add_form.html:99
-#: app/templates/item_edit.html:119
+#: app/templates/item_edit.html:120
 msgid "Year"
 msgstr "年份"
 
-#: app/browse_columns.py:71 app/templates/item_edit.html:223
+#: app/browse_columns.py:71 app/templates/item_edit.html:224
 msgid "Pages"
 msgstr "页数"
 
-#: app/browse_columns.py:72 app/browse_filters.py:277
+#: app/browse_columns.py:72 app/browse_filters.py:278
 #: app/templates/browse.html:65 app/templates/fragments/account_menu.html:116
-#: app/templates/item_edit.html:123
+#: app/templates/item_edit.html:124
 msgid "Language"
 msgstr "语言"
 
@@ -84,7 +84,7 @@ msgstr "语言"
 msgid "Added"
 msgstr "添加日期"
 
-#: app/browse_columns.py:74 app/templates/item_edit.html:355
+#: app/browse_columns.py:74 app/templates/item_edit.html:356
 #: app/templates/scan.html:148
 msgid "Platform"
 msgstr "平台"
@@ -94,33 +94,34 @@ msgid "ISBN/UPC"
 msgstr "ISBN/UPC"
 
 #: app/browse_columns.py:76 app/templates/fragments/item_tags.html:3
-#: app/templates/item_edit.html:83 app/templates/item_edit.html:390
+#: app/templates/fragments/settings/tags.html:6 app/templates/item_edit.html:83
+#: app/templates/item_edit.html:399
 msgid "Tags"
 msgstr "标签"
 
-#: app/browse_filters.py:264
+#: app/browse_filters.py:265
 #: app/templates/fragments/periodical_scan_result.html:29
 #: app/templates/logs.html:32
 msgid "Search"
 msgstr "搜索"
 
-#: app/browse_filters.py:266 app/templates/fragments/item_copy_edit.html:67
+#: app/browse_filters.py:267 app/templates/fragments/item_copy_edit.html:67
 msgid "Source"
 msgstr "来源"
 
-#: app/browse_filters.py:268
+#: app/browse_filters.py:269
 msgid "Sort"
 msgstr "排序"
 
-#: app/browse_filters.py:272 app/templates/browse.html:83
+#: app/browse_filters.py:273 app/templates/browse.html:83
 msgid "Tag"
 msgstr "标签"
 
-#: app/browse_filters.py:279
+#: app/browse_filters.py:280
 msgid "Players"
 msgstr ""
 
-#: app/browse_filters.py:280
+#: app/browse_filters.py:281
 msgid "Play time"
 msgstr ""
 
@@ -169,7 +170,7 @@ msgid "Manga"
 msgstr "日漫"
 
 #: app/config.py:26 app/routers/items_catalog.py:185
-#: app/routers/items_common.py:895
+#: app/routers/items_common.py:879
 msgid "Video Game"
 msgstr "电子游戏"
 
@@ -177,15 +178,15 @@ msgstr "电子游戏"
 msgid "Board Game"
 msgstr ""
 
-#: app/config.py:55
+#: app/config.py:55 app/templates/fragments/settings/integrations.html:290
 msgid "Want to Read"
 msgstr "想读"
 
-#: app/config.py:55
+#: app/config.py:55 app/templates/fragments/settings/integrations.html:294
 msgid "Reading"
 msgstr "在读"
 
-#: app/config.py:55
+#: app/config.py:55 app/templates/fragments/settings/integrations.html:298
 msgid "Read"
 msgstr "已读"
 
@@ -514,7 +515,7 @@ msgid "South African Rand"
 msgstr ""
 
 #: app/features.py:159 app/templates/fragments/settings/library.html:255
-#: app/templates/item_detail.html:260
+#: app/templates/item_detail.html:261
 msgid "Lending"
 msgstr "借出"
 
@@ -542,7 +543,7 @@ msgstr "书店模式"
 msgid "An offline page for checking what you own while out shopping."
 msgstr ""
 
-#: app/features.py:195
+#: app/features.py:195 app/templates/fragments/settings/data.html:263
 msgid "Sharing"
 msgstr ""
 
@@ -566,7 +567,7 @@ msgstr ""
 msgid "Watch wishlist list prices nightly and send a drop digest."
 msgstr ""
 
-#: app/features.py:230 app/nav.py:42 app/templates/music.html:2
+#: app/features.py:230 app/nav.py:46 app/templates/music.html:2
 #: app/templates/music.html:8 app/templates/music_item.html:2
 msgid "Music"
 msgstr "音乐"
@@ -575,7 +576,7 @@ msgstr "音乐"
 msgid "Music releases with Discogs details."
 msgstr ""
 
-#: app/features.py:238 app/nav.py:43
+#: app/features.py:238 app/nav.py:47
 #: app/templates/periodical_publication.html:2 app/templates/periodicals.html:2
 #: app/templates/periodicals.html:8
 msgid "Periodicals"
@@ -585,7 +586,7 @@ msgstr "期刊"
 msgid "Magazines and other periodicals, grouped by publication."
 msgstr ""
 
-#: app/features.py:251 app/nav.py:38 app/templates/shelf_fill.html:2
+#: app/features.py:251 app/nav.py:52 app/templates/shelf_fill.html:2
 #: app/templates/shelf_fill.html:9
 msgid "Shelf Fill"
 msgstr "定位上架"
@@ -653,6 +654,7 @@ msgid "Watch series for newly announced volumes and send a daily digest."
 msgstr ""
 
 #: app/features.py:362 app/templates/fragments/account_menu.html:94
+#: app/templates/fragments/settings/users.html:70
 msgid "API tokens"
 msgstr "API 令牌"
 
@@ -660,92 +662,133 @@ msgstr "API 令牌"
 msgid "Read-only API tokens for dashboards and scripts, and the /api/v1 endpoints they read."
 msgstr ""
 
+#: app/features.py:374
+msgid "Minimal"
+msgstr ""
+
+#: app/features.py:374
+msgid "Scan, catalogue and browse. Nothing optional."
+msgstr ""
+
+#: app/features.py:375
+msgid "Standard"
+msgstr ""
+
+#: app/features.py:375
+msgid "The everyday extras for a home library."
+msgstr ""
+
+#: app/features.py:377
+msgid "Everything"
+msgstr ""
+
+#: app/features.py:378
+msgid "Every feature, including sharing, valuation, photo intake and the integrations."
+msgstr ""
+
+#: app/features.py:521 app/features.py:550
+msgid "Turn it off anyway?"
+msgstr ""
+
+#: app/features.py:577
+#, python-format
+msgid "Apply %(profile)s anyway?"
+msgstr ""
+
 #: app/features.py:583 app/templates/feature_disabled.html:7
 #, python-format
 msgid "%(feature)s is turned off on this Shelf."
 msgstr ""
 
-#: app/nav.py:34 app/templates/browse.html:2 app/templates/home.html:84
+#: app/nav.py:40
+msgid "Explore"
+msgstr "探索"
+
+#: app/nav.py:40
+msgid "Tools"
+msgstr "工具"
+
+#: app/nav.py:43 app/templates/browse.html:2 app/templates/home.html:84
 msgid "Browse"
 msgstr "浏览"
 
-#: app/nav.py:35 app/templates/scan.html:2 app/templates/scan.html:107
+#: app/nav.py:44 app/templates/scan.html:2 app/templates/scan.html:107
 #: app/templates/scan.html:184 app/templates/shelf_fill.html:88
 #: app/templates/shelf_fill.html:96
 msgid "Scan"
 msgstr "扫码"
 
-#: app/nav.py:36
-msgid "Intake"
-msgstr "拍照入库"
-
-#: app/nav.py:40
-msgid "Store"
-msgstr "书店模式"
-
-#: app/nav.py:44 app/templates/discover.html:2
-msgid "Discover"
-msgstr "发现"
-
-#: app/nav.py:45 app/templates/stats.html:2 app/templates/stats_wrapup.html:10
+#: app/nav.py:49 app/templates/stats.html:2 app/templates/stats_wrapup.html:10
 msgid "Stats"
 msgstr "统计"
 
-#: app/nav.py:46 app/templates/fragments/settings/library.html:327
+#: app/nav.py:50
+msgid "Intake"
+msgstr "拍照入库"
+
+#: app/nav.py:54
+msgid "Store"
+msgstr "书店模式"
+
+#: app/nav.py:55 app/templates/discover.html:2
+msgid "Discover"
+msgstr "发现"
+
+#: app/nav.py:56 app/templates/fragments/settings/library.html:327
 #: app/templates/trash.html:2 app/templates/trash.html:6
 msgid "Trash"
 msgstr "回收站"
 
-#: app/nav.py:47 app/nav.py:49 app/nav.py:51 app/nav.py:53
+#: app/nav.py:57 app/nav.py:59 app/nav.py:61 app/nav.py:63
 #: app/templates/fragments/settings/sidebar.html:6
 msgid "Library"
 msgstr "书库"
 
-#: app/nav.py:48 app/templates/labels.html:2
+#: app/nav.py:58 app/templates/labels.html:2
 msgid "Labels"
 msgstr "条码标签"
 
-#: app/nav.py:50 app/templates/audit.html:6 app/templates/audits.html:2
+#: app/nav.py:60 app/templates/audit.html:6 app/templates/audits.html:2
 #: app/templates/audits.html:6
 msgid "Audits"
 msgstr "盘点记录"
 
-#: app/nav.py:52 app/templates/duplicates.html:2
+#: app/nav.py:62 app/templates/duplicates.html:2
 #: app/templates/duplicates.html:7
 msgid "Duplicates"
 msgstr "重复项"
 
-#: app/nav.py:54 app/templates/fragments/settings/page_header.html:3
+#: app/nav.py:64 app/templates/fragments/settings/page_header.html:3
 #: app/templates/intake.html:11 app/templates/settings.html:2
 msgid "Settings"
 msgstr "设置"
 
-#: app/nav.py:55 app/nav.py:57
+#: app/nav.py:65 app/nav.py:67
 #: app/templates/fragments/settings/page_header.html:2
 msgid "Administration"
 msgstr "管理"
 
-#: app/nav.py:56 app/templates/logs.html:2 app/templates/logs.html:16
+#: app/nav.py:66 app/templates/logs.html:2 app/templates/logs.html:16
 msgid "Logs"
 msgstr "日志"
 
-#: app/nav.py:130
+#: app/nav.py:140
 msgid "a vision provider"
 msgstr ""
 
-#: app/nav.py:131
+#: app/nav.py:141
 msgid "a Hardcover token"
 msgstr ""
 
-#: app/nav.py:221
+#: app/nav.py:277
 msgid "Back to series"
 msgstr "返回系列"
 
-#: app/nav.py:222
+#: app/nav.py:278
 msgid "Back to stats"
 msgstr "返回统计"
 
-#: app/nav.py:224
+#: app/nav.py:280
 msgid "Back to collection"
 msgstr "返回藏品"
 
@@ -836,6 +879,10 @@ msgstr "未找到借出记录"
 msgid "Checkout already checked in"
 msgstr "该借出记录已归还"
 
+#: app/routers/hardcover.py:46
+msgid "No token provided"
+msgstr ""
+
 #: app/routers/hardcover.py:92
 msgid "Title required"
 msgstr ""
@@ -848,8 +895,24 @@ msgstr "已加入心愿单"
 msgid "Already in your library"
 msgstr ""
 
+#: app/routers/hardcover.py:228 app/routers/sync.py:268
+msgid "Invalid sync interval"
+msgstr ""
+
 #: app/routers/hardcover.py:248
 msgid "Hardcover API token required"
+msgstr ""
+
+#: app/routers/hardcover.py:334
+msgid "Export failed — check server logs"
+msgstr ""
+
+#: app/routers/hardcover.py:381
+msgid "Could not get Hardcover user ID"
+msgstr ""
+
+#: app/routers/hardcover.py:445
+msgid "Import failed — check server logs"
 msgstr ""
 
 #: app/routers/intake.py:64
@@ -933,8 +996,8 @@ msgstr "无效的 ISBN"
 msgid "Network error during lookup — check connectivity"
 msgstr "查询时网络出错 — 请检查网络连接"
 
-#: app/routers/items.py:589 app/routers/items_board_games.py:265
-#: app/routers/items_common.py:579 app/routers/items_common.py:771
+#: app/routers/items.py:589 app/routers/items_board_games.py:289
+#: app/routers/items_common.py:563 app/routers/items_common.py:755
 msgid "Not found — add manually below"
 msgstr "未找到 — 请在下方手动添加"
 
@@ -984,28 +1047,28 @@ msgstr ""
 msgid "Cannot merge \"%(title)s\" (#%(id)s): %(reason)s"
 msgstr ""
 
-#: app/routers/items_board_games.py:106
+#: app/routers/items_board_games.py:108
 msgid "No title for this game"
 msgstr ""
 
-#: app/routers/items_board_games.py:334 app/routers/items_board_games.py:402
+#: app/routers/items_board_games.py:358 app/routers/items_board_games.py:427
 msgid "Failed to fetch game details from BoardGameGeek"
 msgstr ""
 
-#: app/routers/items_board_games.py:382
+#: app/routers/items_board_games.py:407
 msgid "Add a BoardGameGeek token in Settings first"
 msgstr ""
 
-#: app/routers/items_board_games.py:396
+#: app/routers/items_board_games.py:421
 #, python-format
 msgid "BoardGameGeek has no single game called “%(title)s” — use Find cover, or correct the title"
 msgstr ""
 
-#: app/routers/items_board_games.py:400
+#: app/routers/items_board_games.py:425
 msgid "Could not reach BoardGameGeek — check connectivity and try again."
 msgstr ""
 
-#: app/routers/items_board_games.py:426
+#: app/routers/items_board_games.py:450
 msgid "Updated from BoardGameGeek"
 msgstr ""
 
@@ -1074,6 +1137,23 @@ msgstr "未找到封面"
 msgid "Board game cover search needs a BoardGameGeek token — add one in Settings → Integrations."
 msgstr ""
 
+#: app/routers/items_csv.py:102
+#, python-format
+msgid "Unknown import mode '%(mode)s' (use skip or update)"
+msgstr ""
+
+#: app/routers/items_csv.py:111 app/routers/settings.py:492
+msgid "No file uploaded"
+msgstr ""
+
+#: app/routers/items_csv.py:115
+msgid "File too large (max 50 MB)"
+msgstr ""
+
+#: app/routers/items_csv.py:124
+msgid "The file is not UTF-8 text. Re-export it as UTF-8 (in a spreadsheet app: Save As → CSV UTF-8) and upload it again."
+msgstr ""
+
 #: app/routers/items_scan_modes.py:47 app/routers/items_scan_modes.py:159
 #: app/routers/items_scan_modes.py:230 app/routers/scan_inventory.py:208
 #: app/templates/fragments/audit_report.html:81
@@ -1133,7 +1213,7 @@ msgid "Copy %(n)s is no longer in the collection"
 msgstr "第 %(n)s 册已不在藏品中"
 
 #: app/routers/items_scan_modes.py:197 app/routers/scan_inventory.py:181
-#: app/templates/item_edit.html:126
+#: app/templates/item_edit.html:127
 msgid "Unknown"
 msgstr "未知"
 
@@ -1227,53 +1307,53 @@ msgstr "原在 %(old)s，已更新为 %(new)s"
 msgid "Was at %(old)s, updated to %(new)s"
 msgstr "原在 %(old)s，已更新为 %(new)s"
 
-#: app/routers/series.py:157 app/routers/series.py:329
-#: app/routers/series.py:384 app/routers/series.py:479
-#: app/routers/series.py:575 app/routers/series.py:606
+#: app/routers/series.py:174 app/routers/series.py:381
+#: app/routers/series.py:436 app/routers/series.py:531
+#: app/routers/series.py:627 app/routers/series.py:658
 msgid "Series name required"
 msgstr ""
 
-#: app/routers/series.py:162 app/routers/series.py:611
+#: app/routers/series.py:179 app/routers/series.py:663
 msgid "Hardcover integration not configured"
 msgstr ""
 
-#: app/routers/series.py:174
+#: app/routers/series.py:191
 msgid "Series not found on Hardcover (or lookup failed)"
 msgstr ""
 
-#: app/routers/series.py:388
+#: app/routers/series.py:440
 msgid "complete must be '0' or '1'"
 msgstr ""
 
-#: app/routers/series.py:397 app/routers/series.py:496
-#: app/routers/series.py:584
+#: app/routers/series.py:449 app/routers/series.py:548
+#: app/routers/series.py:636
 msgid "Series not found"
 msgstr ""
 
-#: app/routers/series.py:452
+#: app/routers/series.py:504
 #, python-format
 msgid "Watching %(name)s"
 msgstr ""
 
-#: app/routers/series.py:452
+#: app/routers/series.py:504
 #, python-format
 msgid "Stopped watching %(name)s"
 msgstr ""
 
-#: app/routers/series.py:481
+#: app/routers/series.py:533
 msgid "New series name required"
 msgstr ""
 
-#: app/routers/series.py:484
+#: app/routers/series.py:536
 #, python-format
 msgid "Series name too long (max %(max)s chars)"
 msgstr ""
 
-#: app/routers/series.py:488
+#: app/routers/series.py:540
 msgid "That is already the series name"
 msgstr ""
 
-#: app/routers/series.py:619
+#: app/routers/series.py:671
 msgid "Hardcover has no synopsis for this series — add one below"
 msgstr ""
 
@@ -1338,6 +1418,48 @@ msgstr ""
 msgid "Send failed — check the URL and server logs"
 msgstr ""
 
+#: app/routers/settings.py:497
+msgid "File too large (max 500 MB)"
+msgstr ""
+
+#: app/routers/settings.py:503
+msgid "This backup is encrypted — enter its passphrase"
+msgstr ""
+
+#: app/routers/settings.py:530
+msgid "Database contains triggers — not allowed"
+msgstr ""
+
+#: app/routers/settings.py:539
+msgid "Database contains views — not allowed"
+msgstr ""
+
+#: app/routers/settings.py:549
+msgid "Database contains virtual tables — not allowed"
+msgstr ""
+
+#: app/routers/settings.py:556
+msgid "Database has attached databases — not allowed"
+msgstr ""
+
+#: app/routers/settings.py:571
+#, python-format
+msgid "Not a valid Shelf database (missing tables: %(tables)s)"
+msgstr ""
+
+#: app/routers/settings.py:586
+#, python-format
+msgid "Incompatible schema: '%(table)s' table is missing columns: %(columns)s"
+msgstr ""
+
+#: app/routers/settings.py:592
+msgid "Invalid database file — must be a valid Shelf SQLite database"
+msgstr ""
+
+#: app/routers/settings.py:646
+msgid "Database restored. All sessions invalidated. Restart the container to apply."
+msgstr ""
+
 #: app/routers/share.py:36
 msgid "Not found"
 msgstr ""
@@ -1362,6 +1484,60 @@ msgstr "该条目已不存在"
 msgid "Enter or scan a barcode"
 msgstr "请输入条码或扫码"
 
+#: app/routers/sync.py:40 app/routers/sync.py:46 app/routers/sync.py:117
+#: app/routers/sync.py:121 app/routers/valuation.py:36
+#: app/routers/valuation.py:40
+msgid "Invalid request body"
+msgstr ""
+
+#: app/routers/sync.py:58
+msgid "URL and token are required"
+msgstr ""
+
+#: app/routers/sync.py:72
+#, python-format
+msgid "Connected — %(n)s library(ies) found"
+msgstr ""
+
+#: app/routers/sync.py:74
+msgid "Invalid or expired API token"
+msgstr ""
+
+#: app/routers/sync.py:76 app/routers/valuation.py:72
+#, python-format
+msgid "Unexpected response: HTTP %(code)s"
+msgstr ""
+
+#: app/routers/sync.py:78 app/routers/sync.py:97 app/routers/sync.py:166
+#, python-format
+msgid "Cannot connect to %(url)s"
+msgstr ""
+
+#: app/routers/sync.py:80
+msgid "Connection failed — check URL and network"
+msgstr ""
+
+#: app/routers/sync.py:90 app/routers/sync.py:150
+msgid "Audiobookshelf is not configured"
+msgstr ""
+
+#: app/routers/sync.py:99
+#, python-format
+msgid "ABS returned HTTP %(code)s"
+msgstr ""
+
+#: app/routers/sync.py:144
+msgid "No libraries are excluded"
+msgstr ""
+
+#: app/routers/sync.py:201
+msgid "Audiobookshelf URL and API token must be configured in Settings"
+msgstr ""
+
+#: app/routers/sync.py:246
+msgid "Sync failed — check server logs"
+msgstr ""
+
 #: app/routers/tags.py:78
 msgid "No items selected"
 msgstr "未选择条目"
@@ -1384,10 +1560,6 @@ msgstr "已从 %(count)s 个条目移除标签 %(tags)s"
 msgid "That item no longer exists"
 msgstr ""
 
-#: app/routers/valuation.py:36 app/routers/valuation.py:40
-msgid "Invalid request body"
-msgstr ""
-
 #: app/routers/valuation.py:56 app/routers/valuation.py:95
 msgid "No key configured"
 msgstr ""
@@ -1398,11 +1570,6 @@ msgstr ""
 
 #: app/routers/valuation.py:70
 msgid "Invalid or expired key"
-msgstr ""
-
-#: app/routers/valuation.py:72
-#, python-format
-msgid "Unexpected response: HTTP %(code)s"
 msgstr ""
 
 #: app/routers/valuation.py:74
@@ -1491,7 +1658,7 @@ msgstr "副标题"
 msgid "Authors"
 msgstr "作者"
 
-#: app/services/audnexus.py:205 app/templates/item_edit.html:366
+#: app/services/audnexus.py:205 app/templates/item_edit.html:367
 msgid "Narrator"
 msgstr "朗读者"
 
@@ -1499,7 +1666,7 @@ msgstr "朗读者"
 msgid "Duration"
 msgstr "时长"
 
-#: app/services/audnexus.py:209 app/templates/item_detail.html:146
+#: app/services/audnexus.py:209 app/templates/item_detail.html:147
 msgid "Synopsis"
 msgstr "简介"
 
@@ -2039,83 +2206,83 @@ msgstr ""
 msgid "10 or more players"
 msgstr ""
 
-#: app/services/browse_counts.py:54
+#: app/services/browse_counts.py:56
 msgid "Up to 30 min"
 msgstr ""
 
-#: app/services/browse_counts.py:55
-msgid "30–60 min"
-msgstr ""
-
-#: app/services/browse_counts.py:56
-msgid "1–2 hours"
-msgstr ""
-
 #: app/services/browse_counts.py:57
+msgid "31–60 min"
+msgstr ""
+
+#: app/services/browse_counts.py:58
+msgid "61–120 min"
+msgstr ""
+
+#: app/services/browse_counts.py:59
 msgid "Over 2 hours"
 msgstr ""
 
-#: app/services/national.py:89
+#: app/services/national.py:90
 msgid "English"
 msgstr "英语"
 
-#: app/services/national.py:90
+#: app/services/national.py:91
 msgid "German"
 msgstr "德语"
 
-#: app/services/national.py:91
+#: app/services/national.py:92
 msgid "French"
 msgstr "法语"
 
-#: app/services/national.py:92
+#: app/services/national.py:93
 msgid "Spanish"
 msgstr "西班牙语"
 
-#: app/services/national.py:93
+#: app/services/national.py:94
 msgid "Italian"
 msgstr "意大利语"
 
-#: app/services/national.py:94
+#: app/services/national.py:95
 msgid "Dutch"
 msgstr "荷兰语"
 
-#: app/services/national.py:95
+#: app/services/national.py:96
 msgid "Portuguese"
 msgstr "葡萄牙语"
 
-#: app/services/national.py:96
+#: app/services/national.py:97
 msgid "Swedish"
 msgstr "瑞典语"
 
-#: app/services/national.py:97
+#: app/services/national.py:98
 msgid "Danish"
 msgstr "丹麦语"
 
-#: app/services/national.py:98
+#: app/services/national.py:99
 msgid "Norwegian"
 msgstr "挪威语"
 
-#: app/services/national.py:99
+#: app/services/national.py:100
 msgid "Polish"
 msgstr "波兰语"
 
-#: app/services/national.py:100
+#: app/services/national.py:101
 msgid "Czech"
 msgstr "捷克语"
 
-#: app/services/national.py:101
+#: app/services/national.py:102
 msgid "Japanese"
 msgstr "日语"
 
-#: app/services/national.py:102
+#: app/services/national.py:103
 msgid "Russian"
 msgstr "俄语"
 
-#: app/services/national.py:103
+#: app/services/national.py:104
 msgid "Chinese"
 msgstr "中文"
 
-#: app/services/national.py:104
+#: app/services/national.py:105
 msgid "Korean"
 msgstr "韩语"
 
@@ -2236,59 +2403,59 @@ msgstr[0] ""
 msgid "Main menu"
 msgstr "主菜单"
 
-#: app/templates/base.html:109
+#: app/templates/base.html:142
 msgid "Keyboard shortcuts (?)"
 msgstr "键盘快捷键 (?)"
 
-#: app/templates/base.html:115
+#: app/templates/base.html:148
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: app/templates/base.html:122
+#: app/templates/base.html:155
 msgid "Global"
 msgstr "全局"
 
-#: app/templates/base.html:124
+#: app/templates/base.html:157
 msgid "Focus search"
 msgstr "定位到搜索框"
 
-#: app/templates/base.html:125
+#: app/templates/base.html:158
 msgid "Go to Scan"
 msgstr "前往扫码"
 
-#: app/templates/base.html:126
+#: app/templates/base.html:159
 msgid "Go to Browse"
 msgstr "前往浏览"
 
-#: app/templates/base.html:127
+#: app/templates/base.html:160
 msgid "Show shortcuts"
 msgstr "显示快捷键"
 
-#: app/templates/base.html:131
+#: app/templates/base.html:164
 msgid "Browse Page"
 msgstr "浏览页"
 
-#: app/templates/base.html:133
+#: app/templates/base.html:166
 msgid "Toggle grid / list view"
 msgstr "切换网格 / 列表视图"
 
-#: app/templates/base.html:134
+#: app/templates/base.html:167
 msgid "Toggle select mode"
 msgstr "开关选择模式"
 
-#: app/templates/base.html:135
+#: app/templates/base.html:168
 msgid "Toggle filters (mobile)"
 msgstr "显示/隐藏筛选（移动端）"
 
-#: app/templates/base.html:136 app/templates/fragments/item_grid.html:61
+#: app/templates/base.html:169 app/templates/fragments/item_grid.html:61
 msgid "Clear all filters"
 msgstr "清除全部筛选"
 
-#: app/templates/base.html:137
+#: app/templates/base.html:170
 msgid "Exit select / blur search"
 msgstr "退出选择 / 离开搜索框"
 
-#: app/templates/base.html:142
+#: app/templates/base.html:175
 msgid "Shortcuts are disabled when typing in inputs"
 msgstr "在输入框中打字时快捷键不生效"
 
@@ -2355,7 +2522,7 @@ msgstr "移除标签"
 msgid "Delete Selected"
 msgstr "删除所选"
 
-#: app/templates/browse.html:111
+#: app/templates/browse.html:111 app/templates/fragments/settings/data.html:298
 #: app/templates/fragments/settings/library.html:11
 msgid "Collection"
 msgstr "藏品"
@@ -2421,9 +2588,10 @@ msgstr "已拥有"
 #: app/templates/browse.html:235
 #: app/templates/fragments/filter_counts_oob.html:28
 #: app/templates/fragments/item_card.html:7
-#: app/templates/fragments/item_row.html:51 app/templates/home.html:36
+#: app/templates/fragments/item_row.html:51
+#: app/templates/fragments/settings/data.html:297 app/templates/home.html:36
 #: app/templates/home.html:118 app/templates/item_detail.html:65
-#: app/templates/series.html:226 app/templates/series.html:303
+#: app/templates/series.html:226 app/templates/series.html:304
 #: app/templates/stats.html:20
 msgid "Wishlist"
 msgstr "心愿单"
@@ -2554,7 +2722,7 @@ msgstr ""
 msgid "added %(date)s"
 msgstr ""
 
-#: app/templates/duplicates.html:44 app/templates/item_detail.html:102
+#: app/templates/duplicates.html:44 app/templates/item_detail.html:103
 msgid "ISBN:"
 msgstr "ISBN："
 
@@ -2613,11 +2781,13 @@ msgid "Dismissed"
 msgstr ""
 
 #: app/templates/duplicates.html:86
+#: app/templates/fragments/settings/integrations.html:57
 msgid "and"
 msgstr ""
 
 #: app/templates/duplicates.html:89
 #: app/templates/fragments/scan_result.html:216
+#: app/templates/fragments/settings/data.html:334
 #: app/templates/fragments/trash_list.html:83
 #: app/templates/fragments/trash_list.html:130
 msgid "Restore"
@@ -2760,7 +2930,7 @@ msgid "Capture"
 msgstr "拍摄"
 
 #: app/templates/fragments/item_copy_edit.html:103 app/templates/intake.html:49
-#: app/templates/item_edit.html:377 app/templates/series.html:150
+#: app/templates/item_edit.html:386 app/templates/series.html:150
 #: app/templates/series.html:164 app/templates/series.html:203
 msgid "Cancel"
 msgstr "取消"
@@ -2973,7 +3143,7 @@ msgstr ""
 msgid "List price %(price)s"
 msgstr "定价 %(price)s"
 
-#: app/templates/item_detail.html:66 app/templates/item_detail.html:140
+#: app/templates/item_detail.html:66 app/templates/item_detail.html:141
 #, python-format
 msgid "as of %(date)s"
 msgstr "截至 %(date)s"
@@ -2983,204 +3153,210 @@ msgstr "截至 %(date)s"
 msgid "was %(price)s on %(date)s"
 msgstr "%(date)s 时为 %(price)s"
 
-#: app/templates/item_detail.html:84
+#: app/templates/item_detail.html:72
+msgid "Original title:"
+msgstr ""
+
+#: app/templates/item_detail.html:85
 msgid "Type:"
 msgstr "类型："
 
-#: app/templates/item_detail.html:87
+#: app/templates/item_detail.html:88
 msgid "Language:"
 msgstr "语言："
 
-#: app/templates/item_detail.html:90
+#: app/templates/item_detail.html:91
 msgid "Platform:"
 msgstr "平台："
 
-#: app/templates/item_detail.html:93
+#: app/templates/item_detail.html:94
 msgid "Publisher:"
 msgstr "出版社："
 
-#: app/templates/item_detail.html:96
+#: app/templates/item_detail.html:97
 msgid "Year:"
 msgstr "年份："
 
-#: app/templates/item_detail.html:99
+#: app/templates/item_detail.html:100
 msgid "Pages:"
 msgstr "页数："
 
-#: app/templates/item_detail.html:105
+#: app/templates/item_detail.html:106
 msgid "Series:"
 msgstr "系列："
 
-#: app/templates/item_detail.html:112
+#: app/templates/item_detail.html:113
 #, python-format
 msgid "you own %(owned)s of 1–%(top)s"
 msgstr "第 1–%(top)s 册中你有 %(owned)s 册"
 
-#: app/templates/item_detail.html:112
+#: app/templates/item_detail.html:113
 msgid "missing"
 msgstr "缺"
 
-#: app/templates/item_detail.html:113
+#: app/templates/item_detail.html:114
 #, python-format
 msgid "%(count)s in series (Hardcover)"
 msgstr "系列共 %(count)s 本（Hardcover）"
 
-#: app/templates/item_detail.html:118
+#: app/templates/item_detail.html:119
 msgid "Narrator:"
 msgstr "朗读者："
 
-#: app/templates/item_detail.html:122
+#: app/templates/item_detail.html:123
 msgid "Players:"
 msgstr ""
 
-#: app/templates/item_detail.html:125
+#: app/templates/item_detail.html:126
 msgid "Play time:"
 msgstr ""
 
-#: app/templates/item_detail.html:128
+#: app/templates/item_detail.html:129
 msgid "Age:"
 msgstr ""
 
-#: app/templates/item_detail.html:131
+#: app/templates/item_detail.html:132
 msgid "View on BoardGameGeek"
 msgstr ""
 
-#: app/templates/item_detail.html:131
+#: app/templates/item_detail.html:132
 msgid "Powered by BGG"
 msgstr ""
 
-#: app/templates/item_detail.html:134
+#: app/templates/item_detail.html:135
 msgid "Duration:"
 msgstr "时长："
 
-#: app/templates/item_detail.html:138
+#: app/templates/item_detail.html:139
 msgid "Value:"
 msgstr "价值："
 
-#: app/templates/item_detail.html:138
+#: app/templates/item_detail.html:139
 msgid "(manual)"
 msgstr "（手动）"
 
-#: app/templates/item_detail.html:140
+#: app/templates/item_detail.html:141
 msgid "Est. Value:"
 msgstr "估计价值："
 
-#: app/templates/item_detail.html:153
+#: app/templates/item_detail.html:154
 msgid "Read more"
 msgstr "展开"
 
-#: app/templates/item_detail.html:153
+#: app/templates/item_detail.html:154
 msgid "Show less"
 msgstr "收起"
 
-#: app/templates/item_detail.html:162 app/templates/series.html:96
+#: app/templates/item_detail.html:163 app/templates/series.html:96
 msgid "Fetch synopsis"
 msgstr "获取简介"
 
-#: app/templates/item_detail.html:163
+#: app/templates/item_detail.html:164
 msgid "Searching…"
 msgstr "搜索中…"
 
-#: app/templates/item_detail.html:165
+#: app/templates/item_detail.html:166
 msgid "No synopsis found on Open Library or Google Books."
 msgstr "在 Open Library 和 Google Books 上均未找到简介。"
 
-#: app/templates/item_detail.html:175
+#: app/templates/item_detail.html:176
 msgid "Fill details from Audible"
 msgstr "从 Audible 补全信息"
 
-#: app/templates/item_detail.html:187
+#: app/templates/item_detail.html:188
 msgid "Loading related media…"
 msgstr "正在加载相关媒体…"
 
-#: app/templates/item_detail.html:192
+#: app/templates/item_detail.html:193
 msgid "Notes:"
 msgstr "备注："
 
-#: app/templates/item_detail.html:201
+#: app/templates/fragments/settings/integrations.html:57
+#: app/templates/item_detail.html:202
 msgid "Read on Audiobookshelf"
 msgstr "在 Audiobookshelf 中阅读"
 
-#: app/templates/item_detail.html:201
+#: app/templates/item_detail.html:202
 msgid "Listen on Audiobookshelf"
 msgstr "在 Audiobookshelf 收听"
 
-#: app/templates/item_detail.html:217
+#: app/templates/item_detail.html:218
 msgid "Synced to Hardcover"
 msgstr "已同步到 Hardcover"
 
-#: app/templates/item_detail.html:217
+#: app/templates/item_detail.html:218
 msgid "Push to Hardcover"
 msgstr "推送到 Hardcover"
 
-#: app/templates/item_detail.html:218
+#: app/templates/fragments/settings/integrations.html:106
+#: app/templates/item_detail.html:219
 msgid "Syncing..."
 msgstr "同步中…"
 
-#: app/templates/item_detail.html:224
+#: app/templates/item_detail.html:225
 msgid "Added to your Hardcover library"
 msgstr "已添加到你的 Hardcover 书库"
 
-#: app/templates/item_detail.html:236
+#: app/templates/item_detail.html:237
 #, python-format
 msgid "Also in Audiobookshelf (%(type)s)"
 msgstr "Audiobookshelf 中也有（%(type)s）"
 
-#: app/templates/item_detail.html:263
+#: app/templates/item_detail.html:264
 msgid "Lent to"
 msgstr "借给"
 
-#: app/templates/item_detail.html:264
+#: app/templates/item_detail.html:265
 #, python-format
 msgid "on %(date)s"
 msgstr "于 %(date)s"
 
-#: app/templates/item_detail.html:266
+#: app/templates/item_detail.html:267
 msgid "Due:"
 msgstr "应还："
 
-#: app/templates/item_detail.html:272
+#: app/templates/item_detail.html:273
 msgid "Check In"
 msgstr "归还"
 
-#: app/templates/item_detail.html:280
+#: app/templates/item_detail.html:281
 msgid "Lend this item"
 msgstr "借出此条目"
 
-#: app/templates/item_detail.html:291
+#: app/templates/item_detail.html:292
 msgid "2 weeks"
 msgstr "2 周"
 
-#: app/templates/item_detail.html:292
+#: app/templates/item_detail.html:293
 msgid "1 week"
 msgstr "1 周"
 
-#: app/templates/item_detail.html:293
+#: app/templates/item_detail.html:294
 msgid "1 month"
 msgstr "1 个月"
 
-#: app/templates/item_detail.html:294
+#: app/templates/item_detail.html:295
 msgid "No due date"
 msgstr "无应还日期"
 
-#: app/templates/item_detail.html:296
+#: app/templates/item_detail.html:297
 msgid "Check Out"
 msgstr "借出"
 
-#: app/templates/item_detail.html:299
+#: app/templates/item_detail.html:300
 msgid "Add borrowers in <a href=\"/settings\" class=\"text-shelf-accent2\">Settings</a> first."
 msgstr "请先在<a href=\"/settings\" class=\"text-shelf-accent2\">设置</a>中添加借阅人。"
 
-#: app/templates/item_detail.html:306
+#: app/templates/item_detail.html:307
 msgid "Checkout history"
 msgstr "借阅记录"
 
-#: app/templates/item_detail.html:313
+#: app/templates/item_detail.html:314
 #, python-format
 msgid "returned %(date)s"
 msgstr "%(date)s 归还"
 
-#: app/templates/item_detail.html:315
+#: app/templates/item_detail.html:316
 msgid "out"
 msgstr "未归还"
 
@@ -3188,34 +3364,37 @@ msgstr "未归还"
 #: app/templates/fragments/item_copies.html:90
 #: app/templates/fragments/item_copies.html:95
 #: app/templates/fragments/settings/library.html:134
-#: app/templates/item_detail.html:329
+#: app/templates/fragments/settings/tags.html:29
+#: app/templates/item_detail.html:330
 msgid "Edit"
 msgstr "编辑"
 
-#: app/templates/item_detail.html:332
+#: app/templates/item_detail.html:333
 msgid "Add another like this"
 msgstr "照此再添加一条"
 
-#: app/templates/item_detail.html:338
+#: app/templates/fragments/settings/tags.html:24
+#: app/templates/fragments/settings/users.html:33
+#: app/templates/item_detail.html:339
 msgid "Delete"
 msgstr "删除"
 
-#: app/templates/item_detail.html:344
+#: app/templates/item_detail.html:345
 #, python-format
 msgid "Added %(date)s"
 msgstr "添加于 %(date)s"
 
-#: app/templates/item_detail.html:344
+#: app/templates/item_detail.html:345
 #, python-format
 msgid "Updated %(date)s"
 msgstr "更新于 %(date)s"
 
-#: app/templates/item_detail.html:344
+#: app/templates/item_detail.html:345
 #, python-format
 msgid "via %(source)s"
 msgstr "来源：%(source)s"
 
-#: app/templates/item_detail.html:349
+#: app/templates/item_detail.html:350
 msgid "Integration IDs"
 msgstr "集成 ID"
 
@@ -3293,15 +3472,15 @@ msgstr "编辑页分区"
 msgid "General"
 msgstr "常规"
 
-#: app/templates/item_edit.html:78 app/templates/item_edit.html:168
+#: app/templates/item_edit.html:78 app/templates/item_edit.html:169
 msgid "Artwork"
 msgstr "封面"
 
-#: app/templates/item_edit.html:80 app/templates/item_edit.html:229
+#: app/templates/item_edit.html:80 app/templates/item_edit.html:230
 msgid "Identifiers"
 msgstr "标识符"
 
-#: app/templates/item_edit.html:82 app/templates/item_edit.html:350
+#: app/templates/item_edit.html:82 app/templates/item_edit.html:351
 msgid "Media Details"
 msgstr "媒体详情"
 
@@ -3309,160 +3488,180 @@ msgstr "媒体详情"
 msgid "Core catalogue metadata and reading details."
 msgstr "核心目录元数据与阅读信息。"
 
+#: app/templates/item_edit.html:105
+msgid "Original title"
+msgstr ""
+
 #: app/templates/fragments/manual_add_form.html:40
-#: app/templates/item_edit.html:108 app/templates/scan.html:113
+#: app/templates/item_edit.html:109 app/templates/scan.html:113
 msgid "Media Type"
 msgstr "媒体类型"
 
-#: app/templates/item_edit.html:142 app/templates/item_edit.html:178
-#: app/templates/item_edit.html:309 app/templates/item_edit.html:358
+#: app/templates/item_edit.html:143 app/templates/item_edit.html:179
+#: app/templates/item_edit.html:310 app/templates/item_edit.html:359
 #: app/templates/scan.html:134 app/templates/scan.html:217
 msgid "None"
 msgstr "无"
 
-#: app/templates/item_edit.html:149
+#: app/templates/item_edit.html:150
 msgid "Date Started"
 msgstr "开始日期"
 
-#: app/templates/item_edit.html:150
+#: app/templates/item_edit.html:151
 msgid "Date Finished"
 msgstr "完成日期"
 
-#: app/templates/item_edit.html:155
+#: app/templates/item_edit.html:156
 msgid "Description"
 msgstr "简介"
 
-#: app/templates/fragments/audit_notes.html:4 app/templates/item_edit.html:161
+#: app/templates/fragments/audit_notes.html:4 app/templates/item_edit.html:162
 msgid "Notes"
 msgstr "备注"
 
-#: app/templates/item_edit.html:169
+#: app/templates/item_edit.html:170
 msgid "Preview the current cover, upload a replacement, or use a public image URL."
 msgstr "预览当前封面、上传替换图片，或使用公开图片 URL。"
 
 #: app/templates/fragments/cover_search.html:40
-#: app/templates/item_edit.html:175
+#: app/templates/item_edit.html:176
 msgid "Current cover"
 msgstr "当前封面"
 
-#: app/templates/item_edit.html:177
+#: app/templates/item_edit.html:178
 msgid "Cover preview"
 msgstr "封面预览"
 
-#: app/templates/item_edit.html:188
+#: app/templates/item_edit.html:189
 msgid "Drop an image here or click to browse"
 msgstr "将图片拖到此处，或点击选择文件"
 
-#: app/templates/item_edit.html:190
+#: app/templates/item_edit.html:191
 msgid "The replacement is applied when you save the item."
 msgstr "替换图片将在保存条目时生效。"
 
-#: app/templates/item_edit.html:196
+#: app/templates/item_edit.html:197
 msgid "Cover image URL"
 msgstr "封面图片 URL"
 
-#: app/templates/item_edit.html:208
+#: app/templates/item_edit.html:209
 msgid "Use URL"
 msgstr "使用 URL"
 
-#: app/templates/item_edit.html:211
+#: app/templates/item_edit.html:212
 msgid "Public HTTPS image links only. Use URL applies the cover immediately; your other edits are still saved with Save Changes."
 msgstr "仅支持公开的 HTTPS 图片链接。「使用 URL」会立即应用封面；其他修改仍需点击「保存更改」才会保存。"
 
-#: app/templates/item_edit.html:218
+#: app/templates/item_edit.html:219
 msgid "Series membership, position and page count."
 msgstr "所属系列、序号与页数。"
 
-#: app/templates/item_edit.html:222
+#: app/templates/item_edit.html:223
 msgid "Series #"
 msgstr "系列序号"
 
-#: app/templates/item_edit.html:230
+#: app/templates/item_edit.html:231
 msgid "Identifiers printed on this edition."
 msgstr "印在此版本上的标识码。"
 
-#: app/templates/item_edit.html:233
+#: app/templates/item_edit.html:234
 msgid "ISBN"
 msgstr "ISBN"
 
-#: app/templates/item_edit.html:237
+#: app/templates/item_edit.html:238
 msgid "The stored ISBN fails its check digit. It is kept as-is unless you change it here — correcting or clearing it is checked as usual."
 msgstr "已存储的 ISBN 校验位不通过。除非你在此修改，否则将原样保留 — 改正或清空时会照常校验。"
 
-#: app/templates/item_edit.html:242 app/templates/item_edit.html:249
+#: app/templates/item_edit.html:243 app/templates/item_edit.html:250
 msgid "Scan ISBN"
 msgstr "扫码录入 ISBN"
 
-#: app/templates/item_edit.html:250 app/templates/item_edit.html:283
+#: app/templates/item_edit.html:251 app/templates/item_edit.html:284
 msgid "Close scanner"
 msgstr "关闭扫码"
 
-#: app/templates/item_edit.html:266 app/templates/music.html:27
+#: app/templates/item_edit.html:267 app/templates/music.html:27
 msgid "UPC / EAN"
 msgstr "UPC / EAN"
 
-#: app/templates/item_edit.html:266
+#: app/templates/item_edit.html:267
 msgid "UPC-A or EAN-13"
 msgstr "UPC-A 或 EAN-13"
 
-#: app/templates/item_edit.html:270
+#: app/templates/item_edit.html:271
 msgid "The stored UPC / EAN fails its check digit. It is kept as-is unless you change it here — correcting or clearing it is checked as usual."
 msgstr "已存储的 UPC / EAN 校验位不通过。除非你在此修改，否则将原样保留 — 改正或清空时会照常校验。"
 
-#: app/templates/item_edit.html:275 app/templates/item_edit.html:282
+#: app/templates/item_edit.html:276 app/templates/item_edit.html:283
 msgid "Scan UPC / EAN"
 msgstr "扫码录入 UPC / EAN"
 
-#: app/templates/item_edit.html:302
+#: app/templates/item_edit.html:303
 msgid "Ownership, physical location and collection value."
 msgstr "拥有状态、实体位置与藏品价值。"
 
-#: app/templates/item_edit.html:323
+#: app/templates/item_edit.html:324
 msgid "I own this item"
 msgstr "我拥有此条目"
 
-#: app/templates/item_edit.html:334
+#: app/templates/item_edit.html:335
 msgid "On my wishlist"
 msgstr "在我的心愿单中"
 
-#: app/templates/item_edit.html:336
+#: app/templates/item_edit.html:337
 msgid "Uncheck both for a book you read but don't own — reading history stays."
 msgstr "读过但未拥有的书，两项都取消勾选即可 — 阅读记录会保留。"
 
-#: app/templates/item_edit.html:341
+#: app/templates/item_edit.html:342
 #, python-format
 msgid "Value (%(symbol)s)"
 msgstr "价值（%(symbol)s）"
 
-#: app/templates/item_edit.html:344
+#: app/templates/item_edit.html:345
 msgid "Overrides the ISBNdb estimate everywhere it's shown"
 msgstr "在所有显示位置覆盖 ISBNdb 估值"
 
-#: app/templates/item_edit.html:344
+#: app/templates/item_edit.html:345
 #, python-format
 msgid "ISBNdb estimate: %(value)s"
 msgstr "ISBNdb 估值：%(value)s"
 
-#: app/templates/item_edit.html:351
+#: app/templates/item_edit.html:352
 msgid "Fields specific to the selected media type."
 msgstr "所选媒体类型专属的字段。"
 
-#: app/templates/item_edit.html:367
+#: app/templates/item_edit.html:368
 msgid "Duration (min)"
 msgstr "时长（分钟）"
 
+#: app/templates/item_edit.html:375
+msgid "Min. players"
+msgstr ""
+
+#: app/templates/item_edit.html:376
+msgid "Max. players"
+msgstr ""
+
+#: app/templates/item_edit.html:377
+msgid "Minimum age"
+msgstr ""
+
 #: app/templates/fragments/account_menu.html:132
 #: app/templates/fragments/item_copy_edit.html:99
+#: app/templates/fragments/settings/integrations.html:95
+#: app/templates/fragments/settings/integrations.html:160
+#: app/templates/fragments/settings/integrations.html:277
+#: app/templates/fragments/settings/integrations.html:387
 #: app/templates/fragments/settings/library.html:54
 #: app/templates/fragments/settings/library.html:319
 #: app/templates/fragments/settings/library.html:338
 #: app/templates/fragments/settings/price_alerts.html:35
 #: app/templates/fragments/settings/release_radar.html:27
-#: app/templates/item_edit.html:374 app/templates/series.html:199
+#: app/templates/item_edit.html:383 app/templates/series.html:199
 msgid "Save"
 msgstr "保存"
 
-#: app/templates/item_edit.html:391
+#: app/templates/item_edit.html:400
 msgid "Tags save as you add or remove them."
 msgstr "标签在添加或移除时即自动保存。"
 
@@ -3603,7 +3802,8 @@ msgstr "登录"
 msgid "Sign in to your library"
 msgstr "登录你的书库"
 
-#: app/templates/fragments/account_menu.html:100 app/templates/login.html:24
+#: app/templates/fragments/account_menu.html:100
+#: app/templates/fragments/settings/users.html:44 app/templates/login.html:24
 #: app/templates/setup.html:27
 msgid "Username"
 msgstr "用户名"
@@ -4080,6 +4280,7 @@ msgstr ""
 msgid "What is this series about?"
 msgstr ""
 
+#: app/templates/fragments/settings/integrations.html:191
 #: app/templates/series.html:200
 msgid "Saving…"
 msgstr ""
@@ -4097,33 +4298,41 @@ msgid "you have them all!"
 msgstr ""
 
 #: app/templates/series.html:242
+msgid "none missing;"
+msgstr ""
+
+#: app/templates/series.html:242
+msgid "on your wishlist."
+msgstr ""
+
+#: app/templates/series.html:243
 msgid "missing:"
 msgstr ""
 
-#: app/templates/series.html:265 app/templates/upcoming.html:43
+#: app/templates/series.html:266 app/templates/upcoming.html:43
 msgid "+ Wishlist"
 msgstr ""
 
-#: app/templates/series.html:267
+#: app/templates/series.html:268
 msgid "Wishlisted"
 msgstr ""
 
-#: app/templates/series.html:286
+#: app/templates/series.html:287
 msgid "Unassigned"
 msgstr ""
 
-#: app/templates/series.html:288
+#: app/templates/series.html:289
 #, python-format
 msgid "%(num)s book with no series"
 msgid_plural "%(num)s books with no series"
 msgstr[0] ""
 
-#: app/templates/series.html:289
+#: app/templates/series.html:290
 #, python-format
 msgid "showing %(n)s"
 msgstr ""
 
-#: app/templates/series.html:290
+#: app/templates/series.html:291
 msgid "These books don't belong to a series yet. Open one and set a series on its edit page to move it into a series card."
 msgstr ""
 
@@ -4143,6 +4352,7 @@ msgstr "创建管理员账号即可开始使用。"
 msgid "Display Name"
 msgstr "显示名称"
 
+#: app/templates/fragments/settings/integrations.html:48
 #: app/templates/setup.html:33
 msgid "(optional)"
 msgstr "（可选）"
@@ -4626,6 +4836,8 @@ msgid "last used"
 msgstr "最近使用"
 
 #: app/templates/fragments/account_menu.html:204
+#: app/templates/fragments/settings/data.html:285
+#: app/templates/fragments/settings/users.html:90
 msgid "Revoke"
 msgstr "撤销"
 
@@ -4846,6 +5058,7 @@ msgid "Current: English cover from another edition"
 msgstr "当前：另一版本的英文封面"
 
 #: app/templates/fragments/cover_search.html:42
+#: app/templates/fragments/settings/features.html:45
 msgid "Current"
 msgstr "当前"
 
@@ -5762,6 +5975,674 @@ msgstr[0] ""
 msgid "Review expired items"
 msgstr ""
 
+#: app/templates/fragments/settings/data.html:12
+msgid "Maintenance"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:18
+msgid "Retry Missing Covers"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:19
+msgid "Retrying..."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:41
+#: app/templates/fragments/settings/data.html:117
+msgid "Found:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:41
+#: app/templates/fragments/settings/data.html:117
+msgid ", Failed:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:42
+#: app/templates/fragments/settings/data.html:118
+msgid "of"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:42
+#: app/templates/fragments/settings/data.html:118
+msgid "items"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:49
+#, python-format
+msgid "%(num)s cover lookup queued"
+msgid_plural "%(num)s cover lookups queued"
+msgstr[0] ""
+
+#: app/templates/fragments/settings/data.html:50
+#, python-format
+msgid "%(n)s gave up since startup"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:51
+#, python-format
+msgid "%(num)s item without a cover"
+msgid_plural "%(num)s items without a cover"
+msgstr[0] ""
+
+#: app/templates/fragments/settings/data.html:85
+#, python-format
+msgid "Review covers needing attention (%(n)s)"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:93
+msgid "Fetch Missing Synopses"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:94
+msgid "Fetching..."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:96
+msgid "Looks up descriptions for books, ebooks, and audiobooks that don't have one (Google Books + Open Library)."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:144
+msgid "Import / Export"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:149
+msgid "Export CSV"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:154
+msgid "Import items from a CSV file (columns: title, authors, isbn, media_type, publisher, publish_year, page_count, series_name)"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:155
+msgid "<strong class=\"text-shelf-text\">Goodreads</strong>, <strong class=\"text-shelf-text\">StoryGraph</strong>, <strong class=\"text-shelf-text\">LibraryThing</strong> and <strong class=\"text-shelf-text\">Libib</strong> library exports, and <strong class=\"text-shelf-text\">Audible (audible-cli or Libation)</strong> exports, are detected automatically — reading status, dates, and owned/wishlist flags are mapped for you."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:160
+#: app/templates/fragments/settings/data.html:370
+msgid "Skip duplicates"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:161
+#: app/templates/fragments/settings/data.html:371
+msgid "Update duplicates"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:165
+msgid "Import"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:166
+#: app/templates/fragments/settings/data.html:443
+#: app/templates/fragments/settings/integrations.html:320
+msgid "Importing..."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:172
+msgid "Fetch covers after import"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:176
+msgid "Import \"to read\" books as wishlist"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:188
+#: app/templates/fragments/settings/data.html:191
+#: app/templates/fragments/settings/data.html:194
+#: app/templates/fragments/settings/data.html:197
+msgid "Detected"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:188
+#: app/templates/fragments/settings/data.html:191
+#: app/templates/fragments/settings/data.html:194
+#: app/templates/fragments/settings/data.html:197
+msgid "export ·"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:200
+msgid "Beta"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:200
+msgid "— built from the documented export format — if a row imports wrongly, <a href=\"https://github.com/dgahagan/shelf/issues/new/choose\" target=\"_blank\" rel=\"noopener\" class=\"text-shelf-accent2 hover:underline\">open an issue</a> with your file's header row. ·"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:202
+#: app/templates/fragments/settings/data.html:460
+msgid "Imported:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:202
+#: app/templates/fragments/settings/data.html:460
+#: app/templates/fragments/settings/integrations.html:129
+#: app/templates/fragments/settings/integrations.html:347
+msgid ", Skipped:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:204
+msgid ", Restored:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:210
+msgid ", To Trash:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:213
+msgid "· Fetching"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:213
+msgid "covers in background"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:216
+#: app/templates/fragments/settings/data.html:474
+#: app/templates/fragments/settings/integrations.html:352
+#: app/templates/fragments/settings/integrations.html:430
+msgid "· Errors:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:229
+msgid "Created locations:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:246
+msgid "Not imported:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:249
+msgid "(items already in Shelf)"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:249
+msgid "(game platform)"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:265
+msgid "Public read-only links to your wishlist (for gift ideas) or collection. Anyone with the link can view titles, authors, and covers — never locations, loans, or values. Revoke a link at any time."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:272
+msgid "Untitled link"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:279
+msgid "Copy link"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:280
+msgid "Copied!"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:283
+msgid "Open"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:303
+msgid "Create Link"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:311
+msgid "Backup &amp; Restore"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:316
+msgid "Passphrase (optional — encrypts the backup)"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:319
+msgid "Download Backup"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:322
+msgid "Downloads a copy of the SQLite database. With a passphrase, the file is AES-encrypted (.db.enc) — safe to store off-site, but unrecoverable without the passphrase."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:323
+msgid "Without a passphrase the file is your database as-is: items, users’ password hashes, encrypted credentials and the recent application log — but no key material, so stored credentials stay unreadable without <code>encryption.key</code>."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:330
+msgid "Passphrase (if encrypted)"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:335
+msgid "Restoring..."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:353
+msgid "Portable archive"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:354
+msgid "For moving between instances or apps; no credentials included."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:358
+msgid "Export Archive"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:363
+msgid "Import a portable archive (.zip) exported from another Shelf instance, including covers. Nothing is written until you confirm the preview."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:375
+msgid "Preview import"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:376
+msgid "Reading archive..."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:389
+msgid "This archive holds"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:389
+msgid "items —"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:393
+msgid "Duplicate matching:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:393
+msgid ". Title/author matches are a heuristic."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:397
+msgid "item(s) can't be imported and will be skipped."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:402
+msgid "Include"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:409
+msgid "Update"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:409
+msgid "matched items"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:413
+msgid "covers (only for items without one)"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:421
+msgid "reading-log entries"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:425
+msgid "loans"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:432
+msgid "items already in your library are skipped either way."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:435
+msgid "items in your Trash will be restored — they keep their own details, copies and history."
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:447
+#: app/templates/fragments/settings/data.html:493
+msgid "Start over"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:460
+#: app/templates/fragments/settings/integrations.html:129
+#: app/templates/fragments/settings/integrations.html:347
+#: app/templates/fragments/settings/integrations.html:428
+msgid ", Updated:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:462
+msgid "· Restored:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:465
+msgid "· To Trash:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:468
+msgid "· Covers installed:"
+msgstr ""
+
+#: app/templates/fragments/settings/data.html:471
+msgid "· Covers replaced:"
+msgstr ""
+
+#: app/templates/fragments/settings/feature_off_note.html:15
+#: app/templates/fragments/settings/library.html:81
+msgid "Turned off in Features —"
+msgstr ""
+
+#: app/templates/fragments/settings/feature_off_note.html:16
+#: app/templates/fragments/settings/features.html:10
+#: app/templates/fragments/settings/library.html:84
+#: app/templates/fragments/settings/sidebar.html:30
+msgid "Features"
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:11
+msgid "Turn optional parts of Shelf on or off. A feature that is off hides its tab, refuses its pages and actions, and pauses its background job. Its data is kept, and turning it back on shows everything again. To hide a tab without turning its feature off, use Navigation under Library."
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:20
+msgid "Apply a profile to set every feature below at once."
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:36
+#, python-format
+msgid "Turns on: %(features)s"
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:39
+#, python-format
+msgid "Turns off: %(features)s"
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:45
+#, python-format
+msgid "Apply %(profile)s"
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:51
+msgid "Custom — the switches below match none of these."
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:61
+msgid "On"
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:63
+#: app/templates/fragments/settings/integrations.html:156
+#: app/templates/fragments/settings/integrations.html:383
+msgid "Off"
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:68
+msgid "Needs setup — configure it under Integrations before it can do anything."
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:76
+msgid "Turn off"
+msgstr ""
+
+#: app/templates/fragments/settings/features.html:76
+msgid "Turn on"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:16
+msgid "Audiobookshelf Sync"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:17
+#: app/templates/fragments/settings/integrations.html:218
+msgid "Setup guide"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:24
+msgid "Connecting to Audiobookshelf"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:26
+msgid "Open your Audiobookshelf instance in a browser"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:27
+#: app/templates/fragments/settings/integrations.html:228
+msgid "Go to"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:27
+msgid "and select your user"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:28
+msgid "Scroll to"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:28
+#: app/templates/fragments/settings/integrations.html:61
+#: app/templates/fragments/settings/integrations.html:243
+msgid "API Token"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:28
+msgid "— copy the token"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:29
+msgid "Enter your ABS server URL (e.g."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:29
+msgid ") and paste the token below"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:32
+msgid "What does sync do?"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:33
+msgid "Sync imports your audiobooks and ebooks from Audiobookshelf into Shelf, including metadata and cover art. It also auto-links digital items to matching physical books in your collection."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:35
+#: app/templates/fragments/settings/integrations.html:237
+msgid "Got it"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:41
+msgid "Audiobookshelf URL"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:48
+msgid "Browser URL"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:51
+msgid "Browser URL must be a valid http:// or https:// URL."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:57
+msgid "Used only for"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:57
+msgid "Listen"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:57
+msgid "links. Set it when Shelf reaches Audiobookshelf over a Docker or LAN address but your browser uses a reverse-proxy domain. Leave blank to use the URL above."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:64
+#: app/templates/fragments/settings/integrations.html:246
+msgid "Saved — leave blank to keep"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:64
+msgid "Bearer token from ABS settings"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:70
+#: app/templates/fragments/settings/integrations.html:230
+#: app/templates/fragments/settings/integrations.html:252
+#: app/templates/fragments/settings/library.html:280
+msgid "Test"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:71
+#: app/templates/fragments/settings/integrations.html:253
+msgid "Testing..."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:91
+#: app/templates/fragments/settings/integrations.html:273
+msgid "Remove saved token"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:129
+#: app/templates/fragments/settings/integrations.html:347
+msgid "Added:"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:129
+msgid ", Unchanged:"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:131
+#: app/templates/fragments/settings/integrations.html:349
+msgid "· In Trash:"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:154
+#: app/templates/fragments/settings/integrations.html:381
+msgid "Auto-sync:"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:157
+#: app/templates/fragments/settings/integrations.html:384
+msgid "Daily"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:158
+#: app/templates/fragments/settings/integrations.html:385
+msgid "Weekly"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:167
+msgid "Libraries to sync"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:168
+msgid "Uncheck libraries you don't want in Shelf (e.g. a dump of files you're not cataloging)."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:172
+msgid "Manage Libraries"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:173
+msgid "Loading…"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:190
+msgid "Save Selection"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:197
+msgid "Move Excluded Items to Trash"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:198
+msgid "Moving…"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:202
+msgid "Saves the selection, then moves items already synced from unchecked libraries to Trash."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:204
+msgid "Moved"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:204
+msgid "items to Trash."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:225
+msgid "Connecting to Hardcover"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:227
+msgid "Create a free account at"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:227
+msgid "hardcover.app"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:229
+msgid "Copy the API token shown at the top of the page"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:230
+msgid "Paste it into the field below and click"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:233
+msgid "What does Hardcover do?"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:234
+msgid "Hardcover is a modern book tracking platform (like Goodreads). With an API token, Shelf can use Hardcover as a metadata source for richer book data including series info, descriptions, and cover art. Future updates will add library import/export and reading status sync."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:235
+msgid "The API is completely free. Tokens expire after one year."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:246
+msgid "Your Hardcover API token"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:260
+msgid "Connected as"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:284
+msgid "Import Library from Hardcover"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:302
+msgid "Paused"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:306
+msgid "Did Not Finish"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:313
+msgid "Overwrite existing items with Hardcover data"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:378
+msgid "Reading Status Sync"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:379
+msgid "Pull reading status changes from Hardcover automatically. Status changes made in Shelf are pushed to Hardcover instantly."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:394
+msgid "Export to Hardcover"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:395
+msgid "Push your Shelf collection to your Hardcover library. Only items with an ISBN can be exported."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:399
+msgid "Owned items only (exclude wishlist)"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:406
+msgid "Exporting..."
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:428
+msgid "Pushed:"
+msgstr ""
+
+#: app/templates/fragments/settings/integrations.html:428
+msgid ", Not found:"
+msgstr ""
+
 #: app/templates/fragments/settings/library.html:12
 #, python-format
 msgid "%(num)s item in your library"
@@ -5794,15 +6675,6 @@ msgstr ""
 
 #: app/templates/fragments/settings/library.html:65
 msgid "Show in navigation"
-msgstr ""
-
-#: app/templates/fragments/settings/library.html:81
-msgid "Turned off in Features —"
-msgstr ""
-
-#: app/templates/fragments/settings/library.html:84
-#: app/templates/fragments/settings/sidebar.html:30
-msgid "Features"
 msgstr ""
 
 #: app/templates/fragments/settings/library.html:88
@@ -5845,6 +6717,7 @@ msgid "Remove"
 msgstr ""
 
 #: app/templates/fragments/settings/library.html:137
+#: app/templates/fragments/settings/tags.html:32
 msgid "Name"
 msgstr ""
 
@@ -5918,10 +6791,6 @@ msgstr ""
 
 #: app/templates/fragments/settings/library.html:271
 msgid "Webhook (JSON)"
-msgstr ""
-
-#: app/templates/fragments/settings/library.html:280
-msgid "Test"
 msgstr ""
 
 #: app/templates/fragments/settings/library.html:281
@@ -6069,6 +6938,7 @@ msgid "Import, export, backups and maintenance."
 msgstr ""
 
 #: app/templates/fragments/settings/sidebar.html:24
+#: app/templates/fragments/settings/users.html:13
 msgid "Users"
 msgstr ""
 
@@ -6078,5 +6948,83 @@ msgstr ""
 
 #: app/templates/fragments/settings/sidebar.html:31
 msgid "Turn optional parts of Shelf on or off."
+msgstr ""
+
+#: app/templates/fragments/settings/tags.html:7
+msgid "A tag is created by applying it to an item — nothing here creates one. Scoping a tag to a type only narrows suggestions elsewhere; it never removes the tag from an item outside that type."
+msgstr ""
+
+#: app/templates/fragments/settings/tags.html:16
+#, python-format
+msgid "%(n)s active item(s)"
+msgstr ""
+
+#: app/templates/fragments/settings/tags.html:18
+#, python-format
+msgid "%(n)s outside %(type)s"
+msgstr ""
+
+#: app/templates/fragments/settings/tags.html:37
+msgid "Scope"
+msgstr ""
+
+#: app/templates/fragments/settings/tags.html:40
+msgid "All types"
+msgstr ""
+
+#: app/templates/fragments/settings/tags.html:47
+msgid "Save tag"
+msgstr ""
+
+#: app/templates/fragments/settings/tags.html:55
+msgid "No tags yet. Add one to an item, or from the Browse bulk bar."
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:25
+#: app/templates/fragments/settings/users.html:54
+msgid "Admin"
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:26
+#: app/templates/fragments/settings/users.html:53
+msgid "Editor"
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:27
+#: app/templates/fragments/settings/users.html:52
+msgid "Viewer"
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:29
+msgid "Reset password"
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:30
+msgid "Reset PW"
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:32
+msgid "Delete user"
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:37
+msgid "No users found."
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:42
+#: app/templates/fragments/settings/users.html:59
+msgid "Add User"
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:46
+msgid "Display Name (optional)"
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:48
+msgid "Password (min 8 chars)"
+msgstr ""
+
+#: app/templates/fragments/settings/users.html:77
+msgid "No API tokens yet."
 msgstr ""
 

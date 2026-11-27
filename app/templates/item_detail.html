@@ -49,7 +49,7 @@
                         {{ _('Find cover') }}
                     </button>
                     {% if item.media_type == 'board_game' %}
-                    {# Fills empty fields, category tags and a missing cover from BGG. #}
+                    {# Fills empty fields and a missing cover from BGG. #}
                     <button hx-post="/api/board-games/{{ item.id }}/refresh" hx-swap="none" data-testid="bgg-refresh"
                             class="text-xs px-3 py-1 bg-shelf-accent/20 text-shelf-accent2 rounded-sm hover:bg-shelf-accent/30 transition-colors">
                         {{ _('Update from BGG') }}
@@ -69,6 +69,7 @@
                     <p class="text-xs text-shelf-muted" data-testid="buy-links-disclosure">Affiliate links carrying your own tags (Settings &rarr; Library &rarr; Buy links).{% for l in buy_links %}{% if l.store == 'bookshop' %} Bookshop.org supports independent bookstores.{% endif %}{% endfor %}</p>
                 </div>{% endif %}
                 {% if item.subtitle %}<p class="text-lg text-shelf-muted mb-2">{{ item.subtitle }}</p>{% endif %}
+                {% if item.original_title and item.original_title != item.title %}<p class="text-sm text-shelf-muted mb-2" data-testid="original-title">{{ _('Original title:') }} {{ item.original_title }}</p>{% endif %}
                 {% if item.authors %}
                 <p class="text-lg mb-4 wrap-break-word">
                     {%- if item_authors %}

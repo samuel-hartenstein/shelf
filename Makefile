@@ -15,9 +15,10 @@ PYTEST_FLAGS ?= -q --tb=short --no-header
 # split. Never add -p no:cacheprovider here — test-fast's --lf needs the cache.
 PYTEST_PAR   ?= -n auto --dist loadfile
 
-.PHONY: setup css test test-verbose test-fast test-e2e test-contract test-all \
-        check-deps check-licenses check-secrets check-csrf check-alpine check-sw-version check-tests check-ruff check-deleted check-i18n i18n \
+.PHONY: setup css test test-verbose test-fast test-cov test-e2e test-contract test-all \
+        check-deps check-licenses check-secrets check-csrf check-alpine check-sw-version check-tests check-ruff check-deleted check-i18n i18n check-workflows check-actions \
         badges check-badges check-roadmap lock lock-upgrade check-lock check-lock-selftest \
+        pin-base check-base-image \
         checks checks-fast \
         report-review report-security report-test reports \
         qa fix verify release-check status \
@@ -65,6 +66,12 @@ i18n:
 
 test:
 	python -m pytest tests/ --ignore=tests/e2e --ignore=tests/contract -m "not live" $(PYTEST_FLAGS) $(PYTEST_PAR)
+
+# Line coverage of app/ over the unit suite, missing lines listed per file.
+# Not on any gate: it reports, it never fails a build.
+test-cov:
+	python -m pytest tests/ --ignore=tests/e2e --ignore=tests/contract -m "not live" $(PYTEST_FLAGS) $(PYTEST_PAR) \
+		--cov=app --cov-report=term-missing:skip-covered
 
 # Per-test roll-call, for when a human is reading the output.
 test-verbose:
@@ -130,6 +137,40 @@ check-lock:
 	diff -u "$(LOCK_DIR)/requirements-dev.txt" "$$tmp/requirements-dev.txt" || \
 	{ echo "ERROR: a lock is not what 'make lock' produces. Run 'make lock' and commit both .txt files."; \
 	  echo "Causes: a .in edit that was not relocked; a hand-edited --hash= line; or PyPI added a file to a version already pinned (not caused by your change)."; exit 1; }
+
+# The Dockerfile's base image is pinned by digest; these two keep the pin
+# current. The tag stays in the FROM line as the record of what the digest
+# stands for, and both targets read it from there. The digest is the image
+# INDEX digest, not one platform's manifest: docker-publish.yml builds
+# linux/amd64 and linux/arm64 from this Dockerfile, and an amd64 manifest
+# digest would break the arm64 build. check-base-image needs Docker Hub, so it
+# is in `make checks` and NOT in checks-fast or CI: upstream republishes the
+# tag every few days, which would turn unrelated pull requests red.
+# A failed lookup fails the check with its own message, never as a pass. A
+# lookup only counts when its whole output is ONE digest line: a warning
+# beside the digest would otherwise read as drift and break pin-base's sed.
+DOCKERFILE ?= Dockerfile
+BASE_REF = set -e; \
+	from=$$(grep -m1 -E '^FROM[[:space:]]' "$(DOCKERFILE)" | awk '{print $$2}'); \
+	ref=$${from%%@*}; pinned=""; \
+	case "$$from" in *@*) pinned=$${from\#*@};; esac; \
+	if ! got=$$(docker buildx imagetools inspect "$$ref" --format '{{.Manifest.Digest}}' 2>&1) || \
+	   ! printf '%s\n' "$$got" | awk 'NR == 1 && /^sha256:[0-9a-f]+$$/ && length($$0) == 71 { ok = 1 } END { exit !(ok && NR == 1) }'; then \
+	  echo "ERROR: could not resolve $$ref (registry unreachable, rate-limited, or the tag does not exist) — the pin was NOT checked."; \
+	  echo "$$got" | head -3; exit 1; fi
+
+pin-base:
+	@$(BASE_REF); \
+	if [ "$$pinned" = "$$got" ]; then echo "pin-base: $$ref is already pinned to $$got"; exit 0; fi; \
+	sed -i "0,/^FROM[[:space:]]/s|^FROM[[:space:]].*|FROM $$ref@$$got|" "$(DOCKERFILE)"; \
+	echo "pin-base: pinned $$ref to $$got — commit $(DOCKERFILE)."
+
+check-base-image:
+	@$(BASE_REF); \
+	if [ "$$pinned" != "$$got" ]; then \
+	  echo "ERROR: $(DOCKERFILE) pins $$ref to $${pinned:-<no digest>}, but the tag now points at $$got."; \
+	  echo "Run 'make pin-base' and commit the Dockerfile."; exit 1; fi; \
+	echo "check-base-image: $$ref is pinned to its current digest ($$got)."
 
 # Proves check-lock can fail: a clean copy must pass, then one invented digest
 # must turn it red WITH that digest in the diff, so a network error cannot pass
@@ -223,12 +264,29 @@ check-badges:
 check-roadmap:
 	python scripts/check_roadmap_map.py
 
+# Lint .github/workflows/: every action pinned by commit SHA with an exact
+# version comment, and Python/Node set once (Python equal to the Dockerfile's).
+check-workflows:
+	python scripts/check_workflows.py
+
+# Proves each pinned action against its release tag: asks GitHub (git
+# ls-remote) what every `# vX.Y.Z` comment points at and compares it with the
+# pinned SHA, after running the check-workflows rules. It needs the network,
+# so it is in `make checks` and NOT in checks-fast or CI. An exact tag does not
+# move, so red means a typo or a re-tagged release; both are stop conditions,
+# not something to re-pin until green. A failed lookup fails with its own
+# message ("the pin was NOT checked"), never as a pass.
+check-actions:
+	python scripts/check_workflows.py --resolve
+
 # Instant, offline lints — the inner-loop target.
-checks-fast: check-secrets check-csrf check-deleted check-alpine check-sw-version check-tests check-ruff check-badges check-roadmap check-i18n
+checks-fast: check-secrets check-csrf check-deleted check-alpine check-sw-version check-tests check-ruff check-badges check-roadmap check-i18n check-workflows
 
 # Everything, including the network-bound pip-audit and the dated report files.
-# Keep this the full set: the release procedure in ../CLAUDE.md step 1 calls it.
-checks: checks-fast check-lock check-lock-selftest check-deps check-licenses
+# Keep this the full set for running by hand. The release procedure in
+# ../CLAUDE.md step 1 lists its targets by name and does not call this one, so
+# a new network check must also be added to that list.
+checks: checks-fast check-lock check-lock-selftest check-deps check-licenses check-base-image check-actions
 
 # ---------------------------------------------------------------------------
 # Claude agent reports

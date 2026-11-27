@@ -1858,6 +1858,16 @@ grep -rn "post_data_buffer" tests/e2e/
   640px the input measured 73px of content. Fixed with `flex flex-wrap` and a
   `min-w-36` floor on the input, so the button wraps below it instead. Copying
   a row that passes on one page proves nothing about a narrower parent.
+  **Locale and user data are width axes too** (`feat/nav-grouping`,
+  2026-11-27). The ten-tab nav row fit in English with a short name and
+  overflowed by up to 203 px at 1024 in German/Italian with a 28-character
+  display name; the old guard sampled five widths in English only. A
+  `truncate` with no width never truncates — the account name span had one
+  and grew without bound. **And size a guard's input against the layout
+  *after* the fix, not the probe that found the bug:** once the row was
+  grouped, the probe's 28-character name fit even with the cap removed (de
+  kept 38 px), so the sweep could not see the cap; 40 characters made the
+  cap-removal mutation fail at 1024/1032 (`296c10d`).
 - **Verify:** the responsive gate measures every top-level page at
   320/390/430/640/768/1024 for both overflow *and* text columns squeezed under
   80px. A breakpoint's own width is the worst case for the layout it turns on,
@@ -6649,6 +6659,55 @@ make --no-print-directory -s check-lock-selftest >/dev/null 2>&1 && echo "check:
 ```
 
 - **Status:** linted: `make check-lock` (self-tested by `make check-lock-selftest`, in `make checks` and CI's `test` job).
+
+## G160 — When `entrypoint.sh` decides whether a file in `data/certs/` is Shelf's to replace
+
+- **Rule:** provenance is the `cert.sha256` marker that Shelf writes when it
+  generates a certificate, never the certificate's name. A `CN=shelf` subject and
+  issuer prove nothing. Replace the live pair only through the temporary files
+  `.new-key.pem` and `.new-cert.pem`, after you have checked that the new
+  certificate parses and its public key matches the new key. A failed renewal
+  must leave `key.pem`, `cert.pem` and `cert.sha256` byte-for-byte unchanged.
+  That includes a failure after the first `mv`: copy all three to `.old-*` before
+  installing, and restore them if a later move or the marker write fails.
+- **Why:** anyone can make a self-signed `CN=shelf` certificate, so a name test
+  would overwrite a user's certificate and key. `openssl req` can rewrite
+  `-keyout` and then fail on `-out`, which leaves a key and certificate that
+  do not match. `-checkend` exits 1 for an unreadable file exactly as it does
+  for an expiring one, so parse the file first. Two separate moves leave a window
+  where the new key sits beside the old certificate; uvicorn then fails with
+  `KEY_VALUES_MISMATCH` while the log says the old certificate is still in use.
+- **Evidence:** `cert-renewal` plan review, codex R1 and R2, 2026-11-25. Built in
+  `6c4a517`. Install rollback: diff review codex B1, 2026-11-25. Live check: `archive/completed/plan-cert-renewal-probes/t2-live.txt`.
+- **Verify:**
+
+```bash
+python -m pytest tests/test_entrypoint.py -q -k "other_san_is_preserved or marker_mismatch or failed_renewal_keeps or unreadable or mismatched_new_keypair or restores_live_files" 2>&1 | tail -1
+```
+
+- **Status:** documented, and pinned by `tests/test_entrypoint.py`.
+
+## G161 — When a line-based guard enforces a YAML invariant
+
+- **Rule:** test the spellings YAML treats as the same key, and the scopes that
+  can shadow a value — not only the formatter's canonical output. At minimum:
+  whitespace before `:`, a quoted key, and a job- or step-level `env:` that
+  redefines a name the workflow sets once at the top.
+- **Why:** YAML grammar is wider than a source regex. A guard can be green on
+  the repository's current formatting while it accepts an equivalent
+  declaration that bypasses the invariant. GitHub's `${{ env.NAME }}` also
+  resolves the nearest scope, so a lower `env:` changes the value without
+  changing the line the guard reads.
+- **Evidence:** 2026-11-27, `feat/ci-pinned-actions` diff review (codex M1,
+  M2). PyYAML accepted `uses : actions/checkout@v7` and a job-level
+  `PYTHON_VERSION: '3.13'`; `scripts/check_workflows.py` reported neither.
+  Fixed in `5f50c63`, with fixtures for both, each seen red against the
+  narrower regex and with the nested-scope rule disabled.
+- **Verify:** parse each adversarial fixture as YAML first, then require the
+  guard to reject it; mutation-check by restoring the narrower pattern.
+- **Status:** active. Covered for `check_workflows.py` by
+  `tests/test_workflow_lint.py`. A YAML parser would close the class; the
+  design keeps the lint stdlib-only, so the fixtures are the backstop.
 
 ## Graveyard
 

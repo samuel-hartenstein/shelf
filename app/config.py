@@ -301,6 +301,7 @@ HOST_RATE_LIMITS: dict[str, float] = {
     "opac.sbn.it": 1.0,  # SBN publishes no rate limit; matches DNB, a comparable national library
     "data.bibliotheken.nl": 1.0,  # KB Dutch National Bibliography SPARQL endpoint
     "catalogue.bnf.fr": 1.0,  # BnF SRU catalogue; publishes no limit, matches the other national libraries
+    "data.bn.org.pl": 1.0,  # BN Poland; no published numeric quota, conservative one-request/second interval
     "neodb.social": 1.0,  # NeoDB catalogue search (Chinese ISBNs) and its cover images; publishes no limit
     "urn.porbase.org": 1.0,  # PORBASE (Biblioteca Nacional de Portugal) URN resolver; publishes no limit
     "rnod.bnportugal.gov.pt": 1.0,  # PORBASE cover scans, same library; publishes no limit
@@ -319,6 +320,7 @@ HOST_RATE_LIMITS: dict[str, float] = {
     # and community clients settle on one request every few seconds.
     "boardgamegeek.com": 2.0,
     "api.gameupc.com": 1.0,  # community-run service; publishes no limit
+    "cf.geekdo-images.com": 0.5,  # BGG image CDN (box art); politeness only
     "api.themoviedb.org": 0.1,  # no hard per-second cap
     # MusicBrainz asks ordinary clients to stay at or below one request per
     # second. Give the limiter a little margin instead of sitting exactly on

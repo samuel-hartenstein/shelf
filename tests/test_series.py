@@ -220,6 +220,123 @@ class TestSeriesCheck:
         assert by_id[103] == "missing"      # matched by hardcover_book_id, but neither owned nor wishlisted
         assert by_id[104] == "missing"      # no local match at all
 
+    def test_position_fallback_when_title_differs(self, admin_client, db):
+        """#166: a volume catalogued under a different-language or edition
+        title (no hardcover_book_id, no title match) still matches at its
+        shelved series_position instead of reading as missing."""
+        _insert_item(db, title="Il settimo volume", isbn="9789000007771",
+                     series_name="Dune Saga", series_position=7)
+        _insert_item(db, title="Il dodicesimo volume", isbn="9789000007788",
+                     series_name="Dune Saga", series_position=12)
+        db.execute("INSERT INTO settings (key, value) VALUES ('hardcover_token', 'tok')")
+        db.execute("COMMIT")
+        books = [
+            {"hardcover_book_id": 501, "title": "Volume Seven", "authors": "A",
+             "cover_url": None, "year": 2000, "series_position": 7},
+            {"hardcover_book_id": 502, "title": "Volume Eight", "authors": "A",
+             "cover_url": None, "year": 2001, "series_position": 8},
+            {"hardcover_book_id": 503, "title": "Volume Twelve", "authors": "A",
+             "cover_url": None, "year": 2002, "series_position": 12},
+        ]
+        with patch("app.services.hardcover.get_series_books",
+                   new=AsyncMock(return_value=books)):
+            data = admin_client.get("/api/series/check", params={"name": "Dune Saga"}).json()
+        by_id = {b["hardcover_book_id"]: b["status"] for b in data["books"]}
+        assert by_id == {501: "owned", 502: "missing", 503: "owned"}
+        assert data["missing"] == 1
+
+    def test_position_fallback_wishlisted_row(self, admin_client, db):
+        """A wishlisted local row at the position reports 'wishlist',
+        not 'missing'."""
+        _insert_item(db, title="Il terzo volume", isbn="9789000007795",
+                     series_name="Dune Saga", series_position=3,
+                     owned=0, wishlisted=True)
+        db.execute("INSERT INTO settings (key, value) VALUES ('hardcover_token', 'tok')")
+        db.execute("COMMIT")
+        books = [
+            {"hardcover_book_id": 501, "title": "Volume Three", "authors": "A",
+             "cover_url": None, "year": 2000, "series_position": 3},
+        ]
+        with patch("app.services.hardcover.get_series_books",
+                   new=AsyncMock(return_value=books)):
+            data = admin_client.get("/api/series/check", params={"name": "Dune Saga"}).json()
+        assert data["books"][0]["status"] == "wishlist"
+
+    def test_position_fallback_skips_claimed_rows(self, admin_client, db):
+        """A local row already matched by id/title cannot also fill a
+        position for a different Hardcover book."""
+        _insert_item(db, title="Dune", isbn="9789000003013",
+                     series_name="Dune Saga", series_position=2,
+                     hardcover_book_id=101)
+        db.execute("INSERT INTO settings (key, value) VALUES ('hardcover_token', 'tok')")
+        db.execute("COMMIT")
+        books = [
+            {"hardcover_book_id": 101, "title": "Dune", "authors": "Frank Herbert",
+             "cover_url": None, "year": 1965, "series_position": 1},
+            {"hardcover_book_id": 102, "title": "Dune Messiah", "authors": "Frank Herbert",
+             "cover_url": None, "year": 1969, "series_position": 2},
+        ]
+        with patch("app.services.hardcover.get_series_books",
+                   new=AsyncMock(return_value=books)):
+            data = admin_client.get("/api/series/check", params={"name": "Dune Saga"}).json()
+        by_id = {b["hardcover_book_id"]: b["status"] for b in data["books"]}
+        assert by_id == {101: "owned", 102: "missing"}
+
+    def _run_check(self, admin_client, db, books):
+        db.execute("INSERT INTO settings (key, value) VALUES ('hardcover_token', 'tok')")
+        db.execute("COMMIT")
+        with patch("app.services.hardcover.get_series_books",
+                   new=AsyncMock(return_value=books)):
+            return admin_client.get("/api/series/check", params={"name": "Dune Saga"}).json()
+
+    @staticmethod
+    def _book(hc_id, title, pos):
+        return {"hardcover_book_id": hc_id, "title": title, "authors": "A",
+                "cover_url": None, "year": 2000, "series_position": pos}
+
+    def test_typographic_apostrophe_matches_by_title(self, admin_client, db):
+        """`Ender’s Game` (curly) is Hardcover's `Ender's Game` (straight)."""
+        _insert_item(db, title="Ender’s Game", isbn="9780000000101", series_name="Dune Saga")
+        data = self._run_check(admin_client, db, [self._book(601, "Ender's Game", 1)])
+        assert data["books"][0]["status"] == "owned"
+
+    def test_title_match_claims_its_row_whatever_the_listing_order(self, admin_client, db):
+        """A row shelved at #2 whose title is Hardcover's #1 is book 1, even
+        when Hardcover lists #2 first — the position fallback may not take it."""
+        _insert_item(db, title="Dune", isbn="9780000000118",
+                     series_name="Dune Saga", series_position=2)
+        data = self._run_check(admin_client, db, [self._book(702, "Dune Messiah", 2),
+                                              self._book(701, "Dune", 1)])
+        by_id = {b["hardcover_book_id"]: b["status"] for b in data["books"]}
+        assert by_id == {701: "owned", 702: "missing"}
+
+    def test_owned_omnibus_fills_a_position_an_unowned_edition_matched(self, admin_client, db):
+        """An owned omnibus at #1 beside an unowned single edition titled as
+        book 1: the position reads owned, as #200's owned-wins rule says."""
+        _insert_item(db, title="The Complete Saga", isbn="9780000000125",
+                     series_name="Dune Saga", series_position=1)
+        _insert_item(db, title="Dune", isbn="9780000000132",
+                     series_name="Dune Saga", series_position=1, owned=0)
+        data = self._run_check(admin_client, db, [self._book(801, "Dune", 1)])
+        assert data["books"][0]["status"] == "owned"
+
+    def test_owned_omnibus_beats_a_wishlisted_edition_at_its_position(self, admin_client, db):
+        _insert_item(db, title="The Complete Saga", isbn="9780000000163",
+                     series_name="Dune Saga", series_position=1)
+        _insert_item(db, title="Dune", isbn="9780000000170", series_name="Dune Saga",
+                     series_position=1, owned=0, wishlisted=True)
+        data = self._run_check(admin_client, db, [self._book(1001, "Dune", 1)])
+        assert data["books"][0]["status"] == "owned"
+
+    def test_wishlisted_count_is_reported(self, admin_client, db):
+        _insert_item(db, title="Dune", isbn="9780000000149", series_name="Dune Saga",
+                     series_position=1, owned=0, wishlisted=True)
+        _insert_item(db, title="Dune Messiah", isbn="9780000000156",
+                     series_name="Dune Saga", series_position=2)
+        data = self._run_check(admin_client, db, [self._book(901, "Dune", 1),
+                                              self._book(902, "Dune Messiah", 2)])
+        assert (data["missing"], data["wishlisted"]) == (0, 1)
+
     def test_no_token(self, admin_client):
         data = admin_client.get("/api/series/check", params={"name": "X"}).json()
         assert data["ok"] is False

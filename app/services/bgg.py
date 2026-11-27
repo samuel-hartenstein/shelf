@@ -102,7 +102,8 @@ def localized_version(meta: dict, locale: str) -> dict | None:
 
 def localize(meta: dict, locale: str) -> dict:
     """`meta` with the title (and box art, when it has its own) of the
-    printing `localized_version` picks. BGG's own name moves into
+    printing `localized_version` picks. BGG's own name is kept as
+    `original_title` (stored, and matched by Browse search) and leads
     `alternate_titles`, so nothing is lost. Unchanged when there is none."""
     version = localized_version(meta, locale)
     if version is None:
@@ -111,6 +112,7 @@ def localize(meta: dict, locale: str) -> dict:
     out = {**meta, "title": title}
     original = meta.get("title")
     if original and original.casefold() != title.casefold():
+        out["original_title"] = original
         out["alternate_titles"] = [original] + [t for t in meta.get("alternate_titles") or []
                                                 if t.casefold() != title.casefold()]
     if version.get("cover_url"):

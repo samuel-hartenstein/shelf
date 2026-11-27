@@ -576,8 +576,9 @@ for counting contributors. The funnel refuses a bare string (iterating one
 would store its characters) and a bare mapping (iterating one would store
 its keys), so a client whose payload may be a string wraps it at its own
 call site, and a client with no parse guard of its own drops any other
-shape before calling. The national-bibliography clients
-are the exception and build their own value: `dnb.py` joins a list that has
+shape before calling. BN (`bn.py`) uses the same funnel after MARC author-relator
+filtering, preserving distinct coauthors. The other national-bibliography clients
+build their own value: `dnb.py` joins a list that has
 already been through MARC relator filtering and `matches()` de-duplication,
 and `sbn.py` stores the record's single principal author. **Order is
 load-bearing** — Stats "Top Authors", the scan enrichment funnel, Photo
@@ -606,10 +607,12 @@ the next boot re-indexes everything.
 The national leg is a registry, `services/national.py`: unhyphenated ISBN-13
 registration-group prefixes mapped to provider modules, resolved by
 **longest** prefix match, so a narrow key can coexist with a broader one. It
-currently serves seven providers — **BnF** (`services/bnf.py`, UNIMARC over SRU at
+currently serves eight providers — **BnF** (`services/bnf.py`, UNIMARC over SRU at
 `catalogue.bnf.fr`) for the French-language 978-2 group and 979-10, **DNB** (`services/dnb.py`, MARC21 over SRU)
 for 978-3, **OSZK NEKTÁR** (`services/oszk.py`, HUNMARC over Z39.50 at
 `tagetes2.oszk.hu:1616/ANY`) for the Hungarian 978-615 and 978-963 groups,
+**BN** (`services/bn.py`, MARC JSON from the public, keyless CC0 catalogue at
+`data.bn.org.pl`) for the Polish 978-83 group,
 **SBN** (`services/sbn.py`, flat JSON over ICCU's OPAC endpoint) for the Italian
 978-88 and 979-12, **KB** (`services/kb.py`, SPARQL over the Nederlandse
 Bibliografie Totaal) for the Dutch 978-90 and 978-94 groups, **PORBASE**
@@ -627,12 +630,23 @@ All providers build stored bibliographic strings through
 `services/bib_normalize.py`, so text is NFC and comparable.
 An ISBN in no registered group skips the leg entirely and costs no request.
 Adding a provider is a module plus a registry entry — no call-site change.
+BN searches both ISBN-13 and its ISBN-10 equivalent in one paced request. Its
+`isbnIssn` index also finds cancelled ISBNs and related editions, so only a
+checksum-valid, exact MARC 020 $a identifies a hit; 020 $z and flattened display
+fields do not. Metadata comes from the selected record's MARC, including author
+relators and record language, not aggregate search fields. Five candidates, one
+request, a five-second request deadline and a 512 KiB raw-body ceiling bound the
+work; redirects, pagination and retries are not followed. Compressed responses
+are rejected before body consumption. The host uses a conservative one-second
+interval, not a claimed provider quota. Misses and provider failures retain the
+existing fallback cascade. The recorded public fixture projections and capture
+provenance are in `tests/fixtures/bn_README.md`.
 NEKTÁR uses `yaz-client` and `pymarc`; it paces each query against
 `tagetes2.oszk.hu` and accepts records only when a 020 ISBN exactly matches
 the requested edition. Its five-second query timeout and provider diagnostics
 stay server-side, while the scan surface receives only the normal provider
 outcome and `oszk` identifier.
-**The covers cascade and picker below are unchanged by this**: BnF, OSZK, SBN and KB
+**The covers cascade and picker below are unchanged by this**: BN, BnF, OSZK, SBN and KB
 contribute no cover source, and the DNB cover rung is a separate hand-written
 prefix test in `services/covers.py`, not a read of this registry. NeoDB returns a
 `cover_url` the way Google Books does, so its image is tried at the existing
@@ -1578,8 +1592,9 @@ details: players, play time (stored in `duration_mins`), minimum age,
 designers, publisher and box art. A verified or clearly leading GameUPC
 candidate is filed at once; otherwise the card lists the candidates and the
 barcode rides along on the chosen one. Under Auto, `_scan_upc` asks GameUPC
-first, but only once a BGG token or GameUPC key is configured — a library
-without board games pays no extra request — and only a barcode GameUPC ties
+first, but only with a GameUPC key of the library's own — never on GameUPC's
+shared test key, which every keyless install would hit on every Auto scan,
+and a library without one pays no extra request — and only a barcode GameUPC ties
 to at least one BGG game goes this way; everything else carries on to UPC Item
 DB as before. Both hosts are paced through `outbound.py`. The cover picker
 asks BGG for the game's printings (`versions=1`) and offers each edition's box,
@@ -1594,15 +1609,23 @@ Browse adds **Players** ("3 players" matches every game whose range holds 3)
 and **Play time** (four buckets over `duration_mins`), both declared in
 `browse_filters.py` and shown only when the library holds a board game.
 
-Stored data every user shares is written in the **library's language**
-(`i18n.library_locale()`: `SHELF_DEFAULT_LANGUAGE` while the translated UI is
-on, else English), never the language of whoever scanned: tag names go
-through `i18n.library_pgettext` (marked with `NC_`, a context-carrying `N_`,
-so the category "Book" is not the media type "Book"), as do the starter tag
-suggestions. A game is filed under the title most of the library language's
-BGG printings carry ("Zug um Zug" for Ticket to Ride), with that printing's box
-art, and Update from BGG renames a title only while it is still BGG's English
-name.
+Tag names are stored data every user shares, so they are written in the
+**library's language** (`i18n.library_locale()`: `SHELF_DEFAULT_LANGUAGE`
+while the translated UI is on, else English), never the language of whoever
+scanned: they go through `i18n.library_pgettext`, marked with `NC_`, a
+context-carrying `N_`, so the category "Book" is not the media type "Book".
+The tags are filed once, with the row; **Update from BGG** leaves them alone,
+so a tag the user removed stays removed.
+The starter tag suggestions (`config.TAG_SUGGESTIONS`, marked `NC_("tag", …)`)
+are offered in the library's language for the same reason.
+
+A game is filed under the title most of the library language's BGG printings
+carry ("Zug um Zug" for Ticket to Ride; `bgg.localize`), with that printing's
+box art. BGG's own name is kept in `items.original_title` (migration 63),
+which Browse search matches, the item page shows and the edit form can
+change, so a search for "Ticket to Ride" still finds the game. **Update from
+BGG** renames a title only while it is still BGG's English name, and fills
+`original_title` only when it is empty.
 
 ### Writing items
 
@@ -2092,3 +2115,17 @@ and stays out of the question entirely: the optional Google Books key travels
 only in `X-Goog-Api-Key`, and TMDb v3, which requires its key in the query
 string, is the reason the query half of that filter exists at all.
 See [SECURITY.md](../SECURITY.md).
+
+**The container reports its own health.** The image's `HEALTHCHECK` runs
+`app/healthcheck.py`, which sends `GET /health` to `127.0.0.1` inside the
+container and exits 0 on a 2xx. The probe uses the standard library only and
+never imports `app`. It reads `SHELF_TLS` and `SHELF_PORT` at run time **with
+the same defaults as `entrypoint.sh`**: unset or empty `SHELF_TLS` means HTTPS,
+and the port falls back to `18888`. A probe that disagreed with the entrypoint
+would report a working container as unhealthy forever, so
+`tests/test_entrypoint.py` runs both over the same environment and fails if
+they differ. Certificate verification is off for this one call. The target is
+loopback and the certificate is the container's own self-signed one, which
+names no IP address. `HealthProbeAccessFilter` on the `uvicorn.access` logger
+drops the access line for a 2xx `/health` response, so a probe every interval
+does not bury the container log. A 503 still logs.

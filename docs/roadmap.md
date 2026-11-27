@@ -79,11 +79,12 @@ Library, and thinner otherwise.
   Nationalbibliothek, French ones to the BnF, Italian ones to Italy's national
   network, Dutch ones to
   the Koninklijke Bibliotheek, Hungarian ones to OSZK NEKTÁR and Portuguese
-  ones to PORBASE, and Chinese-language ones to NeoDB. Other
+  ones to PORBASE, Polish ones to the Biblioteka Narodowa, and Chinese-language ones to NeoDB. Other
   countries deserve the same.
 - **A translated interface.** In progress. The translation machinery and the
-  first catalog have landed, and each user can pick a language or follow the
-  browser. Other languages come next. The page shell (navigation, sign-in,
+  Italian and German catalogs have landed, and each user can pick a language
+  or follow the browser; `SHELF_DEFAULT_LANGUAGE` sets the language for
+  everyone else. More languages are welcome. The page shell (navigation, sign-in,
   setup, the Account dialog), Browse, the item page, item edit, manual add, Scan,
   Photo Intake, Shelf Fill and Store Mode are translated, and in Italian also
   Series, Upcoming, Discover, Music and Periodicals; the other feature pages
@@ -114,11 +115,11 @@ or not, is in the [changelog](../CHANGELOG.md).
 
 | Version | What landed |
 |---|---|
-| [0.82.2](https://github.com/dgahagan/shelf/releases/tag/v0.82.2) | **A game scan files the right game, or none.** Shelf takes an IGDB record only when its title matches the barcode's, so a *Vice City* barcode no longer becomes *Grand Theft Auto V*; when nothing matches, the game is added under its barcode title. A platform chosen before scanning limits the search to that platform. Also: Duplicates, Logs, Share and the Settings Library tab in Italian, contributed by @vjandrea. |
-| [0.82.1](https://github.com/dgahagan/shelf/releases/tag/v0.82.1) | **A provider outage is not a "not found".** When Google Books or another source fails with a server error, the scan card names it and says to try again, instead of calling the book unknown. Also: Audiobookshelf series group as one, non-Latin titles no longer link unrelated audiobooks, and more of the interface in Italian. |
-| [0.82.0](https://github.com/dgahagan/shelf/releases/tag/v0.82.0) | **A Scan button for typed barcodes.** Scan and Shelf Fill have a button beside the barcode field, so a code typed on a phone can be sent; Shelf Fill also clears its field after each scan. Also: Series, Upcoming, Discover, Music and Periodicals in Italian, contributed by @vjandrea, and six more areas in Simplified Chinese, contributed by @litong5969. |
-| [0.81.0](https://github.com/dgahagan/shelf/releases/tag/v0.81.0) | **Shelf on a Raspberry Pi.** The Docker image is published for `arm64` as well as `amd64`, so an ARM64 machine such as a Raspberry Pi pulls it directly instead of building it. Contributed by @Chrisser73. |
-| [0.80.0](https://github.com/dgahagan/shelf/releases/tag/v0.80.0) | **Audiobook covers and details from Audible.** An audiobook with an ASIN, such as one from a Libation or audible-cli import, gets its cover from the Audible catalogue, and **Fill details from Audible** fills its empty fields. Choose your Audible marketplace in Settings. Also: Photo Intake, Shelf Fill and Store Mode in Italian, contributed by @vjandrea. |
+| [0.86.0](https://github.com/dgahagan/shelf/releases/tag/v0.86.0) | **Polish books from Poland's national library.** 978-83 ISBNs are looked up in the Biblioteka Narodowa before the general sources. Also: the Audiobookshelf and Hardcover settings in Italian. Contributed by @sudo-rpaisley and @vjandrea. |
+| [0.85.0](https://github.com/dgahagan/shelf/releases/tag/v0.85.0) | **The HTTPS certificate renews itself.** A certificate Shelf generated is replaced on start when it expires within 30 days or no longer matches `CERT_SAN`, so changing `CERT_SAN` now takes effect on restart. A certificate you placed yourself is never replaced. |
+| [0.84.1](https://github.com/dgahagan/shelf/releases/tag/v0.84.1) | **Restarts leave your files alone.** The container now changes ownership only of files under `/data` whose owner is wrong, so restarts and upgrades no longer make backup tools re-read every cover, and storage where root cannot change ownership no longer stops a correctly owned install from starting. |
+| [0.84.0](https://github.com/dgahagan/shelf/releases/tag/v0.84.0) | **Shelf in German.** The translated interface speaks German, and `SHELF_DEFAULT_LANGUAGE` sets the language for anyone whose browser asks for none Shelf has. Also: owned series volumes catalogued under another title count by their position, a desktop webcam scans with the decoder iPhones use, and four more Settings tabs in Italian. Contributed by @samuel-hartenstein, @draarivpatel-ui and @vjandrea. |
+| [0.83.0](https://github.com/dgahagan/shelf/releases/tag/v0.83.0) | **The container reports its health.** `docker ps` shows `healthy` or `unhealthy`, so Compose, Portainer and uptime monitors can tell a hung or broken Shelf from a working one. It follows `SHELF_TLS` and `SHELF_PORT` by itself, and passing checks leave nothing in the log. |
 ---
 
 ## Suggesting something

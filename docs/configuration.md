@@ -12,7 +12,7 @@ Set these in your `.env` file next to `docker-compose.yml`, or with `-e` on
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `CERT_SAN` | `DNS:shelf,DNS:localhost` | Subject Alternative Names for the self-signed certificate. Comma-separated `DNS:<name>` and `IP:<addr>` entries. Add your server's LAN IP and any hostname you'll type in the browser. Only read when the certificate is first generated — delete `data/certs/` to regenerate |
+| `CERT_SAN` | `DNS:shelf,DNS:localhost` | Subject Alternative Names for the self-signed certificate. Comma-separated `DNS:<name>` and `IP:<addr>` entries. Add your server's LAN IP and any hostname you'll type in the browser. Checked at every HTTPS start: a change renews Shelf's own certificate on the next restart (then re-install it on devices that trust it). A certificate you supplied yourself is never replaced |
 | `SHELF_PORT` | `18888` | Port the app listens on *inside* the container. Usually leave it and change the Compose port mapping instead |
 | `SHELF_TLS` | `on` | `on` serves HTTPS with the self-signed certificate in `data/certs/` (generated if absent). `off` serves plain HTTP, for a reverse proxy that terminates TLS itself; existing certificates are left in place. Any other value stops the container at startup. Plain HTTP without a proxy loses the camera scanner and offline Store Mode — see [HTTPS and reverse proxies](https-and-reverse-proxy.md#plain-http-without-a-proxy) |
 | `SHELF_TRUST_PROXY` | *(unset)* | The reverse proxy's address as Shelf sees it: comma-separated IPs or CIDRs (e.g. `127.0.0.1`, `172.17.0.1`, `10.0.0.5,127.0.0.1`), or `*`, which is not recommended. Forwarded headers are honoured only from these peers, and `X-Forwarded-For` is read from the right. The legacy `1` means `127.0.0.1` and prints a startup warning. Leave unset without a proxy. Outside Docker, set uvicorn's `FORWARDED_ALLOW_IPS` instead, since `entrypoint.sh` does the hand-over. See [HTTPS and reverse proxies](https-and-reverse-proxy.md#2-reverse-proxy-with-a-real-certificate) |
@@ -44,7 +44,7 @@ priority** over anything stored:
 | `TMDB_API_KEY` | TMDb credential (DVD / Blu-ray metadata **and** DVD cover search) — either the 32-character v3 API Key or the v4 Read Access Token |
 | `IGDB_CLIENT_ID`, `IGDB_CLIENT_SECRET` | Twitch developer credentials (video game metadata **and** game cover search — both fields are required) |
 | `BGG_API_TOKEN` | BoardGameGeek XML API token (board game metadata, box art and the Update from BGG button). BGG issues one per registered application |
-| `GAMEUPC_API_KEY` | Optional GameUPC key (board game barcode → BGG id). Unset, Shelf uses GameUPC's public test endpoint, which serves real data |
+| `GAMEUPC_API_KEY` | Optional GameUPC key (board game barcode → BGG id). It decides two things. **Auto** asks GameUPC first on a UPC scan only with a key of your own; without one, Auto never asks GameUPC, so a board game scanned on Auto is not recognized as one. A scan with the media type set to **Board Game** works either way: without a key it uses GameUPC's shared public test endpoint, which serves real data but may be throttled or retired, and a miss there still leaves BGG title search |
 | `LIBRARYTHING_TOKEN` | LibraryThing API token, for the English related-edition cover fallback (non-commercial use unless LibraryThing grants permission) |
 
 Useful with Docker secrets or a secrets manager. Vision-provider keys (Photo
@@ -99,6 +99,7 @@ lives:
 | **Google Books** | Optional API key, **Test Key**. Authenticates the Google Books requests Shelf already makes; keyless access stays enabled without it |
 | **Movie Database (TMDb)** | API key for DVD / Blu-ray lookups, for **Find cover** on a DVD, and for the lookup a Photo Intake row typed DVD runs when you confirm it |
 | **Photo Intake (Vision)** | Provider: Anthropic (API key + model), OpenAI-compatible (base URL, optional key, model, ingest long-edge), or Ollama (URL, model, ingest long-edge) |
+| **BoardGameGeek (Board Games)** | BGG XML API token, for board game lookups (barcode scan, title search), **Find cover** on a board game (each printing's box art) and **Update from BGG**; an optional GameUPC key alongside it (see `GAMEUPC_API_KEY` above) |
 | **IGDB (Video Games)** | Twitch client ID + secret, for game lookups, for **Find cover** on a video game, and for the lookup a Photo Intake row typed Video Game runs when you confirm it |
 | **LibraryThing** | API token for the English related-edition cover fallback: a book whose own ISBN has no cover gets one from a verified English edition, in **Retry Missing Covers** and as extra **Find cover** tiles. Non-commercial use unless LibraryThing grants permission |
 | **Discogs** | Personal access token for optional exact-pressing lookup on Music item pages. MusicBrainz remains the canonical release identity; Shelf stores only the selected Discogs Release ID and fetches provider details on demand |
@@ -201,17 +202,17 @@ manage their own API tokens, from the account menu — not from Settings.
 
 - Metadata source order (a national bibliography where one covers the ISBN —
   DNB for German ISBNs, BnF for French ones, SBN for Italian ones, KB for Dutch
-  ones, NeoDB for Chinese-language ones → Open Library →
+  ones, BN for Polish ones, NeoDB for Chinese-language ones → Open Library →
   Hardcover → Google Books) is fixed; see [Architecture](architecture.md). National
   routing follows the ISBN's registration group and has no on/off switch, for
-  SBN, DNB, BnF, KB or NeoDB.
+  SBN, DNB, BnF, KB, BN or NeoDB.
 - Outbound API pacing per host is fixed to each provider's published limit.
 - The Audible catalogue (Audnexus) has no on/off switch. It is called only
   for an audiobook with an ASIN that has no cover, from the cover picker for
   such an audiobook, or when you press **Fill details from Audible**.
 - Media types are a fixed list: book, audiobook, eBook, magazine,
   DVD / Blu-ray, vinyl, cassette, CD, digital music, comic / graphic novel,
-  Manga, video game. A kids' book is a **book carrying a `Kids` tag**, not a
+  Manga, video game, board game. A kids' book is a **book carrying a `Kids` tag**, not a
   media type of its own — see [Items → Tags](user-guide/items.md).
   `kids_book` is still accepted on *input* (a CSV, an archive, or a device
   whose cached form still offers it) and is stored as `book`; from a CSV or
