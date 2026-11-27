@@ -223,8 +223,10 @@ async def scan_upc_if_game(request: Request, templates, upc_raw: str, location_i
     key, board games still come in by title search, or by a scan with the
     media type set to Board Game (`scan_upc`, which may use the test key).
     """
-    _bgg_token, gameupc_key = _credentials()
-    if not gameupc_key:
+    bgg_token, gameupc_key = _credentials()
+    # eltern only: one household, few scans, so a BGG token alone is enough
+    # to probe, on GameUPC's public test key. Upstream requires a key of its own.
+    if not (gameupc_key or bgg_token):
         return None
     async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
         upc_result = await gameupc.lookup(upc_raw, client, api_key=gameupc_key)

@@ -385,10 +385,15 @@ class TestAutoFindsBoardGames:
         _scan(editor_client, CATAN_EAN, media_type="auto")
         assert not any(c[0] == "gameupc" for c in board_game_stubs["calls"])
 
-    def test_a_bgg_token_without_a_gameupc_key_does_not_probe(self, editor_client, db, board_game_stubs, monkeypatch):
-        """No install's Auto scans may depend on GameUPC's shared test key."""
-        from app.services import upcitemdb
+    def test_a_bgg_token_without_a_gameupc_key_still_probes_on_eltern(self, editor_client, db, board_game_stubs, monkeypatch):
+        """eltern only: a BGG token alone is enough for Auto to ask GameUPC."""
         monkeypatch.setattr(items_board_games, "_credentials", lambda: ("secret", None))
+        _scan(editor_client, CATAN_EAN, media_type="auto")
+        assert any(c[0] == "gameupc" for c in board_game_stubs["calls"])
+
+    def test_no_credentials_no_probe(self, editor_client, db, board_game_stubs, monkeypatch):
+        from app.services import upcitemdb
+        monkeypatch.setattr(items_board_games, "_credentials", lambda: (None, None))
 
         async def _upcitemdb(upc, client):
             return provider_result.no_match("upcitemdb")
