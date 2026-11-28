@@ -861,9 +861,9 @@ msgstr "应还日期超出范围"
 
 #: app/routers/checkouts.py:137 app/routers/hardcover.py:250
 #: app/routers/item_copies.py:174 app/routers/item_copies.py:231
-#: app/routers/items_catalog.py:546 app/routers/related_media.py:44
-#: app/routers/related_media.py:80 app/routers/related_media.py:103
-#: app/routers/related_media.py:120
+#: app/routers/item_copies.py:411 app/routers/items_catalog.py:546
+#: app/routers/related_media.py:44 app/routers/related_media.py:80
+#: app/routers/related_media.py:103 app/routers/related_media.py:120
 msgid "Item not found"
 msgstr "未找到条目"
 
@@ -887,7 +887,7 @@ msgstr ""
 msgid "Title required"
 msgstr ""
 
-#: app/routers/hardcover.py:201 app/templates/fragments/scan_result.html:222
+#: app/routers/hardcover.py:201 app/templates/fragments/scan_result.html:239
 msgid "Added to wishlist"
 msgstr "已加入心愿单"
 
@@ -963,7 +963,7 @@ msgstr "条码已被“%(title)s”（条目 %(id)s）使用。"
 msgid "Copy not found"
 msgstr "找不到该册"
 
-#: app/routers/item_copies.py:247
+#: app/routers/item_copies.py:247 app/routers/item_copies.py:420
 msgid "Could not add that copy."
 msgstr "无法添加这一册。"
 
@@ -971,78 +971,95 @@ msgstr "无法添加这一册。"
 msgid "Could not save that copy."
 msgstr "无法保存这一册。"
 
-#: app/routers/items.py:194
+#: app/routers/item_copies.py:440
+#, python-format
+msgid "Copy #%(n)s · %(place)s"
+msgstr ""
+
+#: app/routers/item_copies.py:441 app/routers/items_scan_modes.py:47
+#: app/routers/items_scan_modes.py:159 app/routers/items_scan_modes.py:230
+#: app/routers/scan_inventory.py:208
+#: app/templates/fragments/audit_report.html:81
+msgid "no location"
+msgstr "无位置"
+
+#: app/routers/items.py:195
 msgid "Older book barcode matches more than one book — scan the printed ISBN"
 msgstr "旧版图书条码对应多本书——请扫描印刷的 ISBN"
 
-#: app/routers/items.py:197
+#: app/routers/items.py:198
 msgid "Couldn’t safely verify this older book barcode right now — try again later or scan the printed ISBN"
 msgstr "暂时无法可靠核验这个旧版图书条码——请稍后重试，或扫描印刷的 ISBN"
 
-#: app/routers/items.py:201
+#: app/routers/items.py:202
 msgid "Older book barcode recognized, but no unique book match was found — scan the printed ISBN instead"
 msgstr "已识别旧版图书条码，但没有找到唯一匹配的书——请改扫印刷的 ISBN"
 
-#: app/routers/items.py:386 app/routers/items_scan_modes.py:218
+#: app/routers/items.py:387 app/routers/items_scan_modes.py:218
 msgid "Not in your collection"
 msgstr "不在你的藏品中"
 
-#: app/routers/items.py:476 app/routers/items.py:702
+#: app/routers/items.py:477 app/routers/items.py:714
 #: app/routers/items_catalog.py:278
 msgid "Invalid ISBN"
 msgstr "无效的 ISBN"
 
-#: app/routers/items.py:572
+#: app/routers/items.py:573
 msgid "Network error during lookup — check connectivity"
 msgstr "查询时网络出错 — 请检查网络连接"
 
-#: app/routers/items.py:589 app/routers/items_board_games.py:289
+#: app/routers/items.py:590 app/routers/items_board_games.py:289
 #: app/routers/items_common.py:563 app/routers/items_common.py:755
 msgid "Not found — add manually below"
 msgstr "未找到 — 请在下方手动添加"
 
-#: app/routers/items.py:673 app/routers/items_catalog.py:442
+#: app/routers/items.py:665
+msgctxt "tag"
+msgid "Unresolved"
+msgstr ""
+
+#: app/routers/items.py:685 app/routers/items_catalog.py:442
 msgid "Title is required"
 msgstr "标题为必填项"
 
-#: app/routers/items.py:713 app/routers/items_catalog.py:450
+#: app/routers/items.py:725 app/routers/items_catalog.py:450
 msgid "Invalid publish year"
 msgstr "无效的出版年份"
 
-#: app/routers/items.py:1001
+#: app/routers/items.py:1013
 msgid "No items or updates specified"
 msgstr "未指定条目或更新内容"
 
-#: app/routers/items.py:1006 app/routers/tags.py:71 app/routers/tags.py:76
+#: app/routers/items.py:1018 app/routers/tags.py:71 app/routers/tags.py:76
 msgid "Invalid item IDs"
 msgstr "无效的条目 ID"
 
-#: app/routers/items.py:1011
+#: app/routers/items.py:1023
 msgid "No valid fields to update"
 msgstr "没有可更新的有效字段"
 
-#: app/routers/items.py:1017
+#: app/routers/items.py:1029
 msgid "Series name cannot be empty"
 msgstr "系列名称不能为空"
 
-#: app/routers/items.py:1069
+#: app/routers/items.py:1081
 msgid "Specify keep_id and merge_ids"
 msgstr ""
 
-#: app/routers/items.py:1076
+#: app/routers/items.py:1088
 msgid "Cannot merge an item into itself"
 msgstr ""
 
-#: app/routers/items.py:1081
+#: app/routers/items.py:1093
 msgid "Primary item not found"
 msgstr ""
 
-#: app/routers/items.py:1097
+#: app/routers/items.py:1109
 #, python-format
 msgid "Cannot merge items that are both on loan: %(titles)s. Check one in first."
 msgstr ""
 
-#: app/routers/items.py:1129
+#: app/routers/items.py:1141
 #, python-format
 msgid "Cannot merge \"%(title)s\" (#%(id)s): %(reason)s"
 msgstr ""
@@ -1153,12 +1170,6 @@ msgstr ""
 #: app/routers/items_csv.py:124
 msgid "The file is not UTF-8 text. Re-export it as UTF-8 (in a spreadsheet app: Save As → CSV UTF-8) and upload it again."
 msgstr ""
-
-#: app/routers/items_scan_modes.py:47 app/routers/items_scan_modes.py:159
-#: app/routers/items_scan_modes.py:230 app/routers/scan_inventory.py:208
-#: app/templates/fragments/audit_report.html:81
-msgid "no location"
-msgstr "无位置"
 
 #: app/routers/items_scan_modes.py:65 app/routers/items_scan_modes.py:117
 msgid "Lending is turned off on this Shelf."
@@ -1483,6 +1494,16 @@ msgstr "该条目已不存在"
 #: app/routers/shelf_fill.py:266
 msgid "Enter or scan a barcode"
 msgstr "请输入条码或扫码"
+
+#: app/routers/store.py:44
+msgctxt "item"
+msgid "Unreadable barcode"
+msgstr ""
+
+#: app/routers/store.py:45
+msgctxt "item"
+msgid "Not a book barcode (ISBN)"
+msgstr ""
 
 #: app/routers/sync.py:40 app/routers/sync.py:46 app/routers/sync.py:117
 #: app/routers/sync.py:121 app/routers/valuation.py:36
@@ -2786,7 +2807,7 @@ msgid "and"
 msgstr ""
 
 #: app/templates/duplicates.html:89
-#: app/templates/fragments/scan_result.html:216
+#: app/templates/fragments/scan_result.html:233
 #: app/templates/fragments/settings/data.html:334
 #: app/templates/fragments/trash_list.html:83
 #: app/templates/fragments/trash_list.html:130
@@ -4877,7 +4898,7 @@ msgid "Mark missing"
 msgstr ""
 
 #: app/templates/fragments/audit_report.html:120
-#: app/templates/fragments/scan_result.html:203
+#: app/templates/fragments/scan_result.html:220
 msgid "Open Trash"
 msgstr "打开回收站"
 
@@ -4996,7 +5017,7 @@ msgstr ""
 #: app/templates/fragments/dvd_search_results.html:43
 #: app/templates/fragments/game_search_results.html:45
 #: app/templates/fragments/scan_result.html:105
-#: app/templates/fragments/scan_result.html:256
+#: app/templates/fragments/scan_result.html:287
 msgid "Add it by hand"
 msgstr "手动添加"
 
@@ -5524,26 +5545,31 @@ msgid "%(status)s %(count)s times"
 msgstr "%(status)s %(count)s 次"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:326
+#: app/templates/fragments/scan_result.html:357
 msgid "added"
 msgstr "已添加"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:312
+#: app/templates/fragments/scan_result.html:343
 msgid "wishlisted"
 msgstr "已加入心愿单"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:327
+#: app/templates/fragments/scan_result.html:358
 msgid "duplicate"
 msgstr "重复"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:359
+msgid "copy added"
+msgstr ""
 
 #: app/templates/fragments/recent_scans.html:2
 msgid "promoted"
 msgstr ""
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:311
+#: app/templates/fragments/scan_result.html:342
 msgid "restored"
 msgstr "已恢复"
 
@@ -5552,32 +5578,32 @@ msgid "checked_out"
 msgstr ""
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:315
+#: app/templates/fragments/scan_result.html:346
 msgid "returned"
 msgstr "已归还"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:316
+#: app/templates/fragments/scan_result.html:347
 msgid "moved"
 msgstr "已移动"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:317
+#: app/templates/fragments/scan_result.html:348
 msgid "confirmed"
 msgstr "已确认"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:318
+#: app/templates/fragments/scan_result.html:349
 msgid "relocated"
 msgstr "已换位置"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:320
+#: app/templates/fragments/scan_result.html:351
 msgid "found"
 msgstr "已找到"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:319
+#: app/templates/fragments/scan_result.html:350
 msgid "elsewhere"
 msgstr "在别处"
 
@@ -5606,7 +5632,7 @@ msgid "in_trash"
 msgstr ""
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:328
+#: app/templates/fragments/scan_result.html:360
 msgid "error"
 msgstr "错误"
 
@@ -5747,97 +5773,109 @@ msgid "try again"
 msgstr ""
 
 #: app/templates/fragments/scan_result.html:157
-#: app/templates/fragments/scan_result.html:321
+#: app/templates/fragments/scan_result.html:352
 msgid "not found"
 msgstr "未找到"
 
-#: app/templates/fragments/scan_result.html:196
+#: app/templates/fragments/scan_result.html:172
+msgid "Save anyway"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:174
+msgid "as “Unresolved”, to complete later"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:213
 msgid "Restored from Trash"
 msgstr "已从回收站恢复"
 
-#: app/templates/fragments/scan_result.html:201
+#: app/templates/fragments/scan_result.html:218
 #, python-format
 msgid "Copy %(n)s is in Trash &mdash; restore it from the Trash page"
 msgstr "第 %(n)s 册在回收站中 &mdash; 请在回收站页面恢复"
 
-#: app/templates/fragments/scan_result.html:205
+#: app/templates/fragments/scan_result.html:222
 #, python-format
 msgid "In Trash since %(date)s &mdash; restore it to lend, move or rate it"
 msgstr "自 %(date)s 起在回收站中 &mdash; 恢复后才能借出、移动或评分"
 
-#: app/templates/fragments/scan_result.html:220
-#: app/templates/fragments/scan_result.html:222
+#: app/templates/fragments/scan_result.html:237
+#: app/templates/fragments/scan_result.html:239
 #, python-format
 msgid "%(type)s via %(source)s"
 msgstr "%(type)s · 来源：%(source)s"
 
-#: app/templates/fragments/scan_result.html:224
+#: app/templates/fragments/scan_result.html:241
 msgid "Now owned &mdash; was on your wishlist"
 msgstr "现已拥有 &mdash; 原在心愿单中"
 
-#: app/templates/fragments/scan_result.html:226
+#: app/templates/fragments/scan_result.html:243
 msgid "Already in collection"
 msgstr "已在收藏中"
 
-#: app/templates/fragments/scan_result.html:277
+#: app/templates/fragments/scan_result.html:252
+msgid "+ Another copy"
+msgstr ""
+
+#: app/templates/fragments/scan_result.html:308
 msgid "Added with title only &mdash; the title names console hardware, so no film or game lookup was attempted. Change the type on the item if that's wrong."
 msgstr "仅以标题添加 &mdash; 标题是游戏机硬件名称，因此没有查询电影或游戏资料。如有误，请在条目中更改类型。"
 
-#: app/templates/fragments/scan_result.html:279
+#: app/templates/fragments/scan_result.html:310
 #, python-format
 msgid "Added with title only. Add an %(provider)s API key in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations for descriptions and cover art."
 msgstr "仅以标题添加。请在<a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">设置</a> &rarr; 集成中添加 %(provider)s API 密钥，以获取简介和封面。"
 
-#: app/templates/fragments/scan_result.html:279
+#: app/templates/fragments/scan_result.html:310
 #, python-format
 msgid "Added with title only. Add a %(provider)s API key in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations for descriptions and cover art."
 msgstr "仅以标题添加。请在<a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">设置</a> &rarr; 集成中添加 %(provider)s API 密钥，以获取简介和封面。"
 
-#: app/templates/fragments/scan_result.html:281
+#: app/templates/fragments/scan_result.html:312
 #, python-format
 msgid "Added with title only &mdash; %(provider)s rejected the configured key."
 msgstr "仅以标题添加 &mdash; %(provider)s 拒绝了已配置的密钥。"
 
-#: app/templates/fragments/scan_result.html:283
+#: app/templates/fragments/scan_result.html:314
 msgid "Added with title only &mdash; a metadata provider is rate-limiting us right now. Re-scan later to fill it in."
 msgstr "仅以标题添加 &mdash; 某个资料来源正在限制请求频率。请稍后重新扫码补全。"
 
-#: app/templates/fragments/scan_result.html:285
+#: app/templates/fragments/scan_result.html:316
 #, python-format
 msgid "Added with title only &mdash; could not reach %(provider)s. Check connectivity and re-scan later to fill it in."
 msgstr "仅以标题添加 &mdash; 无法连接 %(provider)s。请检查网络，稍后重新扫码补全。"
 
-#: app/templates/fragments/scan_result.html:287
+#: app/templates/fragments/scan_result.html:318
 #, python-format
 msgid "Added with title only &mdash; %(provider)s returned an error. Re-scan later to fill it in."
 msgstr ""
 
-#: app/templates/fragments/scan_result.html:289
+#: app/templates/fragments/scan_result.html:320
 msgid "Added with title only &mdash; Shelf has no metadata source for this format yet."
 msgstr "仅以标题添加 &mdash; Shelf 暂时没有这种格式的资料来源。"
 
-#: app/templates/fragments/scan_result.html:291
+#: app/templates/fragments/scan_result.html:322
 #, python-format
 msgid "Added with title only &mdash; no %(provider)s match for this barcode."
 msgstr "仅以标题添加 &mdash; %(provider)s 中没有与此条码匹配的结果。"
 
-#: app/templates/fragments/scan_result.html:313
+#: app/templates/fragments/scan_result.html:344
 msgid "owned"
 msgstr "已拥有"
 
-#: app/templates/fragments/scan_result.html:314
+#: app/templates/fragments/scan_result.html:345
 msgid "lent"
 msgstr "已借出"
 
-#: app/templates/fragments/scan_result.html:323
+#: app/templates/fragments/scan_result.html:354
 msgid "already lent"
 msgstr "已借出"
 
-#: app/templates/fragments/scan_result.html:324
+#: app/templates/fragments/scan_result.html:355
 msgid "not lent"
 msgstr "未借出"
 
-#: app/templates/fragments/scan_result.html:325
+#: app/templates/fragments/scan_result.html:356
 msgid "in Trash"
 msgstr "在回收站中"
 

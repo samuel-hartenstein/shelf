@@ -158,6 +158,22 @@
     </div>
 
     {% include "fragments/manual_add_form.html" with context %}
+    {# "Save anyway": file the bare code now, tagged Unresolved, at the scan
+       page's location and in its mode (each skipped by htmx where absent),
+       instead of losing the scan. A plain button rather than a second form:
+       the card keeps exactly one form, the manual one. #}
+    {% if isbn %}
+    <div class="mt-3 flex flex-wrap items-center gap-2">
+        <button type="button" data-testid="save-unresolved"
+                hx-post="/api/items/manual" hx-target="closest .scan-result" hx-swap="outerHTML"
+                hx-include="#location, #scan-mode, #default-tags, #default-reading-status"
+                hx-vals='{{ {"isbn": isbn, "media_type": media_type or "book", "unresolved": "1"}|tojson }}'
+                class="px-3 py-1.5 bg-shelf-accent/20 text-shelf-accent2 rounded-lg text-xs hover:bg-shelf-accent/30 transition-colors">
+            {{ _('Save anyway') }}
+        </button>
+        <span class="text-xs text-shelf-muted">{{ _('as “Unresolved”, to complete later') }}</span>
+    </div>
+    {% endif %}
 </div>
 
 {% else %}
@@ -172,7 +188,7 @@
     <img src="/{{ cover_path }}" class="w-12 h-16 object-cover rounded-sm" alt="" data-scan-cover data-cover-shape="{{ cover_shape(media_type) }}">
     {% else %}
     <div class="w-12 h-16 bg-shelf-hover rounded-sm flex items-center justify-center text-shelf-muted text-xs">
-        {% if status == 'added' or status == 'wishlisted' or status == 'promoted' or status == 'restored' %}+
+        {% if status == 'added' or status == 'wishlisted' or status == 'promoted' or status == 'restored' or status == 'copy_added' %}+
         {% elif status == 'duplicate' %}=
         {% elif status == 'in_trash' %}&#8634;
         {% elif status in ('checked_out', 'returned', 'moved', 'confirmed', 'relocated', 'found', 'marked_read', 'elsewhere') %}&check;
@@ -182,7 +198,7 @@
 
     <div class="flex-1 min-w-0">
         {# Statuses with a title link #}
-        {% if status in ('added', 'wishlisted', 'duplicate', 'checked_out', 'returned', 'moved', 'confirmed', 'relocated', 'found', 'marked_read', 'already_checked_out', 'not_checked_out', 'elsewhere', 'promoted', 'restored', 'in_trash') %}
+        {% if status in ('added', 'wishlisted', 'duplicate', 'copy_added', 'checked_out', 'returned', 'moved', 'confirmed', 'relocated', 'found', 'marked_read', 'already_checked_out', 'not_checked_out', 'elsewhere', 'promoted', 'restored', 'in_trash') %}
         <p class="font-medium truncate" data-scan-title>
             {# An item in Trash has no page to link to — /item/<id> bounces to Browse. #}
             {% if item_id and status != 'in_trash' %}<a href="/item/{{ item_id }}" class="hover:text-shelf-accent2">{{ title }}</a>
@@ -224,6 +240,20 @@
         <p class="text-xs text-shelf-muted" data-scan-detail>{{ _('Now owned &mdash; was on your wishlist') }}</p>
         {% elif status == 'duplicate' %}
         <p class="text-sm text-shelf-muted">{{ _('Already in collection') }}</p>
+        {# Owning two is one tap: a copy at the scan page's location (#location,
+           skipped by htmx where the host page has none). #}
+        {% if item_id %}
+        <form hx-post="/api/items/{{ item_id }}/scan-copy" hx-target="closest .scan-result" hx-swap="outerHTML"
+              hx-include="#location, #scan-mode" class="mt-1">
+            <input type="hidden" name="code" value="{{ isbn }}">
+            <button type="submit" data-testid="scan-add-copy"
+                    class="px-3 py-1 bg-shelf-accent/20 text-shelf-accent2 rounded-lg text-xs hover:bg-shelf-accent/30 transition-colors">
+                {{ _('+ Another copy') }}
+            </button>
+        </form>
+        {% endif %}
+        {% elif status == 'copy_added' %}
+        <p class="text-xs text-shelf-muted" data-scan-detail>{{ message }}</p>
         {% elif status in ('checked_out', 'returned', 'moved', 'confirmed', 'relocated', 'already_checked_out', 'not_checked_out', 'elsewhere') %}
         {# The toast reads DECLARED ATTRIBUTES ONLY — app.js matches no classes.
            data-scan-detail carries what the title cannot: a lend names its
@@ -302,7 +332,7 @@
     </div>
 
     <span data-scan-badge class="text-xs px-2 py-1 rounded-full shrink-0
-        {% if status in ('added', 'returned', 'confirmed', 'marked_read', 'promoted', 'restored') %}bg-shelf-success/20 text-shelf-success
+        {% if status in ('added', 'returned', 'confirmed', 'marked_read', 'promoted', 'restored', 'copy_added') %}bg-shelf-success/20 text-shelf-success
         {% elif status == 'wishlisted' %}bg-purple-500/20 text-purple-400
         {% elif status in ('duplicate', 'already_checked_out', 'not_checked_out', 'in_trash') %}bg-shelf-warning/20 text-shelf-warning
         {% elif status == 'checked_out' %}bg-orange-500/20 text-orange-400
@@ -325,6 +355,7 @@
         {% elif status == 'in_trash' %}{{ _('in Trash') }}
         {% elif status == 'added' %}{{ _('added') }}
         {% elif status == 'duplicate' %}{{ _('duplicate') }}
+        {% elif status == 'copy_added' %}{{ _('copy added') }}
         {% elif status == 'error' %}{{ _('error') }}
         {% else %}{{ status }}{% endif %}
     </span>

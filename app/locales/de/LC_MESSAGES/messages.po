@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"PO-Revision-Date: 2026-11-27 23:29+0000\n"
+"PO-Revision-Date: 2026-11-28 01:05+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -861,9 +861,9 @@ msgstr "Das Rückgabedatum liegt außerhalb des gültigen Bereichs"
 
 #: app/routers/checkouts.py:137 app/routers/hardcover.py:250
 #: app/routers/item_copies.py:174 app/routers/item_copies.py:231
-#: app/routers/items_catalog.py:546 app/routers/related_media.py:44
-#: app/routers/related_media.py:80 app/routers/related_media.py:103
-#: app/routers/related_media.py:120
+#: app/routers/item_copies.py:411 app/routers/items_catalog.py:546
+#: app/routers/related_media.py:44 app/routers/related_media.py:80
+#: app/routers/related_media.py:103 app/routers/related_media.py:120
 msgid "Item not found"
 msgstr "Eintrag nicht gefunden"
 
@@ -887,7 +887,7 @@ msgstr "Kein Token angegeben"
 msgid "Title required"
 msgstr "Titel erforderlich"
 
-#: app/routers/hardcover.py:201 app/templates/fragments/scan_result.html:222
+#: app/routers/hardcover.py:201 app/templates/fragments/scan_result.html:239
 msgid "Added to wishlist"
 msgstr "Zur Wunschliste hinzugefügt"
 
@@ -963,7 +963,7 @@ msgstr "Der Barcode gehört schon zu „%(title)s“ (Eintrag %(id)s)."
 msgid "Copy not found"
 msgstr "Exemplar nicht gefunden"
 
-#: app/routers/item_copies.py:247
+#: app/routers/item_copies.py:247 app/routers/item_copies.py:420
 msgid "Could not add that copy."
 msgstr "Das Exemplar konnte nicht hinzugefügt werden."
 
@@ -971,78 +971,95 @@ msgstr "Das Exemplar konnte nicht hinzugefügt werden."
 msgid "Could not save that copy."
 msgstr "Das Exemplar konnte nicht gespeichert werden."
 
-#: app/routers/items.py:194
+#: app/routers/item_copies.py:440
+#, python-format
+msgid "Copy #%(n)s · %(place)s"
+msgstr "Exemplar #%(n)s · %(place)s"
+
+#: app/routers/item_copies.py:441 app/routers/items_scan_modes.py:47
+#: app/routers/items_scan_modes.py:159 app/routers/items_scan_modes.py:230
+#: app/routers/scan_inventory.py:208
+#: app/templates/fragments/audit_report.html:81
+msgid "no location"
+msgstr "kein Ort"
+
+#: app/routers/items.py:195
 msgid "Older book barcode matches more than one book — scan the printed ISBN"
 msgstr "Der ältere Buch-Barcode passt zu mehr als einem Buch – scanne die gedruckte ISBN"
 
-#: app/routers/items.py:197
+#: app/routers/items.py:198
 msgid "Couldn’t safely verify this older book barcode right now — try again later or scan the printed ISBN"
 msgstr "Der ältere Buch-Barcode lässt sich gerade nicht sicher prüfen – versuche es später noch einmal oder scanne die gedruckte ISBN"
 
-#: app/routers/items.py:201
+#: app/routers/items.py:202
 msgid "Older book barcode recognized, but no unique book match was found — scan the printed ISBN instead"
 msgstr "Älterer Buch-Barcode erkannt, aber kein eindeutiges Buch gefunden – scanne stattdessen die gedruckte ISBN"
 
-#: app/routers/items.py:386 app/routers/items_scan_modes.py:218
+#: app/routers/items.py:387 app/routers/items_scan_modes.py:218
 msgid "Not in your collection"
 msgstr "Nicht in deiner Sammlung"
 
-#: app/routers/items.py:476 app/routers/items.py:702
+#: app/routers/items.py:477 app/routers/items.py:714
 #: app/routers/items_catalog.py:278
 msgid "Invalid ISBN"
 msgstr "Ungültige ISBN"
 
-#: app/routers/items.py:572
+#: app/routers/items.py:573
 msgid "Network error during lookup — check connectivity"
 msgstr "Netzwerkfehler bei der Suche – prüfe die Verbindung"
 
-#: app/routers/items.py:589 app/routers/items_board_games.py:289
+#: app/routers/items.py:590 app/routers/items_board_games.py:289
 #: app/routers/items_common.py:563 app/routers/items_common.py:755
 msgid "Not found — add manually below"
 msgstr "Nicht gefunden – unten von Hand eintragen"
 
-#: app/routers/items.py:673 app/routers/items_catalog.py:442
+#: app/routers/items.py:665
+msgctxt "tag"
+msgid "Unresolved"
+msgstr "Ungeklärt"
+
+#: app/routers/items.py:685 app/routers/items_catalog.py:442
 msgid "Title is required"
 msgstr "Ein Titel ist nötig"
 
-#: app/routers/items.py:713 app/routers/items_catalog.py:450
+#: app/routers/items.py:725 app/routers/items_catalog.py:450
 msgid "Invalid publish year"
 msgstr "Ungültiges Erscheinungsjahr"
 
-#: app/routers/items.py:1001
+#: app/routers/items.py:1013
 msgid "No items or updates specified"
 msgstr "Keine Einträge oder Änderungen angegeben"
 
-#: app/routers/items.py:1006 app/routers/tags.py:71 app/routers/tags.py:76
+#: app/routers/items.py:1018 app/routers/tags.py:71 app/routers/tags.py:76
 msgid "Invalid item IDs"
 msgstr "Ungültige Eintrags-IDs"
 
-#: app/routers/items.py:1011
+#: app/routers/items.py:1023
 msgid "No valid fields to update"
 msgstr "Keine gültigen Felder zum Ändern"
 
-#: app/routers/items.py:1017
+#: app/routers/items.py:1029
 msgid "Series name cannot be empty"
 msgstr "Der Name der Reihe darf nicht leer sein"
 
-#: app/routers/items.py:1069
+#: app/routers/items.py:1081
 msgid "Specify keep_id and merge_ids"
 msgstr "keep_id und merge_ids angeben"
 
-#: app/routers/items.py:1076
+#: app/routers/items.py:1088
 msgid "Cannot merge an item into itself"
 msgstr "Ein Eintrag kann nicht mit sich selbst zusammengeführt werden"
 
-#: app/routers/items.py:1081
+#: app/routers/items.py:1093
 msgid "Primary item not found"
 msgstr "Haupteintrag nicht gefunden"
 
-#: app/routers/items.py:1097
+#: app/routers/items.py:1109
 #, python-format
 msgid "Cannot merge items that are both on loan: %(titles)s. Check one in first."
 msgstr "Einträge, die beide verliehen sind, können nicht zusammengeführt werden: %(titles)s. Nimm zuerst einen zurück."
 
-#: app/routers/items.py:1129
+#: app/routers/items.py:1141
 #, python-format
 msgid "Cannot merge \"%(title)s\" (#%(id)s): %(reason)s"
 msgstr "„%(title)s“ (#%(id)s) kann nicht zusammengeführt werden: %(reason)s"
@@ -1154,12 +1171,6 @@ msgstr "Datei zu groß (max. 50 MB)"
 #: app/routers/items_csv.py:124
 msgid "The file is not UTF-8 text. Re-export it as UTF-8 (in a spreadsheet app: Save As → CSV UTF-8) and upload it again."
 msgstr "Die Datei ist kein UTF-8-Text. Exportiere sie erneut als UTF-8 (in der Tabellenkalkulation: Speichern unter → CSV UTF-8) und lade sie noch einmal hoch."
-
-#: app/routers/items_scan_modes.py:47 app/routers/items_scan_modes.py:159
-#: app/routers/items_scan_modes.py:230 app/routers/scan_inventory.py:208
-#: app/templates/fragments/audit_report.html:81
-msgid "no location"
-msgstr "kein Ort"
 
 #: app/routers/items_scan_modes.py:65 app/routers/items_scan_modes.py:117
 msgid "Lending is turned off on this Shelf."
@@ -1484,6 +1495,16 @@ msgstr "Der Eintrag existiert nicht mehr"
 #: app/routers/shelf_fill.py:266
 msgid "Enter or scan a barcode"
 msgstr "Barcode eingeben oder scannen"
+
+#: app/routers/store.py:44
+msgctxt "item"
+msgid "Unreadable barcode"
+msgstr "Unlesbarer Barcode"
+
+#: app/routers/store.py:45
+msgctxt "item"
+msgid "Not a book barcode (ISBN)"
+msgstr "Kein Buch-Barcode (ISBN)"
 
 #: app/routers/sync.py:40 app/routers/sync.py:46 app/routers/sync.py:117
 #: app/routers/sync.py:121 app/routers/valuation.py:36
@@ -2789,7 +2810,7 @@ msgid "and"
 msgstr "und"
 
 #: app/templates/duplicates.html:89
-#: app/templates/fragments/scan_result.html:216
+#: app/templates/fragments/scan_result.html:233
 #: app/templates/fragments/settings/data.html:334
 #: app/templates/fragments/trash_list.html:83
 #: app/templates/fragments/trash_list.html:130
@@ -4887,7 +4908,7 @@ msgid "Mark missing"
 msgstr "Als fehlend markieren"
 
 #: app/templates/fragments/audit_report.html:120
-#: app/templates/fragments/scan_result.html:203
+#: app/templates/fragments/scan_result.html:220
 msgid "Open Trash"
 msgstr "Papierkorb öffnen"
 
@@ -5007,7 +5028,7 @@ msgstr "Keine Brettspiele gefunden. Versuch einen anderen Titel."
 #: app/templates/fragments/dvd_search_results.html:43
 #: app/templates/fragments/game_search_results.html:45
 #: app/templates/fragments/scan_result.html:105
-#: app/templates/fragments/scan_result.html:256
+#: app/templates/fragments/scan_result.html:287
 msgid "Add it by hand"
 msgstr "Von Hand hinzufügen"
 
@@ -5538,26 +5559,31 @@ msgid "%(status)s %(count)s times"
 msgstr "%(count)s-mal %(status)s"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:326
+#: app/templates/fragments/scan_result.html:357
 msgid "added"
 msgstr "hinzugefügt"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:312
+#: app/templates/fragments/scan_result.html:343
 msgid "wishlisted"
 msgstr "auf Wunschliste"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:327
+#: app/templates/fragments/scan_result.html:358
 msgid "duplicate"
 msgstr "doppelt"
+
+#: app/templates/fragments/recent_scans.html:2
+#: app/templates/fragments/scan_result.html:359
+msgid "copy added"
+msgstr "Exemplar dazu"
 
 #: app/templates/fragments/recent_scans.html:2
 msgid "promoted"
 msgstr "jetzt im Besitz"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:311
+#: app/templates/fragments/scan_result.html:342
 msgid "restored"
 msgstr "wiederhergestellt"
 
@@ -5566,32 +5592,32 @@ msgid "checked_out"
 msgstr "verliehen"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:315
+#: app/templates/fragments/scan_result.html:346
 msgid "returned"
 msgstr "zurückgegeben"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:316
+#: app/templates/fragments/scan_result.html:347
 msgid "moved"
 msgstr "verschoben"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:317
+#: app/templates/fragments/scan_result.html:348
 msgid "confirmed"
 msgstr "bestätigt"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:318
+#: app/templates/fragments/scan_result.html:349
 msgid "relocated"
 msgstr "umgezogen"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:320
+#: app/templates/fragments/scan_result.html:351
 msgid "found"
 msgstr "gefunden"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:319
+#: app/templates/fragments/scan_result.html:350
 msgid "elsewhere"
 msgstr "woanders"
 
@@ -5620,7 +5646,7 @@ msgid "in_trash"
 msgstr "im Papierkorb"
 
 #: app/templates/fragments/recent_scans.html:2
-#: app/templates/fragments/scan_result.html:328
+#: app/templates/fragments/scan_result.html:360
 msgid "error"
 msgstr "Fehler"
 
@@ -5761,97 +5787,109 @@ msgid "try again"
 msgstr "erneut versuchen"
 
 #: app/templates/fragments/scan_result.html:157
-#: app/templates/fragments/scan_result.html:321
+#: app/templates/fragments/scan_result.html:352
 msgid "not found"
 msgstr "nicht gefunden"
 
-#: app/templates/fragments/scan_result.html:196
+#: app/templates/fragments/scan_result.html:172
+msgid "Save anyway"
+msgstr "Trotzdem speichern"
+
+#: app/templates/fragments/scan_result.html:174
+msgid "as “Unresolved”, to complete later"
+msgstr "als „Ungeklärt“, zum späteren Ergänzen"
+
+#: app/templates/fragments/scan_result.html:213
 msgid "Restored from Trash"
 msgstr "Aus dem Papierkorb wiederhergestellt"
 
-#: app/templates/fragments/scan_result.html:201
+#: app/templates/fragments/scan_result.html:218
 #, python-format
 msgid "Copy %(n)s is in Trash &mdash; restore it from the Trash page"
 msgstr "Exemplar %(n)s liegt im Papierkorb &mdash; stelle es auf der Papierkorb-Seite wieder her"
 
-#: app/templates/fragments/scan_result.html:205
+#: app/templates/fragments/scan_result.html:222
 #, python-format
 msgid "In Trash since %(date)s &mdash; restore it to lend, move or rate it"
 msgstr "Seit %(date)s im Papierkorb &mdash; zum Verleihen, Verschieben oder Bewerten erst wiederherstellen"
 
-#: app/templates/fragments/scan_result.html:220
-#: app/templates/fragments/scan_result.html:222
+#: app/templates/fragments/scan_result.html:237
+#: app/templates/fragments/scan_result.html:239
 #, python-format
 msgid "%(type)s via %(source)s"
 msgstr "%(type)s über %(source)s"
 
-#: app/templates/fragments/scan_result.html:224
+#: app/templates/fragments/scan_result.html:241
 msgid "Now owned &mdash; was on your wishlist"
 msgstr "Jetzt im Besitz &mdash; stand auf deiner Wunschliste"
 
-#: app/templates/fragments/scan_result.html:226
+#: app/templates/fragments/scan_result.html:243
 msgid "Already in collection"
 msgstr "Schon in der Sammlung"
 
-#: app/templates/fragments/scan_result.html:277
+#: app/templates/fragments/scan_result.html:252
+msgid "+ Another copy"
+msgstr "+ Weiteres Exemplar"
+
+#: app/templates/fragments/scan_result.html:308
 msgid "Added with title only &mdash; the title names console hardware, so no film or game lookup was attempted. Change the type on the item if that's wrong."
 msgstr "Nur mit Titel hinzugefügt &mdash; der Titel nennt Konsolen-Hardware, daher wurde nicht nach Film oder Spiel gesucht. Ändere den Typ am Eintrag, wenn das falsch ist."
 
-#: app/templates/fragments/scan_result.html:279
+#: app/templates/fragments/scan_result.html:310
 #, python-format
 msgid "Added with title only. Add an %(provider)s API key in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations for descriptions and cover art."
 msgstr "Nur mit Titel hinzugefügt. Hinterlege den API-Schlüssel für %(provider)s unter <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Einstellungen</a> &rarr; Dienste, um Beschreibungen und Cover zu bekommen."
 
-#: app/templates/fragments/scan_result.html:279
+#: app/templates/fragments/scan_result.html:310
 #, python-format
 msgid "Added with title only. Add a %(provider)s API key in <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Settings</a> &rarr; Integrations for descriptions and cover art."
 msgstr "Nur mit Titel hinzugefügt. Hinterlege den API-Schlüssel für %(provider)s unter <a href=\"/settings\" class=\"text-shelf-accent2 hover:text-shelf-accent underline\">Einstellungen</a> &rarr; Dienste, um Beschreibungen und Cover zu bekommen."
 
-#: app/templates/fragments/scan_result.html:281
+#: app/templates/fragments/scan_result.html:312
 #, python-format
 msgid "Added with title only &mdash; %(provider)s rejected the configured key."
 msgstr "Nur mit Titel hinzugefügt &mdash; %(provider)s hat den hinterlegten Schlüssel abgelehnt."
 
-#: app/templates/fragments/scan_result.html:283
+#: app/templates/fragments/scan_result.html:314
 msgid "Added with title only &mdash; a metadata provider is rate-limiting us right now. Re-scan later to fill it in."
 msgstr "Nur mit Titel hinzugefügt &mdash; eine Datenquelle bremst gerade die Anfragen. Scanne später noch einmal, um den Rest zu ergänzen."
 
-#: app/templates/fragments/scan_result.html:285
+#: app/templates/fragments/scan_result.html:316
 #, python-format
 msgid "Added with title only &mdash; could not reach %(provider)s. Check connectivity and re-scan later to fill it in."
 msgstr "Nur mit Titel hinzugefügt &mdash; %(provider)s war nicht erreichbar. Prüfe die Verbindung und scanne später noch einmal."
 
-#: app/templates/fragments/scan_result.html:287
+#: app/templates/fragments/scan_result.html:318
 #, python-format
 msgid "Added with title only &mdash; %(provider)s returned an error. Re-scan later to fill it in."
 msgstr "Nur mit Titel hinzugefügt &mdash; %(provider)s hat einen Fehler gemeldet. Scanne später noch einmal, um den Rest zu ergänzen."
 
-#: app/templates/fragments/scan_result.html:289
+#: app/templates/fragments/scan_result.html:320
 msgid "Added with title only &mdash; Shelf has no metadata source for this format yet."
 msgstr "Nur mit Titel hinzugefügt &mdash; für dieses Format hat Shelf noch keine Datenquelle."
 
-#: app/templates/fragments/scan_result.html:291
+#: app/templates/fragments/scan_result.html:322
 #, python-format
 msgid "Added with title only &mdash; no %(provider)s match for this barcode."
 msgstr "Nur mit Titel hinzugefügt &mdash; %(provider)s kennt diesen Barcode nicht."
 
-#: app/templates/fragments/scan_result.html:313
+#: app/templates/fragments/scan_result.html:344
 msgid "owned"
 msgstr "im Besitz"
 
-#: app/templates/fragments/scan_result.html:314
+#: app/templates/fragments/scan_result.html:345
 msgid "lent"
 msgstr "verliehen"
 
-#: app/templates/fragments/scan_result.html:323
+#: app/templates/fragments/scan_result.html:354
 msgid "already lent"
 msgstr "schon verliehen"
 
-#: app/templates/fragments/scan_result.html:324
+#: app/templates/fragments/scan_result.html:355
 msgid "not lent"
 msgstr "nicht verliehen"
 
-#: app/templates/fragments/scan_result.html:325
+#: app/templates/fragments/scan_result.html:356
 msgid "in Trash"
 msgstr "im Papierkorb"
 

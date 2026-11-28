@@ -10,6 +10,7 @@ from starlette.responses import StreamingResponse
 
 from app import browse_filters
 from app import i18n
+from app.i18n import NC_
 from app import nav
 from app.auth import require_role
 
@@ -660,6 +661,10 @@ async def _scan_isbn_inner(request, isbn, media_type, location_id, platform, mod
 
 
 
+#: The tag "Save anyway" files an unidentified scan under (library language).
+UNRESOLVED_TAG = NC_("tag", "Unresolved")
+
+
 @router.post("/items/manual")
 async def manual_add(request: Request, _=Depends(require_role("editor"))):
     """Manually add an item with optional cover upload. Returns HTMX fragment."""
@@ -667,6 +672,13 @@ async def manual_add(request: Request, _=Depends(require_role("editor"))):
     form = await request.form()
 
     title = form.get("title", "").strip()
+    # "Save anyway" on a not_found card: file the bare code now, tagged so it
+    # can be found and completed later, rather than lose the scan.
+    unresolved = form.get("unresolved") == "1"
+    tags_raw = form.get("tags") or ""
+    if unresolved:
+        title = title or form.get("isbn", "").strip()
+        tags_raw = ";".join(t for t in (tags_raw, i18n.library_pgettext("tag", UNRESOLVED_TAG)) if t)
     if not title:
         return templates.TemplateResponse(
             request, "fragments/scan_result.html",
@@ -747,7 +759,7 @@ async def manual_add(request: Request, _=Depends(require_role("editor"))):
             # replaced also sat outside the lock above.
             wishlist = {"owned": 0, "wishlisted": True} if mode == "wishlist" else {}
             try:
-                with tags_svc.default_tags(form.get("tags") or ""), \
+                with tags_svc.default_tags(tags_raw), \
                         item_write.default_reading_status(form.get("reading_status") or ""):
                     item_id = insert_item(
                         db,

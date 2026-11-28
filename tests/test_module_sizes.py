@@ -60,6 +60,7 @@ _ROUTE_PER_MODULE = {
     "items_csv": "/api/export/csv",
     "items_catalog": "/api/games/search",
     "item_copies": "/api/items/{item_id}/copies",
+    "scan_copy": "/api/items/{item_id}/scan-copy",
 }
 
 

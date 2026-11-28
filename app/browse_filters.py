@@ -101,8 +101,8 @@ def _search(value):
     like = f"%{value}%"
     return (
         "(i.title LIKE ? OR i.authors LIKE ? OR i.isbn LIKE ? OR i.narrator LIKE ? OR i.asin LIKE ?"
-        " OR i.original_title LIKE ?)",
-        [like, like, like, like, like, like],
+        " OR i.original_title LIKE ? OR i.upc LIKE ?)",
+        [like, like, like, like, like, like, like],
     )
 
 

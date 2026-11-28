@@ -15,7 +15,9 @@ import httpx
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import FileResponse, JSONResponse
 
+from app import i18n
 from app.auth import require_role
+from app.i18n import NC_
 from app.features import require_feature
 from app.config import HTTP_TIMEOUT
 from app.database import get_db, get_setting
@@ -23,6 +25,7 @@ from app.services import covers
 from app.services import isbn as isbn_svc
 from app.services import lists
 from app.services import restore_report
+from app.services import upc as upc_svc
 from app.services.item_write import insert_item, update_item_fields
 
 logger = logging.getLogger(__name__)
@@ -36,6 +39,10 @@ QUEUE_BATCH_LIMIT = 50
 # A queued code that fails validation is echoed into an item title, so it is
 # bounded here rather than trusting the client's string length.
 _RAW_CODE_MAX = 32
+
+#: Titles of a queued scan that is no usable ISBN (library language, G58).
+UNREADABLE = NC_("item", "Unreadable barcode")
+NOT_AN_ISBN = NC_("item", "Not a book barcode (ISBN)")
 
 
 @router.get("/store")
@@ -181,10 +188,16 @@ async def store_queue(request: Request, _=Depends(require_role("editor")),
                 # Before #54 a bad check digit passed the permissive
                 # `to_isbn13` and landed here as a normal add.
                 label = raw.strip()[:_RAW_CODE_MAX] or "(empty)"
+                # A valid product code that is no ISBN (a game, a puzzle) read
+                # perfectly; only a misread ISBN is "unreadable". The title is
+                # stored data, so it is in the library's language.
+                heading = (i18n.library_pgettext("item", NOT_AN_ISBN)
+                           if upc_svc.detect_barcode_type(label) == "upc"
+                           else i18n.library_pgettext("item", UNREADABLE))
                 with get_db() as db:
                     item_id = insert_item(
                         db,
-                        title=f"Unreadable barcode — {label}",
+                        title=f"{heading} — {label}",
                         media_type="book",
                         owned=0,
                         wishlisted=True,
@@ -193,7 +206,7 @@ async def store_queue(request: Request, _=Depends(require_role("editor")),
                 items_common._log_scan(label, "book", "unreadable", item_id, "wishlist")
                 results.append(_result(
                     raw, raw, "unreadable", False,
-                    title=f"Unreadable barcode — {label}", item_id=item_id,
+                    title=f"{heading} — {label}", item_id=item_id,
                 ))
                 continue
             isbn13 = pair[0]
